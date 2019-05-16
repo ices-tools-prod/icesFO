@@ -46,7 +46,8 @@ plot_status_prop_pies <- function(x, cap_month = "November",
                      "GREY" = "#d3d3d3",
                      "ORANGE" = "#ff7f00",
                      "RED" = "#d93b1c",
-                     "qualRED" = "00000")
+                     "qual_RED" = "#d93b5c",
+                     "qual_GREEN" = "#00B28F")
         
         
         df_stock <- df %>%
@@ -65,6 +66,12 @@ plot_status_prop_pies <- function(x, cap_month = "November",
         df3 <- df3%>% group_by(lineDescription, Variable)%>% summarise_each(funs(sum))
         df3$FisheriesGuild <- "total"
         df2 <- rbind(df2,df3)
+        
+        df4 <- df2 %>% filter(Variable == "SBL") 
+        df4$lineDescription <- ""
+        df4 <- unique(df4)
+        df2 <- df2 %>% filter(Variable != "SBL")
+        df2 <- rbind(df2,df4)
         df2$lineDescription <- gsub("Maximum sustainable yield","MSY", df2$lineDescription)
         df2$lineDescription <- gsub("Precautionary approach", "PA", df2$lineDescription)
         df2$header <- paste0(df2$Variable, "\n" , df2$lineDescription)
@@ -72,11 +79,15 @@ plot_status_prop_pies <- function(x, cap_month = "November",
         df2 <- df2 %>% tidyr::gather(colour, value,GREEN:RED, factor_key = TRUE)
         df2 <- df2 %>% filter(value > 0)
         
+        
         tot <- df2 %>% filter(FisheriesGuild == "total")
         tot <- tot %>% group_by(header) %>% mutate(tot = sum(value))
         max <- unique(tot$tot)
         df2 <- df2 %>% group_by(FisheriesGuild, header) %>% mutate(sum = sum(value))
         df2$fraction <- df2$value*max/df2$sum
+        df2$header <- factor(df2$header, levels = c("FishingPressure\nMSY", "StockSize\nMSY",
+                                                    "FishingPressure\nPA" ,"StockSize\nPA",
+                                                    "SBL\n" ))
         
         p1 <- ggplot(data = df2, aes(x = "", y = fraction, fill = colour)) +
                 geom_bar(stat = "identity", width = 1) +
