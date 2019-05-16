@@ -13,10 +13,11 @@
 #' \emph{Loading data:}
 #' \tabular{ll}{
 #'   \code{\link{load_sid}}          \tab load data from SID\cr
+#'   \code{\link{load_sag}}          \tab load data from SAG\cr
 #' }
-#' \emph{Tables:}
+#' \emph{Formatting datas:}
 #' \tabular{ll}{
-#'   \code{\link{div}}      \tab divide column values\cr
+#'   \code{\link{format_sid}}      \tab format raw output from load_sid\cr
 #' }
 #' \emph{Plots:}
 #' \tabular{ll}{

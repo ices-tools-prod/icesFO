@@ -11,13 +11,13 @@
 #' Can add some helpful information here
 #'
 #' @seealso
-#' \code{\link{load_sid}} for loading data from the ICES SAG database. NOTE CHANGE LINK TO SAG
+#' \code{\link{load_sag}} for loading data from the ICES Stock Assessment database. 
 #'
 #' \code{\link{icesFO-package}} gives an overview of the package.
 #'
 #' @examples
 #' \dontrun{
-#' stock_list_raw <- load_sid(2019)
+#' sid_raw <- load_sid(2019)
 #' }
 #'
 #' @references
@@ -26,8 +26,7 @@
 #'
 #' @export
 
-load_sid <- function(year)
-{
+load_sid <- function(year){
   # create url for SID web service
   url <- paste0("http://sd.ices.dk/services/odata4/StockListDWs4?$filter=ActiveYear%20eq%20", year)
   # download json data
