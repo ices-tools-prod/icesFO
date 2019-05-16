@@ -105,5 +105,6 @@ load_sag_status <- function(year) {
         out <- dplyr::mutate(out, stock_status = purrr::map(.x = AssessmentKey, purrr::possibly(get_stock_status, otherwise = NA_real_)))
         out<- dplyr::filter(out,!is.na(stock_status)) 
         out<- tidyr::unnest(out,stock_status)
+        out
         
 }
