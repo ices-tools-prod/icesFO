@@ -39,6 +39,7 @@ plot_discard_current <- function(x, year, caption = T, cap_year, cap_month, retu
         df <- dplyr::left_join(df,df2,
                                by = c("Year", "StockKeyLabel", "AssessmentYear","FisheriesGuild"))
         df3 <- dplyr::select(df, StockKeyLabel, Year, discards, AssessmentYear)
+        df3 <- unique(df3)%>% tibble::rowid_to_column()
         df3 <- dplyr::group_by(df3,StockKeyLabel) %>%
                 tidyr::spread(Year, discards) 
         df3<- dplyr::mutate(df3,`2017` = ifelse(AssessmentYear == 2017 &
@@ -54,25 +55,23 @@ plot_discard_current <- function(x, year, caption = T, cap_year, cap_month, retu
         df5 <- dplyr::left_join(df5,df3, by = c("Year", "StockKeyLabel", "AssessmentYear"))
         # df5 <- dplyr::left_join(df5,df4, by = c("Year", "StockKeyLabel", "AssessmentYear"))
         df5 <- dplyr::group_by(df5,Year, FisheriesGuild) %>%
-                summarize(guildLandings = sum(landings, na.rm = TRUE)/ 1000,
+                summarize(guildLandings = sum(catches, na.rm = TRUE)/ 1000,
                           guildDiscards = sum(discards, na.rm = TRUE)/ 1000)
         
-        df5 <- dplyr::mutate(df5,guildRate = guildDiscards/ (guildLandings + guildDiscards))
+        # df5 <- dplyr::mutate(df5,guildRate = guildDiscards/ (guildLandings + guildDiscards))
         df5 <- tidyr::gather(df5,variable, value, -Year, -FisheriesGuild)
-        df5 <- dplyr::filter(df5,!variable %in% c("guildDiscards", "guildLandings"))
+        
+        # df5 <- dplyr::filter(df5,!variable %in% c("guildDiscards", "guildLandings"))
         df5 <- dplyr::filter(df5,Year == year - 1)
-        df5 <- tidyr::gather(df5,variable, value, -Year, -FisheriesGuild) %>%
-                ungroup() %>%
-                select(-Year)
         
-        df5_order <- dplyr::group_by(df5,FisheriesGuild) %>%
-                summarize(total = sum(value, na.rm = TRUE)) %>%
-                arrange(-total) %>%
-                ungroup()
-        df5_order <- dplyr::mutate(df5_order,FisheriesGuild = factor(FisheriesGuild, FisheriesGuild))
+        # df5_order <- dplyr::group_by(df5,FisheriesGuild) %>%
+        #         summarize(total = sum(value, na.rm = TRUE)) %>%
+        #         arrange(-total) %>%
+        #         ungroup()
+        # df5_order <- dplyr::mutate(df5_order,FisheriesGuild = factor(FisheriesGuild, FisheriesGuild))
         
-        df5$FisheriesGuild <- factor(df5$FisheriesGuild,
-                                        levels = df5_order$FisheriesGuild[order(df5_order$total)])
+        # df5$FisheriesGuild <- factor(df5$FisheriesGuild,
+        #                                 levels = df5_order$FisheriesGuild[order(df5_order$total)])
         plot <- ggplot2::ggplot(ungroup(df5),
                                 ggplot2::aes(x = FisheriesGuild, y = value, fill = variable)) +
                 ggplot2::geom_bar(stat = "identity") +
@@ -98,9 +97,9 @@ plot_discard_current <- function(x, year, caption = T, cap_year, cap_month, retu
                         ggplot2::coord_flip() +
                         ggplot2::theme_bw(base_size = 9) +
                         ggplot2::theme(legend.position = "none",
-                                       plot.caption = element_text(size = 6),
-                                       panel.grid = element_blank(),
-                                       legend.key = element_rect(colour = NA)) +
+                                       plot.caption = ggplot2::element_text(size = 6),
+                                       panel.grid = ggplot2::element_blank(),
+                                       legend.key = ggplot2::element_rect(colour = NA)) +
                         ggplot2::labs(x = "", y = "Discards and landings(thousand tonnes)",title = "b)")+
                         cap_lab
         }

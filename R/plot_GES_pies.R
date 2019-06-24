@@ -6,6 +6,7 @@
 #' each stock in the Ecoregion, according to the last assessment (relative to the set year)
 #'
 #' @param x a dataframe output of format_sag_status.R
+#' @param y a dataframe output of stockstatus_CLD_current.R
 #' @param cap_month  the month to be shown in the figure caption, the accession date to SAG usually
 #' @param cap_year the year to be shown in the figure caption
 #' @param return_data a parameter indicating if the data behind the plot should be returned as a dataframe
@@ -34,7 +35,7 @@
 
 #find a way to set caption(cap_year, cap_month) being conditional
 
-plot_status_prop_pies <- function(x, cap_month = "November",
+plot_GES_pies <- function(x, y, cap_month = "November",
                          cap_year = "2018",
                          return_data = FALSE) {
         df <- x
@@ -50,63 +51,58 @@ plot_status_prop_pies <- function(x, cap_month = "November",
                      "qual_GREEN" = "#00B28F")
         
         
-        df_stock <- df %>%
+        df_stock <- df %>%filter (lineDescription == "Maximum sustainable yield")%>%
                 select(StockKeyLabel,
-                       FisheriesGuild,
-                       lineDescription,
                        FishingPressure,
-                       StockSize,
-                       SBL) %>%
-                tidyr::gather(Variable, Colour, FishingPressure:SBL, factor_key = TRUE) 
-        df2 <- df_stock %>% group_by(FisheriesGuild, lineDescription, Variable, Colour) %>%
+                       StockSize) %>%
+                tidyr::gather(Variable, Colour, FishingPressure:StockSize, factor_key = TRUE) 
+        df2 <- df_stock %>% group_by(Variable, Colour) %>%
                 summarize(COUNT = n())%>%
                 tidyr::spread(Colour, COUNT)
         df2[is.na(df2)] <- 0
-        df3 <- subset(df2,select =-c(FisheriesGuild))
-        df3 <- df3%>% group_by(lineDescription, Variable)%>% summarise_each(funs(sum))
-        df3$FisheriesGuild <- "total"
-        df2 <- rbind(df2,df3)
         
-        df4 <- df2 %>% filter(Variable == "SBL") 
-        df4$lineDescription <- ""
-        df4 <- unique(df4)
-        df2 <- df2 %>% filter(Variable != "SBL")
-        df2 <- rbind(df2,df4)
-        df2$lineDescription <- gsub("Maximum sustainable yield","MSY", df2$lineDescription)
-        df2$lineDescription <- gsub("Precautionary approach", "PA", df2$lineDescription)
-        df2$header <- paste0(df2$Variable, "\n" , df2$lineDescription)
+        df3 <-y %>% filter(StockKeyLabel %in% df_stock$StockKeyLabel) %>%
+                mutate(CATCH = ifelse(is.na(catches) & !is.na(landings),
+                                         landings,
+                                         catches)) %>%
+                select(c(StockKeyLabel, CATCH))
+        df4 <- df_stock %>% left_join(df3)
+        df4[is.na(df4)] <- 0
+        df4 <- df4%>% group_by(Variable, Colour) %>%
+                summarize(CATCH = sum(CATCH))%>%
+                tidyr::spread(Colour, CATCH)
+        df4 <- df4 %>% tidyr::gather(Color, Catch, GREEN:RED, factor_key = TRUE)
+        df2 <- df2 %>% tidyr::gather(Color, Stocks, GREEN:RED, factor_key = TRUE)
+        df5 <- merge(df2,df4)
+        df5[is.na(df5)] <- 0
+        tot <- sum(df5$Catch)/2
+        stocks <- sum(df5$Stocks)/2
+        df5 <- df5 %>% tidyr::gather(Metric, Value, Stocks:Catch)
+        df5 <- df5 %>% group_by(Metric) %>% mutate(sum = sum(Value)/2)
+        # df5 <- df5 %>% group_by(Metric) %>% mutate(max = max(Value)/2)
         
-        df2 <- df2 %>% tidyr::gather(colour, value,GREEN:RED, factor_key = TRUE)
-        df2 <- df2 %>% filter(value > 0)
+        df5$fraction <- ifelse(df5$Metric == "Stocks", (df5$Value*tot)/stocks, df5$Value)
         
-        
-        tot <- df2 %>% filter(FisheriesGuild == "total")
-        tot <- tot %>% group_by(header) %>% mutate(tot = sum(value))
-        max <- unique(tot$tot)
-        df2 <- df2 %>% group_by(FisheriesGuild, header) %>% mutate(sum = sum(value))
-        df2$fraction <- df2$value*max/df2$sum
-        df2$header <- factor(df2$header, levels = c("FishingPressure\nMSY", "StockSize\nMSY",
-                                                    "FishingPressure\nPA" ,"StockSize\nPA",
-                                                    "SBL\n" ))
-        
-        p1 <- ggplot2::ggplot(data = df2, ggplot2::aes(x = "", y = fraction, fill = colour)) +
+        p1 <- ggplot2::ggplot(data = df5, ggplot2::aes(x = "", y = fraction, fill = Color)) +
                 ggplot2::geom_bar(stat = "identity", width = 1) +
-                ggplot2::geom_text(ggplot2::aes(label = value),
+                ggplot2::geom_text(ggplot2::aes(label = scales::comma(Value)),
                           position = ggplot2::position_stack(vjust = 0.5),
                           size = 3) +
+                ggplot2::geom_text(ggplot2::aes(label = paste0("total = ", sum) ,x = 0, y = 0), size = 2)+
                 ggplot2::scale_fill_manual(values = colList) +
                 ggplot2::theme_bw(base_size = 9) +
                 ggplot2::theme(panel.grid = ggplot2::element_blank(),
                       panel.border = ggplot2::element_blank(),
                       panel.background = ggplot2::element_blank(),
                       legend.position="none") +
-                ggplot2::theme(axis.text=ggplot2::element_blank(),
-                      axis.ticks=ggplot2::element_blank(),
+                ggplot2::theme(axis.text = ggplot2::element_blank(),
+                      axis.ticks = ggplot2::element_blank(),
                       strip.background = ggplot2::element_blank(),
                       plot.caption = ggplot2::element_text(size = 6)) +
                 cap_lab +
-                ggplot2::coord_polar(theta = "y", direction = 1) +
-                ggplot2::facet_grid(FisheriesGuild ~ header)
+                ggplot2::coord_polar(theta = "y") +
+                ggplot2::facet_grid(Metric ~ Variable)
+        
         
         p1
 }

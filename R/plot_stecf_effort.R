@@ -22,13 +22,13 @@
 # Landings over time by country, guild, or species #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 plot_stecf_effort <- function(x, cap_year, cap_month, line_count, stecf_report, return_data = T) {
-        filter(ECOREGION == ecoregion) %>%
-                rename_(.dots = setNames(c(type, "LANDINGS"),
-                                         c("type_var", "VALUE")))
+        # filter(ECOREGION == ecoregion) %>%
+        #         rename_(.dots = setNames(c(type, "LANDINGS"),
+        #                                  c("type_var", "VALUE")))
         
         
         dat <- x %>%rename_(.dots = setNames(c("COUNTRY", "EFFORT"),c("type_var", "VALUE")))
-        dat <- x %>%rename_(.dots = setNames(c("gear_class", "LANDINGS"),c("type_var", "VALUE")))
+        dat <- x %>%rename_(.dots = setNames(c("GEAR", "LANDINGS"),c("type_var", "VALUE")))
         dat$type_var <- as.factor(dat$type_var)
         Plot <- dat %>%
                 group_by(type_var) %>%

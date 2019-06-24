@@ -81,7 +81,7 @@ format_catches <- function(year, ecoregion, x, y,z) {
                          "VII c (not specified)", "VII d-k (not specified)", "VII f-k (not specified)",
                          "VII g-k (not specified)", "VII j (not specified)")
         if(ecoregion == "Norwegian Sea Ecoregion"){
-        historic_nw <- c( "II a1", "II b1", "I  and  IIa (not specified)",
+        historic_nw <- c( "II a1", "II b1", "I  and  IIa (not specified)","II a (not specified)",
                           "II (not specified)", "II a2", "II b (not specified)",
                           "II b2", "XIV", "XIVa" )
         }

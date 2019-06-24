@@ -36,7 +36,10 @@
 
 format_stecf_effort <- function(path){
         df <- read.csv(path)
+        if(df$COUNTRY %in% c("SCO|ENG|GBG|GBJ|IOM|NIR")){
         df$country <- gsub("SCO|ENG|GBG|GBJ|IOM|NIR", "GBR", df$country)
+        }
+        df <- df %>% rename(ISO3C = country)
         df$ISO3C <- df$country
         df <- df%>%
                 mutate(COUNTRY = countrycode::countrycode(ISO3C, "iso3c", "country.name"),
@@ -148,7 +151,9 @@ format_stecf_effort <- function(path){
 
 format_stecf_landings <- function(path){
         df <- read.csv(path)
-        df$country <- gsub("SCO|ENG|GBG|GBJ|IOM|NIR", "GBR", df$country)
+        if(df$COUNTRY %in% c("SCO","ENG","GBG","GBJ","IOM","NIR")){
+                df$country <- gsub("SCO|ENG|GBG|GBJ|IOM|NIR", "GBR", df$country)
+        }
         df$ISO3C <- df$country
         df <- df%>%
                 mutate(COUNTRY = countrycode::countrycode(ISO3C, "iso3c", "country.name"),

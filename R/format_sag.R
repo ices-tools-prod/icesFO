@@ -37,7 +37,7 @@ format_sag <- function(x,y,year,ecoregion){
                              YearOfLastAssessment, EcoRegion, FisheriesGuild)
         colnames(sid) <- c("StockKeyLabel", "AssessmentYear", "Ecoregion", "FisheriesGuild")
         df1 <- dplyr::mutate(x, StockKeyLabel= fishstock)
-        df1 <- merge(df1, sid, by = c("StockKeyLabel", "AssessmentYear"), all = FALSE)
+        df1 <- merge(df1, sid, by = c("StockKeyLabel", "AssessmentYear"), all = TRUE)
         df1 <- dplyr::filter(df1,(grepl(pattern = ecoregion, Ecoregion)))
         df1 <- dplyr::select(df1,Year,
                StockKeyLabel,
@@ -49,7 +49,7 @@ format_sag <- function(x,y,year,ecoregion){
                landings,
                catches,
                discards)
-        df2 <- merge(y, sid, by = c("StockKeyLabel", "AssessmentYear"), all = FALSE)
+        df2 <- merge(y, sid, by = c("StockKeyLabel", "AssessmentYear"), all = TRUE)
         df2 <- dplyr::filter(df2,(grepl(pattern = ecoregion, Ecoregion)))
         df2 <- dplyr::select(df2,StockKeyLabel,
                AssessmentYear,

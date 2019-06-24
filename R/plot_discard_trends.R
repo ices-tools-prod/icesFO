@@ -39,8 +39,8 @@ plot_discard_trends <- function(x, year, caption = F, cap_year, cap_month, retur
         df <- dplyr::left_join(df,df2,
                           by = c("Year", "StockKeyLabel", "AssessmentYear","FisheriesGuild"))
         df3 <- dplyr::select(df, StockKeyLabel, Year, discards, AssessmentYear)
-        df3 <- dplyr::group_by(df3,StockKeyLabel) %>%
-                tidyr::spread(Year, discards) 
+        df3 <- unique(df3)%>% tibble::rowid_to_column()
+        df3 <- df3 %>% tidyr::spread(Year, discards) 
         df3<- dplyr::mutate(df3,`2017` = ifelse(AssessmentYear == 2017 &
                                                is.na(`2017`) &
                                                !is.na(`2016`),
@@ -51,6 +51,7 @@ plot_discard_trends <- function(x, year, caption = F, cap_year, cap_month, retur
                        discards = as.numeric(discards))
         
         df4<- dplyr::select(df,StockKeyLabel, Year, landings, AssessmentYear)
+        df4 <- unique(df4)%>% tibble::rowid_to_column()
         df4 <- dplyr::group_by(df4,StockKeyLabel) %>%
                 tidyr::spread(Year, landings)
         df4 <- dplyr::mutate(df4,`2017` = ifelse(AssessmentYear == 2017 &
