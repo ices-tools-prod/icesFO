@@ -27,6 +27,8 @@
 #' The ICES stock information Database web sevices: \url{http://sid.ices.dk/services/}
 #'
 #' @export
+#' 
+#' 
 
 
 load_historical_catches<- function(){
@@ -39,6 +41,7 @@ load_historical_catches<- function(){
                                       fill = TRUE,
                                       na.strings = c("...", "-", "ns", "."))
 }
+
 
 #' @export
 
@@ -55,6 +58,7 @@ load_official_catches<- function(){
                              fill = TRUE)
         out <- Filter(function(x)!all(is.na(x)), out)
 }
+
 
 #' @export
 
