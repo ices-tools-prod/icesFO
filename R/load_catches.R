@@ -40,6 +40,8 @@ load_historical_catches<- function(){
                                       na.strings = c("...", "-", "ns", "."))
 }
 
+#' @export
+
 load_official_catches<- function(){
         url <- "http://ices.dk/marine-data/Documents/CatchStats/OfficialNominalCatches.zip"
         tmpFileCatch <- tempfile(fileext = ".zip")
@@ -53,6 +55,8 @@ load_official_catches<- function(){
                              fill = TRUE)
         out <- Filter(function(x)!all(is.na(x)), out)
 }
+
+#' @export
 
 load_preliminary_catches <- function (year){
         url<- paste0("http://data.ices.dk/rec12/download/", year, "preliminaryCatchStatistics.csv")

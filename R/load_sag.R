@@ -52,6 +52,8 @@ load_sag_summary <-  function(year){
         unique(out)
         }
         
+#' @export
+
 load_sag_refpts <- function(year){
         years <- ((year-3):year)
         out <- icesSAG::getSAG(stock = NULL,
@@ -77,6 +79,9 @@ load_sag_refpts <- function(year){
 
 #for each StockKeyLabel, should only keep last year, maybe here maybe later 
 #Check the issue with old stock codes for stocks last assessed before 2016
+
+#' @export
+
 load_sag_status <- function(year) {
         years <- ((year-3):year)
         out <- do.call("rbind", lapply(years,function(x) icesSAG::findAssessmentKey(stock = NULL,

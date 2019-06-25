@@ -24,7 +24,7 @@
 #'   \code{\link{lim}}        \tab compute axis limits\cr
 #' }
 #'
-#' @author Adriana Villamor and Scott Large.
+#' @author Adriana Villamor, Scott Large, Sarah Louise Millar and Colin Millar.
 #'
 
 NA
