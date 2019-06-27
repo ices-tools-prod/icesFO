@@ -24,5 +24,5 @@ Functions to support the creation of ICES Fisheries Overviews, ....
 }
 }
 \author{
-Adriana Villamor and Scott Large.
+Adriana Villamor, Scott Large, Sarah Louise Millar and Colin Millar.
 }

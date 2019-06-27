@@ -4,7 +4,7 @@
 \alias{format_catches}
 \title{Format the data from the time-series of ICES historical, official and preliminary catches.}
 \usage{
-format_catches(year, ecoregion, x, y, z)
+format_catches(year, ecoregion, x, y, z = NULL)
 }
 \arguments{
 \item{ecoregion}{an identifier of the Ecoregion of interest}

@@ -30,16 +30,13 @@
 #' @export
 
 #other variables to keep?
-format_catches <- function(year, ecoregion, x, y,z) {
+format_catches <- function(year, ecoregion, x, y,z = NULL) {
         sid <-load_sid(year)
-        fish_category <- dplyr::mutate(sid, X3A_CODE = gsub("-.*$", "", StockKeyLabel),
-                       X3A_CODE = gsub("\\..*", "", X3A_CODE),
-                       X3A_CODE = toupper(X3A_CODE),
-                       FisheriesGuild = tolower(FisheriesGuild)) %>%
-                select(X3A_CODE, FisheriesGuild) %>%
-                distinct(.keep_all = TRUE)
+        fish_category <- dplyr::mutate(sid, X3A_CODE = substr(sid$StockKeyLabel, start = 1, stop = 3))
+        fish_category <- dplyr::select(fish_category, X3A_CODE, FisheriesGuild)
+        fish_category <- unique(fish_category)
         
-        fish_category<- fish_category[complete.cases(fish_category),]
+        # fish_category<- fish_category[complete.cases(fish_category),]
         
         spURL <- "http://www.fao.org/fishery/static/ASFIS/ASFIS_sp.zip"
         tmpFileSp <- tempfile(fileext = ".zip")
@@ -51,8 +48,7 @@ format_catches <- function(year, ecoregion, x, y,z) {
                                        header = TRUE,
                                        na.strings = "")
         
-        species_list_raw <- species_list_raw %>%
-                select(English_name, Scientific_name, X3A_CODE)
+        species_list_raw <- dplyr::select(species_list_raw, English_name, Scientific_name, X3A_CODE)
         
         historic_bs <- c("III (not specified)", "III b  Baltic 23",
                          "III b+c (not specified)", "III b-d (not specified)",
@@ -90,45 +86,43 @@ format_catches <- function(year, ecoregion, x, y,z) {
                           "II (not specified)", "II a2", "II b (not specified)",
                           "II b2" )
         }
-        catch_dat_1950 <- x %>%
-                tidyr::gather(YEAR, VALUE, -Country, -Species, -Division) %>%
-                mutate(YEAR = as.numeric(gsub("X", "", YEAR)),
+        x[is.na(x)] <- 0
+        catch_dat_1950 <- tidyr::gather(x,YEAR, VALUE, -Country, -Species, -Division) 
+        catch_dat_1950 <- dplyr::mutate(catch_dat_1950, YEAR = as.numeric(gsub("X", "", YEAR)),
                        VALUE = ifelse(VALUE == "<0.5",
                                       as.numeric(0),
                                       VALUE),
                        VALUE = ifelse(!is.na(VALUE),
                                       as.numeric(VALUE),
                                       NA),
-                       COUNTRY = case_when(
-                               grepl(historic_uk, .$Country) ~ "United Kingdom",
-                               grepl("^Germany", .$Country) ~ "Germany",
-                               .$Country %in% c("Un. Sov. Soc. Rep.") ~ "Russian Federation",
-                               grepl("Faeroe Islands", .$Country) ~ "Faroe Islands",
-                               grepl("Other nei", .$Country) ~ "OTHER",
-                               TRUE ~ .$Country
+                       Country = case_when(
+                               grepl(historic_uk, Country) ~ "United Kingdom",
+                               grepl("^Germany", Country) ~ "Germany",
+                               Country %in% c("Un. Sov. Soc. Rep.") ~ "Russian Federation",
+                               grepl("Faeroe Islands", Country) ~ "Faroe Islands",
+                               grepl("Other nei", Country) ~ "OTHER",
+                               TRUE ~ Country
                        ),
-                       ISO3 = countrycode::countrycode(COUNTRY, "country.name", "iso3c", warn = FALSE),
+                       ISO3 = countrycode::countrycode(Country, "country.name", "iso3c", warn = FALSE),
                        ECOREGION = case_when(
-                               .$Division %in% historic_bs ~ "Baltic Sea Ecoregion",
-                               .$Division %in% historic_ns ~ "Greater North Sea Ecoregion",
-                               .$Division %in% historic_bob ~ "Bay of Biscay and the Iberian Coast Ecoregion",
-                               .$Division %in% historic_cs ~ "Celtic Seas Ecoregion",
+                               Division %in% historic_bs ~ "Baltic Sea Ecoregion",
+                               Division %in% historic_ns ~ "Greater North Sea Ecoregion",
+                               Division %in% historic_bob ~ "Bay of Biscay and the Iberian Coast Ecoregion",
+                               Division %in% historic_cs ~ "Celtic Seas Ecoregion",
                                if(ecoregion == "Norwegian Sea Ecoregion"){
-                               .$Division %in% historic_nw ~ "Norwegian Sea Ecoregion"
+                               Division %in% historic_nw ~ "Norwegian Sea Ecoregion"
                                        },
                                if(ecoregion == "Barents Sea Ecoregion"){
-                                       .$Division %in% historic_br ~ "Barents Sea Ecoregion"
+                                       Division %in% historic_br ~ "Barents Sea Ecoregion"
                                        },
-                               TRUE ~ "OTHER")) %>%
-                filter(YEAR <= 2005) %>%  #,
-                # ECOREGION != "OTHER",
-                # COUNTRY != "OTHER") %>%
-                left_join(y = species_list_raw, c("Species" = "English_name")) %>% # Merge to add FAO species information
-                left_join(y = species_list_raw, c("Species" = "Scientific_name", # Merge to add FAO species information
-                                                  "X3A_CODE")) %>%
-                left_join(y = fish_category, by = "X3A_CODE") %>%
-                select(YEAR,
-                       COUNTRY,
+                               TRUE ~ "OTHER")) 
+        catch_dat_1950 <- dplyr::filter(catch_dat_1950, YEAR <= 2005) 
+        catch_dat_1950 <- dplyr::left_join(catch_dat_1950, y = species_list_raw, c("Species" = "English_name"))# Merge to add FAO species information
+        catch_dat_1950 <- dplyr::left_join(catch_dat_1950, y = species_list_raw,c("Species" = "Scientific_name", # Merge to add FAO species information
+                                                                                  "X3A_CODE"))
+        catch_dat_1950 <- dplyr::left_join(catch_dat_1950, y = fish_category, by = "X3A_CODE")
+        catch_dat_1950 <-dplyr::select(catch_dat_1950,YEAR,
+                       Country,
                        ISO3,
                        GUILD = FisheriesGuild,
                        ECOREGION,
@@ -137,10 +131,9 @@ format_catches <- function(year, ecoregion, x, y,z) {
                        COMMON_NAME = Species,
                        VALUE)
         
-        catch_dat_2010 <- y %>%
-                tidyr::gather(YEAR, VALUE, -Country, -Species, -Area, -Units) %>%
-                filter(Country != "") %>%
-                mutate(YEAR = as.numeric(gsub("X", "", YEAR)),
+        catch_dat_2010 <- tidyr::gather(y, YEAR, VALUE, -Country, -Species, -Area, -Units)
+        catch_dat_2010 <- dplyr::filter(catch_dat_2010, Country != "")
+        catch_dat_2010 <- dplyr::mutate(catch_dat_2010,YEAR = as.numeric(gsub("X", "", YEAR)),
                        VALUE = as.numeric(VALUE),
                        Country = countrycode::countrycode(Country,"iso2c", "country.name"),
                        Country = ifelse(grepl("Guernsey|Isle of Man|Jersey", Country),
@@ -150,25 +143,25 @@ format_catches <- function(year, ecoregion, x, y,z) {
                        Country = gsub("(United Kingdom) .*", "\\1", Country),
                        Area = tolower(Area),
                        ECOREGION = case_when(
-                               .$Area %in% c("27.3.bc", "27.3.d", "27.3_nk") ~ "Baltic Sea Ecoregion",
-                               .$Area %in% c("27.3.a", "27.4", "27.7.d") ~ "Greater North Sea Ecoregion",
+                               Area %in% c("27.3.bc", "27.3.d", "27.3_nk") ~ "Baltic Sea Ecoregion",
+                               Area %in% c("27.3.a", "27.4", "27.7.d") ~ "Greater North Sea Ecoregion",
                                
-                               .$Area %in% c("27.8.a", "27.8.b","27.8.c",
+                               Area %in% c("27.8.a", "27.8.b","27.8.c",
                                              "27.8.d.2", "27.8.e.2", "27.9.a",
                                              "27.9.b.2") ~ "Bay of Biscay and the Iberian Coast Ecoregion",
-                               .$Area %in% c("27.6.a", "27.6.b.2","27.7.a", "27.7.b", "27.7.c.2",
+                               Area %in% c("27.6.a", "27.6.b.2","27.7.a", "27.7.b", "27.7.c.2",
                                              "27.7.f", "27.7.g", "27.7.h","27.7.j.2", "27.7.k.2") ~ "Celtic Seas Ecoregion",
                                
-                               .$Area %in% c("27.5.a.1", "27.5.a.2","27.12.a.4") ~ "Icelandic Waters Ecoregion",
+                               Area %in% c("27.5.a.1", "27.5.a.2","27.12.a.4") ~ "Icelandic Waters Ecoregion",
                                if(ecoregion == "Norwegian Sea Ecoregion"){
-                               .$Area %in% c("27.2.a.1", "27.2.a.2", "27.2.b.1", "27.2.b.2", "27.14.a") ~ "Norwegian Sea Ecoregion"
+                               Area %in% c("27.2.a.1", "27.2.a.2", "27.2.b.1", "27.2.b.2", "27.14.a") ~ "Norwegian Sea Ecoregion"
                                        },
                                if(ecoregion =="Barents Sea Ecoregion"){
-                               .$Area %in% c("27.1.a", "27.1.b","27.2.a.2","27.2.a_NK", "27.2.b.2","27.2.b_NK", "27.1_NK") ~ "Barents Sea Ecoregion"
+                               Area %in% c("27.1.a", "27.1.b","27.2.a.2","27.2.a_NK", "27.2.b.2","27.2.b_NK", "27.1_NK") ~ "Barents Sea Ecoregion"
                                        }))
-        catch_dat_2010 <- dplyr::left_join(catch_dat_2010,species_list_raw, c("Species" = "X3A_CODE")) %>%
-                left_join(fish_category, by = c("Species" = "X3A_CODE")) %>%
-                select(YEAR,
+        catch_dat_2010 <- dplyr::left_join(catch_dat_2010,species_list_raw, c("Species" = "X3A_CODE"))
+        catch_dat_2010 <- dplyr::left_join(catch_dat_2010,fish_category, by = c("Species" = "X3A_CODE")) 
+        catch_dat_2010 <- dplyr::select(catch_dat_2010,YEAR,
                        COUNTRY = Country,
                        ISO3,
                        GUILD = FisheriesGuild,
@@ -226,22 +219,17 @@ format_catches <- function(year, ecoregion, x, y,z) {
         # catch_dat_prelim$COMMON_NAME[which(catch_dat_prelim$SPECIES_NAME == "Ammodytes")] <- "Sandeels(=Sandlances) nei"
         # catch_dat_prelim$SPECIES_CODE[which(catch_dat_prelim$SPECIES_NAME == "Ammodytes")] <- "SAN"
         # 
-        df <- catch_dat_2010 %>%
-                bind_rows(catch_dat_1950) %>%
+        df <- dplyr::bind_rows(catch_dat_2010,catch_dat_1950)
+        df <- dplyr::mutate(df, GUILD = ifelse(is.na(GUILD),
+                                               "undefined",
+                                               GUILD))
                 
                 #remember to turn this on again if I want preliminary catches
                 # bind_rows(catch_dat_prelim)%>%
-                mutate(GUILD = ifelse(is.na(GUILD),
-                                      "undefined",
-                                      GUILD)) %>%
-                filter(!GUILD %in% c("elasmobranch", "crustacean") |
-                               ECOREGION != "Baltic Sea")
-        
-        
+                
         df$COUNTRY<-gsub("Russian Federation", "\\Russia\\",df$COUNTRY)
         df$COUNTRY<-gsub("Russia", "Russian Federation", df$COUNTRY)
-        df <- df %>%
-                select(YEAR,
+        df <- dplyr::select(df,YEAR,
                        COUNTRY,
                        ISO3,
                        GUILD ,
