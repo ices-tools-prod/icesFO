@@ -74,7 +74,6 @@ plot_stock_trends <- function(x, guild, cap_year, cap_month, return_data = T){
                                alpha = 0.9, size = 1.15)
         return(plot)
         if(return_data == T){
-                stock_trends_plot_data <-df
-                return(stock_trends_plot_data)
+               plot_data <<-df
         }
 }

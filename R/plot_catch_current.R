@@ -108,8 +108,7 @@ plot_CLD_bar <- function(x, guild, caption = T, cap_year, cap_month, return_data
         return(plot)
         
         if(return_data == T){
-                CLD_bar_plot_data <-df
-                return(CLD_bar_plot_data)
+                plot_data <<-df
         }
 }
 

@@ -34,6 +34,7 @@ format_catches <- function(year, ecoregion, x, y,z = NULL) {
         sid <-load_sid(year)
         fish_category <- dplyr::mutate(sid, X3A_CODE = substr(sid$StockKeyLabel, start = 1, stop = 3))
         fish_category <- dplyr::select(fish_category, X3A_CODE, FisheriesGuild)
+        fish_category$X3A_CODE <- toupper(fish_category$X3A_CODE)
         fish_category <- unique(fish_category)
         
         # fish_category<- fish_category[complete.cases(fish_category),]
@@ -122,7 +123,7 @@ format_catches <- function(year, ecoregion, x, y,z = NULL) {
                                                                                   "X3A_CODE"))
         catch_dat_1950 <- dplyr::left_join(catch_dat_1950, y = fish_category, by = "X3A_CODE")
         catch_dat_1950 <-dplyr::select(catch_dat_1950,YEAR,
-                       Country,
+                       COUNTRY = Country,
                        ISO3,
                        GUILD = FisheriesGuild,
                        ECOREGION,

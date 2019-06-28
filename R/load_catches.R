@@ -34,8 +34,8 @@
 load_historical_catches<- function(){
         url <- "http://ices.dk/marine-data/Documents/CatchStats/HistoricalLandings1950-2010.zip"
         tmpFileHistoric <- tempfile(fileext = ".zip")
-        download.file(url, destfile = tmpFileHistoric, mode = "wb", quiet = TRUE)
-        out <- read.csv(unz(tmpFileHistoric, "ICES_1950-2010.csv"),
+        download.file(url, destfile = tmpFileHistoric, mode = "wb", quiet = FALSE)
+        out <- read.csv(unz(tmpFileHistoric, "HistoricalLandings1950-2010/ICES_1950-2010.csv"),
                                       stringsAsFactors = FALSE,
                                       header = TRUE,
                                       fill = TRUE,

@@ -35,7 +35,7 @@
 
 #find a way to set caption(cap_year, cap_month) being conditional
 
-plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD")[1],
+plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "Guild")[1],
                               line_count = 10,
                               plot_type = c("line", "area")[1],
                               official_catches_year = 2018,
@@ -118,13 +118,13 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD")[1],
         if(plot_type == "area") {
                 cumPlot <- dplyr::filter(plot,YEAR == max(YEAR, na.rm = TRUE))
                 cumPlot <- dplyr::ungroup(cumPlot)
-                cumPlot <- dplyr::arrange(desc(type_var))
+                cumPlot <- dplyr::arrange(cumPlot,desc(type_var))
                 cumPlot <- dplyr::mutate(cumPlot, cs = cumsum(as.numeric(typeTotal)), # cumulative sum
                                mp = lag(cs, order_by = desc(type_var)), # midpoint
                                mp = ifelse(is.na(mp), 1, mp)) # midpoint
                 cumPlot <- dplyr::ungroup(cumPlot)
                 cumPlot <- dplyr::arrange(cumPlot, desc(type_var))
-                cumPlot <- dplyr::mutate(cumPlot, td = rowMeans(.[,c("cs", "mp")]))#
+                cumPlot <- dplyr::mutate(cumPlot, td = rowMeans(cumPlot[4:5]))
                 
                 pl <- pl + ggplot2::geom_area(ggplot2::aes(fill = type_var, color = type_var),
                                      alpha = .8,

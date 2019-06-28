@@ -36,33 +36,32 @@
 
 plot_kobe <- function(x, guild, caption = F, cap_year, cap_month, return_data = T){
         df <- dplyr::filter(x,FisheriesGuild %in% guild) 
-        kobe <- ggplot(df, aes(x = F_FMSY, y = SSB_MSYBtrigger,
+        kobe <- ggplot2::ggplot(df, ggplot2::aes(x = F_FMSY, y = SSB_MSYBtrigger,
                                          data_id = StockKeyLabel)) +
-                geom_point(aes(color = Status), size = 2,
+                ggplot2::geom_point(ggplot2::aes(color = Status), size = 2,
                            alpha = 0.7, na.rm = TRUE) +
-                geom_hline(yintercept = 1, color = "grey60", linetype = "dashed") +
-                geom_vline(xintercept = 1, color = "grey60", linetype = "dashed") +
-                ggrepel::geom_text_repel(aes(label = StockKeyLabel),
+                ggplot2::geom_hline(yintercept = 1, color = "grey60", linetype = "dashed") +
+                ggplot2::geom_vline(xintercept = 1, color = "grey60", linetype = "dashed") +
+                ggrepel::geom_text_repel(ggplot2::aes(label = StockKeyLabel),
                                          segment.size = .25,
                                          force = 5,
                                          size = 2) +
-                scale_color_manual(values = c("GREEN" = "#4daf4a",
+                ggplot2::scale_color_manual(values = c("GREEN" = "#4daf4a",
                                               "RED" = "#e41a1c",
                                               "GREY" = "#d3d3d3")) +
-                labs(x = expression(F/F[MSY]),
+                ggplot2::labs(x = expression(F/F[MSY]),
                      y = expression(SSB/MSY~B[trigger]),
                      caption = "") +
-                theme_bw(base_size = 7) +
-                theme(legend.position = 'none',
-                      panel.grid.minor = element_blank(),
-                      panel.grid.major = element_blank(),
-                      plot.caption = element_text(size = 6))
+                ggplot2::theme_bw(base_size = 7) +
+                ggplot2::theme(legend.position = 'none',
+                      panel.grid.minor = ggplot2::element_blank(),
+                      panel.grid.major = ggplot2::element_blank(),
+                      plot.caption = ggplot2::element_text(size = 6))
       
         return(kobe)
         
         if(return_data == T){
-                kobe_data <-df
-                return(kobe_data)
+                plot_data <<-df
         }
 }
 
