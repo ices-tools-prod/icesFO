@@ -4,14 +4,14 @@
 \alias{format_stecf_effort}
 \title{Format the data from STECF effort and landings}
 \usage{
-format_stecf_effort(path)
+format_stecf_effort(x)
 }
 \arguments{
-\item{path, }{the path to the files}
-
 \item{x}{the name of the dataframe with effort data}
 
 \item{y}{the name of the dataframe with landings data}
+
+\item{path, }{the path to the files}
 }
 \value{
 a data frame of stock status relative to reference points and catch, discards, and landings

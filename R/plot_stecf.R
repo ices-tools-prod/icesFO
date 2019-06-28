@@ -21,11 +21,16 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # Landings over time by country, guild, or species #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-plot_stecf_effort <- function(x, type, cap_year, cap_month, line_count, stecf_report, return_data = TRUE) {
+plot_stecf <- function(x, type,variable=NULL, cap_year, cap_month, line_count, stecf_report, return_data = TRUE) {
         
         if(type == "effort"){
+                if(variable=="COUNTRY"){
                 dat <- dplyr::rename_(x, "type_var" ="COUNTRY",
-                              "VALUE" = "EFFORT")
+                              "VALUE" = "EFFORT")}
+                if(variable=="GEAR"){
+                        dat <- dplyr::rename_(x, "type_var" ="GEAR",
+                                              "VALUE" = "EFFORT")
+                }
                 Label <- "Nominal effort (kW days at sea)"
                 }
         if(type == "landings"){
