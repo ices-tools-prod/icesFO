@@ -96,7 +96,7 @@ format_catches <- function(year, ecoregion, x, y,z = NULL) {
                        VALUE = ifelse(!is.na(VALUE),
                                       as.numeric(VALUE),
                                       NA),
-                       Country = case_when(
+                       Country = dplyr::case_when(
                                grepl(historic_uk, Country) ~ "United Kingdom",
                                grepl("^Germany", Country) ~ "Germany",
                                Country %in% c("Un. Sov. Soc. Rep.") ~ "Russian Federation",
@@ -105,7 +105,7 @@ format_catches <- function(year, ecoregion, x, y,z = NULL) {
                                TRUE ~ Country
                        ),
                        ISO3 = countrycode::countrycode(Country, "country.name", "iso3c", warn = FALSE),
-                       ECOREGION = case_when(
+                       ECOREGION = dplyr::case_when(
                                Division %in% historic_bs ~ "Baltic Sea Ecoregion",
                                Division %in% historic_ns ~ "Greater North Sea Ecoregion",
                                Division %in% historic_bob ~ "Bay of Biscay and the Iberian Coast Ecoregion",
@@ -143,7 +143,7 @@ format_catches <- function(year, ecoregion, x, y,z = NULL) {
                        ISO3 = countrycode::countrycode(Country, "country.name", "iso3c", warn = FALSE),
                        Country = gsub("(United Kingdom) .*", "\\1", Country),
                        Area = tolower(Area),
-                       ECOREGION = case_when(
+                       ECOREGION = dplyr::case_when(
                                Area %in% c("27.3.bc", "27.3.d", "27.3_nk") ~ "Baltic Sea Ecoregion",
                                Area %in% c("27.3.a", "27.4", "27.7.d") ~ "Greater North Sea Ecoregion",
                                
@@ -188,7 +188,7 @@ format_catches <- function(year, ecoregion, x, y,z = NULL) {
         
         #check why areas names are different!!
         # catch_dat_prelim <- catch_dat_prelim%>%
-        #         mutate(ECOREGION = case_when(
+        #         mutate(ECOREGION = dplyr::case_when(
         #                 .$Area %in% c("27_3_bc", "27_3_c_22","27_3_d","27_3_d_24","27_3_d_25","27_3_d_26","27_3_d_30",
         #                               "27_3_d_27","27_3_d_31","27_3_nk", "27_3_b_23", "27_3_d_28_2","27_3_d_32","27_3_d_29") ~ "Baltic Sea Ecoregion",
         #                 .$Area %in% c("27_3_a", "27_4_a","27_4_b", "27_4_c", "27_7_d") ~ "Greater North Sea Ecoregion",
