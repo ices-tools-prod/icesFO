@@ -108,5 +108,9 @@ plot_status_prop_pies <- function(x, cap_month = "November",
                 ggplot2::coord_polar(theta = "y", direction = 1) +
                 ggplot2::facet_grid(FisheriesGuild ~ header)
         
-        p1
+        if(return_data == T){
+                df2
+        }else{
+                p1
+        }
 }

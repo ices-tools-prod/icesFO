@@ -32,7 +32,7 @@
 #' @export
 
 
-plot_stock_trends <- function(x, guild, cap_year, cap_month, return_data = T){
+plot_stock_trends <- function(x, guild, cap_year, cap_month, return_data = FALSE){
         df<- dplyr::filter(x,FisheriesGuild == guild)
         adj_names <- sort(setdiff(unique(df$StockKeyLabel), "MEAN"))
         values <- ggthemes::tableau_color_pal('Tableau 20')(length(adj_names))
@@ -72,8 +72,10 @@ plot_stock_trends <- function(x, guild, cap_year, cap_month, return_data = T){
         plot <- plot + ggplot2::geom_line(data = df,alpha = 0.8)
         plot <- plot + ggplot2::geom_line(data = df %>% filter(StockKeyLabel == "MEAN"),
                                alpha = 0.9, size = 1.15)
-        return(plot)
+        
         if(return_data == T){
-               plot_data <<-df
+                df
+        }else{
+                plot
         }
 }

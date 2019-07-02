@@ -5,7 +5,7 @@
 \title{Returns a plot of discard rate trends by fish category for an ecoregion.}
 \usage{
 plot_discard_trends(x, year, caption = F, cap_year, cap_month,
-  return_data = T)
+  return_data = F)
 }
 \arguments{
 \item{x}{a dataframe output of CLD_trends}

@@ -103,6 +103,9 @@ plot_GES_pies <- function(x, y, cap_month = "November",
                 ggplot2::coord_polar(theta = "y") +
                 ggplot2::facet_grid(Metric ~ Variable)
         
-        
-        p1
+        if(return_data == T){
+                df5
+        }else{
+                p1
+        }
 }

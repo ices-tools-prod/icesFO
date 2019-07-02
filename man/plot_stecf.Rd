@@ -5,7 +5,7 @@
 \title{STECF Landings over time by country, guild, or species}
 \usage{
 plot_stecf(x, type, variable = NULL, cap_year, cap_month, line_count,
-  stecf_report, return_data = TRUE)
+  stecf_report, return_data = F)
 }
 \arguments{
 \item{x}{a dataframe resulting from format_stecf_effort function}

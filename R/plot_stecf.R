@@ -21,7 +21,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # Landings over time by country, guild, or species #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-plot_stecf <- function(x, type,variable=NULL, cap_year, cap_month, line_count, stecf_report, return_data = TRUE) {
+plot_stecf <- function(x, type,variable=NULL, cap_year, cap_month, line_count, stecf_report, return_data = F) {
         
         if(type == "effort"){
                 if(variable=="COUNTRY"){
@@ -114,8 +114,9 @@ plot_stecf <- function(x, type,variable=NULL, cap_year, cap_month, line_count, s
                                                      segment.color = 'grey60')
        
         
-        if(return_data == TRUE) {
-                plot_dat <<-dat
-        }
-        return(pl)
+                if(return_data == T){
+                        dat
+                }else{
+                        pl
+                }
 }

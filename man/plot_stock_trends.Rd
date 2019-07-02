@@ -4,7 +4,7 @@
 \alias{plot_stock_trends}
 \title{Plotting time series of F/Fmsy and SSB/MSY B trigger for all stocks with data available by guild.}
 \usage{
-plot_stock_trends(x, guild, cap_year, cap_month, return_data = T)
+plot_stock_trends(x, guild, cap_year, cap_month, return_data = FALSE)
 }
 \arguments{
 \item{x}{a dataframe output of stock_trends function}

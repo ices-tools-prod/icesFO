@@ -8,7 +8,7 @@ by fish category and ecoregion}
 \usage{
 plot_catch_trends(x, type = c("COMMON_NAME", "COUNTRY", "Guild")[1],
   line_count = 10, plot_type = c("line", "area")[1],
-  official_catches_year = 2018, return_data = TRUE)
+  official_catches_year = 2018, return_data = F)
 }
 \arguments{
 \item{x}{a dataframe output of stockstatus+catch_current.R}

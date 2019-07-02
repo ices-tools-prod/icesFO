@@ -39,7 +39,7 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "Guild")[1],
                               line_count = 10,
                               plot_type = c("line", "area")[1],
                               official_catches_year = 2018,
-                              return_data = TRUE) {
+                              return_data = F) {
         capyear <- official_catches_year-1
         capyear <- as.character(capyear)
         cap_lab <-ggplot2::labs(x = "",
@@ -158,11 +158,10 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "Guild")[1],
                                                      segment.color = 'grey60')
                 
         }
-        pl
         
-        if(return_data == TRUE) {
-                plot_dat <<- plot
+        if(return_data == T){
+                plot
+        }else{
+                pl
         }
-        
-        return(pl)
 }

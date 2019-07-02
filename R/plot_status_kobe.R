@@ -34,7 +34,7 @@
 
 #find a way to set caption(cap_year, cap_month) being conditional
 
-plot_kobe <- function(x, guild, caption = F, cap_year, cap_month, return_data = T){
+plot_kobe <- function(x, guild, caption = F, cap_year, cap_month, return_data = F){
         df <- dplyr::filter(x,FisheriesGuild %in% guild) 
         kobe <- ggplot2::ggplot(df, ggplot2::aes(x = F_FMSY, y = SSB_MSYBtrigger,
                                          data_id = StockKeyLabel)) +
@@ -58,10 +58,10 @@ plot_kobe <- function(x, guild, caption = F, cap_year, cap_month, return_data = 
                       panel.grid.major = ggplot2::element_blank(),
                       plot.caption = ggplot2::element_text(size = 6))
       
-        return(kobe)
         
         if(return_data == T){
-                plot_data <<-df
+                df
+        }else{
+                kobe
         }
 }
-

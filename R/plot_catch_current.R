@@ -35,7 +35,7 @@
 
 #find a way to set caption(cap_year, cap_month) being conditional
 
-plot_CLD_bar <- function(x, guild, caption = T, cap_year, cap_month, return_data = T){
+plot_CLD_bar <- function(x, guild, caption = T, cap_year, cap_month, return_data = F){
         df <- dplyr::filter(x,FisheriesGuild %in% guild) 
         df <- dplyr::mutate(df,total = ifelse(all(is.na(catches) & is.na(landings)),
                                       NA,
@@ -105,10 +105,10 @@ plot_CLD_bar <- function(x, guild, caption = T, cap_year, cap_month, return_data
         }
         
         
-        return(plot)
-        
         if(return_data == T){
-                plot_data <<-df
+                df
+        }else{
+                plot
         }
 }
 

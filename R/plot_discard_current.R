@@ -33,7 +33,7 @@
 
 #find a way to set caption(cap_year, cap_month) being conditional
 
-plot_discard_current <- function(x, year, caption = T, cap_year, cap_month, return_data = T){
+plot_discard_current <- function(x, year, caption = T, cap_year, cap_month, return_data = F){
         df <- dplyr::filter(x,Year %in% seq(year-5, year -1))
         df2 <- tidyr::expand(df,Year, tidyr::nesting(StockKeyLabel,AssessmentYear,FisheriesGuild))
         df <- dplyr::left_join(df,df2,
@@ -104,11 +104,10 @@ plot_discard_current <- function(x, year, caption = T, cap_year, cap_month, retu
                         cap_lab
         }
         
-        return(plot)
-        
         if(return_data == T){
-                discard_current_plot_data <-df5
-                return(discard_current_plot_data)
+                df5
+        }else{
+                plot
         }
         
 }

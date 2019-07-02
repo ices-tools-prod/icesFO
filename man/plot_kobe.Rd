@@ -5,7 +5,7 @@
 \title{Returns a scatterplot of F/F<sub>MSY</sub> and SSB/MSY B<sub>trigger</sub>
 by fish category and ecoregion}
 \usage{
-plot_kobe(x, guild, caption = F, cap_year, cap_month, return_data = T)
+plot_kobe(x, guild, caption = F, cap_year, cap_month, return_data = F)
 }
 \arguments{
 \item{x}{a dataframe output of stockstatus+catch_current.R}
