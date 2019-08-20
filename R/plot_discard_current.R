@@ -47,7 +47,7 @@ plot_discard_current <- function(x, year, caption = T, cap_year, cap_month, retu
                                                         !is.na(`2016`),
                                                 `2016`,
                                                 `2017`))
-        df3 <- tidyr::gather(df3,Year, discards, `2013`:`2017`)
+        df3 <- tidyr::gather(df3,Year, discards, 4:8)
         df3 <- dplyr::mutate(df3,Year = as.numeric(Year),
                              discards = as.numeric(discards))
         df5 <- dplyr::select(df,-discards,
@@ -73,12 +73,12 @@ plot_discard_current <- function(x, year, caption = T, cap_year, cap_month, retu
         # df5$FisheriesGuild <- factor(df5$FisheriesGuild,
         #                                 levels = df5_order$FisheriesGuild[order(df5_order$total)])
         plot <- ggplot2::ggplot(ungroup(df5),
-                                ggplot2::aes(x = FisheriesGuild, y = value, fill = variable)) +
+                                ggplot2::aes(x = reorder(FisheriesGuild, value), y = value, fill = variable)) +
                 ggplot2::geom_bar(stat = "identity") +
                 ggplot2::scale_color_brewer(type = "qual", palette = "Dark2", direction = -1) +
                 ggplot2::scale_fill_brewer(type = "qual", palette = "Dark2", direction = -1) +
                 ggplot2::coord_flip() +
-                ggplot2::theme_bw(base_size = 9) +
+                ggplot2::theme_bw(base_size = 8) +
                 ggplot2::theme(legend.position = "none",
                       plot.caption = ggplot2::element_text(size = 6),
                       panel.grid = ggplot2::element_blank(),
@@ -90,12 +90,12 @@ plot_discard_current <- function(x, year, caption = T, cap_year, cap_month, retu
                                                            cap_month,
                                                            cap_year))
                 plot <- ggplot2::ggplot(ungroup(df5),
-                                        ggplot2::aes(x = FisheriesGuild, y = value, fill = variable)) +
+                                        ggplot2::aes(x = reorder(FisheriesGuild, value), y = value, fill = variable)) +
                         ggplot2::geom_bar(stat = "identity") +
                         ggplot2::scale_color_brewer(type = "qual", palette = "Dark2", direction = -1) +
                         ggplot2::scale_fill_brewer(type = "qual", palette = "Dark2", direction = -1) +
                         ggplot2::coord_flip() +
-                        ggplot2::theme_bw(base_size = 9) +
+                        ggplot2::theme_bw(base_size = 8) +
                         ggplot2::theme(legend.position = "none",
                                        plot.caption = ggplot2::element_text(size = 6),
                                        panel.grid = ggplot2::element_blank(),

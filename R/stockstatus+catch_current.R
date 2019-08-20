@@ -41,6 +41,10 @@ stockstatus_CLD_current <- function(x) {
                            catches,
                            landings,
                            discards)
+        df$F <- as.numeric(df$F)
+        df$SSB <- as.numeric(df$SSB)
+        df$FMSY <- as.numeric(df$FMSY)
+        df$MSYBtrigger <- as.numeric(df$MSYBtrigger)
         df2<-dplyr::full_join(df %>%
                                  dplyr::group_by(StockKeyLabel) %>%
                                  dplyr::filter(Year == AssessmentYear - 1) %>%

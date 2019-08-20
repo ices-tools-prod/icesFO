@@ -96,6 +96,7 @@ sid <- load_sid(year)
 sid <- dplyr::filter(sid,!is.na(YearOfLastAssessment))
 sid <- dplyr::select(sid,StockKeyLabel,
                      YearOfLastAssessment, EcoRegion, FisheriesGuild)
+sid$FisheriesGuild <- tolower(sid$FisheriesGuild)
 colnames(sid) <- c("StockKeyLabel", "AssessmentYear", "Ecoregion", "FisheriesGuild")
 df <- merge(df, sid, all = FALSE)
 df

@@ -49,6 +49,7 @@ format_sag <- function(x,y,year,ecoregion){
                landings,
                catches,
                discards)
+        df1$FisheriesGuild <- tolower(df1$FisheriesGuild)
         df2 <- merge(y, sid, by = c("StockKeyLabel", "AssessmentYear"), all = TRUE)
         df2 <- dplyr::filter(df2,(grepl(pattern = ecoregion, Ecoregion)))
         df2 <- dplyr::select(df2,StockKeyLabel,

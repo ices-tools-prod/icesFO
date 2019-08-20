@@ -50,6 +50,7 @@ plot_stecf <- function(x, type,variable=NULL, cap_year, cap_month, line_count, s
         Plot <- subset(Plot,select = -typeTotal)
         dat <- dplyr::left_join(dat, Plot)
         dat <- dat[complete.cases(dat), ]
+        dat <- dplyr::mutate(dat, type_var = replace(type_var, RANK > line_count, "other"))
         dat <- dplyr::group_by(dat,type_var, YEAR) 
         dat <- dplyr::summarise(dat, typeTotal = sum(VALUE, na.rm = TRUE))
         dat <- dplyr::filter(dat,!is.na(YEAR))

@@ -48,6 +48,8 @@ plot_stock_trends <- function(x, guild, cap_year, cap_month, return_data = FALSE
         duplicates <- dplyr::filter(duplicates,StockKeyLabel == "MEAN")
         df <- anti_join(df,duplicates)
         df <- dplyr::filter(df,Metric %in% c("F_FMSY", "SSB_MSYBtrigger"))
+        df$Metric[which(df$Metric == "F_FMSY")] <- "F/F[MSY]"
+        df$Metric[which(df$Metric == "SSB_MSYBtrigger")] <- "SSB/MSY~B[trigger]"
         plot <- ggplot2::ggplot(df %>% filter(StockKeyLabel != "MEAN"),
                   ggplot2::aes(x = Year, y = Value,
                       color = StockKeyLabel,

@@ -46,7 +46,7 @@ plot_discard_trends <- function(x, year, caption = F, cap_year, cap_month, retur
                                                !is.na(`2016`),
                                        `2016`,
                                        `2017`))
-        df3 <- tidyr::gather(df3,Year, discards, `2013`:`2017`)
+        df3 <- tidyr::gather(df3,Year, discards, 4:8)
         df3 <- dplyr::mutate(df3,Year = as.numeric(Year),
                        discards = as.numeric(discards))
         
@@ -59,7 +59,7 @@ plot_discard_trends <- function(x, year, caption = F, cap_year, cap_month, retur
                                                !is.na(`2016`),
                                        `2016`,
                                        `2017`))
-        df4 <- tidyr::gather(df4,Year, landings, `2013`:`2017`) %>%
+        df4 <- tidyr::gather(df4,Year, landings, 4:8) %>%
                 mutate(Year = as.numeric(Year),
                        landings = as.numeric(landings))
         df5 <- dplyr::select(df,-discards,

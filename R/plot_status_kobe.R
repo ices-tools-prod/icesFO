@@ -35,9 +35,12 @@
 #find a way to set caption(cap_year, cap_month) being conditional
 
 plot_kobe <- function(x, guild, caption = F, cap_year, cap_month, return_data = F){
-        df <- dplyr::filter(x,FisheriesGuild %in% guild) 
+        if(guild == "All"){
+                df <-x
+        }else(df <- dplyr::filter(x,FisheriesGuild %in% guild))
         kobe <- ggplot2::ggplot(df, ggplot2::aes(x = F_FMSY, y = SSB_MSYBtrigger,
                                          data_id = StockKeyLabel)) +
+                ggplot2::coord_cartesian(xlim = c(0, 3), ylim = (0: 3))+
                 ggplot2::geom_point(ggplot2::aes(color = Status), size = 2,
                            alpha = 0.7, na.rm = TRUE) +
                 ggplot2::geom_hline(yintercept = 1, color = "grey60", linetype = "dashed") +

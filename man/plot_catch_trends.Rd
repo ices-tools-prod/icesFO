@@ -6,9 +6,10 @@
 F/F<sub>MSY</sub> and SSB/MSY B<sub>trigger</sub>
 by fish category and ecoregion}
 \usage{
-plot_catch_trends(x, type = c("COMMON_NAME", "COUNTRY", "Guild")[1],
+plot_catch_trends(x, type = c("COMMON_NAME", "COUNTRY", "GUILD")[1],
   line_count = 10, plot_type = c("line", "area")[1],
-  official_catches_year = 2018, return_data = F)
+  preliminary_catches = TRUE, official_catches_year = 2018,
+  return_data = F)
 }
 \arguments{
 \item{x}{a dataframe output of stockstatus+catch_current.R}

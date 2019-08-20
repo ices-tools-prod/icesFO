@@ -35,16 +35,17 @@
 
 #find a way to set caption(cap_year, cap_month) being conditional
 
-plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "Guild")[1],
+plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD")[1],
                               line_count = 10,
                               plot_type = c("line", "area")[1],
+                              preliminary_catches = TRUE,
                               official_catches_year = 2018,
                               return_data = F) {
         capyear <- official_catches_year-1
         capyear <- as.character(capyear)
         cap_lab <-ggplot2::labs(x = "",
                        y = "Landings (thousand tonnes)",
-                       caption = sprintf(paste0("Historical Nominal Catches 1950-2010, \nOfficial Nominal Catches 2006-",capyear, "\n ICES, Copenhagen.")))
+                       caption = sprintf(paste0("Historical Nominal Catches 1950-2010, \nOfficial Nominal Catches 2006-",capyear,"\nPreliminary Catches 2018 \n ICES, Copenhagen.")))
         
         
         df <- dplyr::rename(x, type_var = setNames(type , "type_var"))

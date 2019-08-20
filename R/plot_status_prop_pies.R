@@ -88,7 +88,7 @@ plot_status_prop_pies <- function(x, cap_month = "November",
         df2$header <- factor(df2$header, levels = c("FishingPressure\nMSY", "StockSize\nMSY",
                                                     "FishingPressure\nPA" ,"StockSize\nPA",
                                                     "SBL\n" ))
-        
+        df2$FisheriesGuild <- factor(df2$FisheriesGuild, levels= c("total", "benthic", "demersal", "pelagic"))
         p1 <- ggplot2::ggplot(data = df2, ggplot2::aes(x = "", y = fraction, fill = colour)) +
                 ggplot2::geom_bar(stat = "identity", width = 1) +
                 ggplot2::geom_text(ggplot2::aes(label = value),

@@ -4,7 +4,7 @@
 \alias{format_annex_table}
 \title{Format the SAG status data for its use as an annex table.}
 \usage{
-format_annex_table(x, year, return_data = TRUE)
+format_annex_table(x, year, return_data = F)
 }
 \arguments{
 \item{x}{a dataframe output from format_sag_status.}

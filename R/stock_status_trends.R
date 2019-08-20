@@ -30,6 +30,10 @@
 #Need to add a parameter to be able to have the output for EO plots by ecoregion
 
 stock_trends <- function(x){
+        x$F <- as.numeric(x$F)
+        x$SSB <- as.numeric(x$SSB)
+        x$FMSY <- as.numeric(x$FMSY)
+        x$MSYBtrigger <- as.numeric(x$MSYBtrigger)
         df <- dplyr::mutate(x,FMEAN = mean(F, na.rm = TRUE),
                        SSBMEAN = mean(SSB, na.rm = TRUE),
                        FMEAN = ifelse(!grepl("F|F(ages 3-6)", fishingPressureDescription),

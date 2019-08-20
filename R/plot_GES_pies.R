@@ -35,8 +35,8 @@
 
 #find a way to set caption(cap_year, cap_month) being conditional
 
-plot_GES_pies <- function(x, y, cap_month = "November",
-                         cap_year = "2018",
+plot_GES_pies <- function(x, y, cap_month = "August",
+                         cap_year = "2019",
                          return_data = FALSE) {
         df <- x
         cap_lab <- ggplot2::labs(title = "", x = "", y = "",
@@ -82,13 +82,17 @@ plot_GES_pies <- function(x, y, cap_month = "November",
         # df5 <- df5 %>% group_by(Metric) %>% mutate(max = max(Value)/2)
         
         df5$fraction <- ifelse(df5$Metric == "Stocks", (df5$Value*tot)/stocks, df5$Value)
+        df5$Variable <- plyr::revalue(df5$Variable, c("FishingPressure"="D3C1", "StockSize"="D3C2"))
+        df5$Metric <- plyr::revalue(df5$Metric, c("Stocks"="Number of stocks", "Catch"="Proportion of catch \n(thousand tonnes)"))
+        df5$Value2 <- ifelse(df5$Metric == "Proportion of catch \n(thousand tonnes)", df5$Value/1000, df5$Value)
+        df5$sum2 <- ifelse(df5$Metric == "Proportion of catch \n(thousand tonnes)", df5$sum/1000, df5$sum)
         
         p1 <- ggplot2::ggplot(data = df5, ggplot2::aes(x = "", y = fraction, fill = Color)) +
                 ggplot2::geom_bar(stat = "identity", width = 1) +
-                ggplot2::geom_text(ggplot2::aes(label = scales::comma(Value)),
+                ggplot2::geom_text(ggplot2::aes(label = scales::comma(Value2)),
                           position = ggplot2::position_stack(vjust = 0.5),
                           size = 3) +
-                ggplot2::geom_text(ggplot2::aes(label = paste0("total = ", sum) ,x = 0, y = 0), size = 2)+
+                ggplot2::geom_text(ggplot2::aes(label = paste0("total = ", sum2) ,x = 0, y = 0), size = 2)+
                 ggplot2::scale_fill_manual(values = colList) +
                 ggplot2::theme_bw(base_size = 9) +
                 ggplot2::theme(panel.grid = ggplot2::element_blank(),
@@ -104,6 +108,7 @@ plot_GES_pies <- function(x, y, cap_month = "November",
                 ggplot2::facet_grid(Metric ~ Variable)
         
         if(return_data == T){
+                df5 <- subset(df5,select= -c(Value2, sum2))
                 df5
         }else{
                 p1
