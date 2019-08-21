@@ -48,9 +48,9 @@ format_stecf_effort <- function(x){
                        EFFORT = as.numeric(nominal_effort))
         df <- dplyr::select(df,YEAR ,
                        ANNEX = annex,
-                       AREA = "regulated area",
+                       AREA = "regulated.area",
                        COUNTRY,
-                       GEAR = "regulated gear",
+                       GEAR = "regulated.gear",
                        EFFORT )
         gear_dat <- dplyr::select(df,ANNEX, AREA, GEAR)
         
@@ -106,9 +106,9 @@ format_stecf_landings <- function(x){
         
         df <- dplyr::select(df,YEAR,
                        ANNEX = annex,
-                       AREA = "regulated area",
+                       AREA = "regulated.area",
                        COUNTRY,
-                       GEAR = "regulated gear",
+                       GEAR = "regulated.gear",
                        LANDINGS)
         gear_dat <- dplyr::select(df,ANNEX, AREA, GEAR)
         gear_dat_clean <- dplyr::mutate(gear_dat,gear_class = case_when(
