@@ -30,9 +30,9 @@
 
 
 format_sag_status <- function(x,year, ecoregion) {
-        df <- x %>%
-        filter((grepl(pattern = ecoregion, Ecoregion)))%>%
-        mutate(status = case_when(status == 0 ~ "UNDEFINED",
+        df <- x
+        df <- dplyr::filter(df,(grepl(pattern = ecoregion, Ecoregion)))
+        df <- dplyr::mutate(df,status = case_when(status == 0 ~ "UNDEFINED",
                                   status == 1 ~ "GREEN",
                                   status == 2 ~ "qual_GREEN", #qualitative green
                                   status == 3 ~ "ORANGE",
@@ -67,12 +67,12 @@ format_sag_status <- function(x,year, ecoregion) {
                        grepl("MSYBtrigger", variable) ~ "BMSY",
                        grepl("FMSY", variable) ~ "FMSY",
                        TRUE ~ variable
-               )) %>%
-        filter(variable != "-") 
+               )) 
+        df <- dplyr::filter(df,variable != "-")
 
 df <- dplyr::filter(df, lineDescription != "Management plan")
 df <- dplyr::filter(df, lineDescription != "Qualitative evaluation")
-df <- df%>%mutate(key = paste(StockKeyLabel, lineDescription, type))
+df <- dplyr::mutate(df,key = paste(StockKeyLabel, lineDescription, type))
 df<- df[order(-df$year),]
 df <- df[!duplicated(df$key), ]
 df<- subset(df, select = -key)
@@ -83,7 +83,7 @@ df2<- dplyr::filter(df,lineDescription != "Maximum Sustainable Yield")
 df2<- dplyr::filter(df2,lineDescription != "Maximum sustainable yield")
 
 colnames(df2) <- c("StockKeyLabel","AssessmentYear","AdviceCategory","lineDescription","FishingPressure","StockSize" )
-df2 <-df2 %>%mutate(SBL = case_when(FishingPressure == "GREEN" & StockSize == "GREEN" ~ "GREEN",
+df2 <-dplyr::mutate(df2, SBL = case_when(FishingPressure == "GREEN" & StockSize == "GREEN" ~ "GREEN",
                                     FishingPressure == "RED" | StockSize == "RED" ~ "RED",
                                     FishingPressure == "ORANGE"  |  StockSize == "ORANGE" ~ "RED",
                                         TRUE ~ "GREY"))
