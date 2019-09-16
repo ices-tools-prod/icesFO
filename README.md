@@ -22,7 +22,7 @@ icesFO can be installed from GitHub using the `install_github` command from the
 
 ```R
 library(devtools)
-install_github("ices-tools-prod/icesFO")
+install_github("ices-tools-prod/icesFO@devel")
 ```
 
 Usage
