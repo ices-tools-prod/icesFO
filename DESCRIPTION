@@ -20,7 +20,8 @@ Imports: jsonlite,
          purrr,
          scales, 
          tibble,
-         tidyr
+         tidyr,
+         sf
 Description: Functions to support the creation of ICES Fisheries Overviews, ....
 License: GPL (>= 2)
 Encoding: UTF-8
