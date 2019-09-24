@@ -6,7 +6,7 @@
 F/F<sub>MSY</sub> and SSB/MSY B<sub>trigger</sub>
 by fish category and ecoregion}
 \usage{
-plot_GES_pies(x, y, cap_month = "November", cap_year = "2018",
+plot_GES_pies(x, y, cap_month = "August", cap_year = "2019",
   return_data = FALSE)
 }
 \arguments{

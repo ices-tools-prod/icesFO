@@ -44,14 +44,17 @@ plot_stock_trends <- function(x, guild, cap_year, cap_month, return_data = FALSE
                 caption = sprintf("ICES Stock Assessment Database, %s/%s. ICES, Copenhagen",
                                   cap_month,
                                   cap_year))
-        duplicates <- dplyr::group_by(df,Value) %>% filter(n()>1)
+        duplicates <- dplyr::group_by(df,Value)
+        duplicates <- dplyr::filter(duplicates, n()>1)
         duplicates <- dplyr::filter(duplicates,StockKeyLabel == "MEAN")
         df <- anti_join(df,duplicates)
         df <- dplyr::filter(df,Metric %in% c("F_FMSY", "SSB_MSYBtrigger"))
         df$Metric[which(df$Metric == "F_FMSY")] <- "F/F[MSY]"
         df$Metric[which(df$Metric == "SSB_MSYBtrigger")] <- "SSB/MSY~B[trigger]"
-        plot <- ggplot2::ggplot(df %>% filter(StockKeyLabel != "MEAN"),
-                  ggplot2::aes(x = Year, y = Value,
+        mean <- dplyr::filter(df, StockKeyLabel == "MEAN")
+        df2 <- dplyr::filter(df,StockKeyLabel != "MEAN")
+        
+        plot <- ggplot2::ggplot(df2, ggplot2::aes(x = Year, y = Value,
                       color = StockKeyLabel,
                       fill = StockKeyLabel)) +
                 ggplot2::geom_hline(yintercept = 1, col = "grey60") +
@@ -72,7 +75,7 @@ plot_stock_trends <- function(x, guild, cap_year, cap_month, return_data = FALSE
                 cap_lab +
                 ggplot2::facet_wrap(~ Metric, scales = "free_y", labeller = ggplot2::label_parsed, strip.position = "left", ncol = 1, nrow = 2)
         plot <- plot + ggplot2::geom_line(data = df,alpha = 0.8)
-        plot <- plot + ggplot2::geom_line(data = df %>% filter(StockKeyLabel == "MEAN"),
+        plot <- plot + ggplot2::geom_line(data = mean,
                                alpha = 0.9, size = 1.15)
         
         if(return_data == T){

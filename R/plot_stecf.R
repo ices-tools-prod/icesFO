@@ -31,7 +31,7 @@ plot_stecf <- function(x, type,variable=NULL, cap_year, cap_month, line_count, s
                         dat <- dplyr::rename_(x, "type_var" ="GEAR",
                                               "VALUE" = "EFFORT")
                 }
-                Label <- "Nominal effort (kW days at sea)"
+                Label <- "Nominal effort (1000 kW days at sea)"
                 }
         if(type == "landings"){
                 dat <- dplyr::rename_(x, "type_var" ="gear_class",
@@ -80,6 +80,9 @@ plot_stecf <- function(x, type,variable=NULL, cap_year, cap_month, line_count, s
         myColors <- colList[1:length(unique(dat$type_var))]
         names(myColors) <- levels(dat$type_var)
         myColors["other"] <- "#7F7F7F"
+        if(type == "effort"){
+                dat$typeTotal <- dat$typeTotal/1000
+                }
 
         pl <- ggplot2::ggplot(ungroup(dat), ggplot2::aes(x = YEAR, y = typeTotal)) +
                 ggplot2::scale_fill_manual(values = myColors) +

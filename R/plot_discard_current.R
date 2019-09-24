@@ -39,9 +39,10 @@ plot_discard_current <- function(x, year, caption = T, cap_year, cap_month, retu
         df <- dplyr::left_join(df,df2,
                                by = c("Year", "StockKeyLabel", "AssessmentYear","FisheriesGuild"))
         df3 <- dplyr::select(df, StockKeyLabel, Year, discards, AssessmentYear)
-        df3 <- unique(df3)%>% tibble::rowid_to_column()
-        df3 <- dplyr::group_by(df3,StockKeyLabel) %>%
-                tidyr::spread(Year, discards) 
+        df3 <- unique(df3)
+        df3 <- tibble::rowid_to_column(df3)
+        df3 <- dplyr::group_by(df3,StockKeyLabel)
+        df3 <- tidyr::spread(df3,Year, discards) 
         df3<- dplyr::mutate(df3,`2017` = ifelse(AssessmentYear == 2017 &
                                                         is.na(`2017`) &
                                                         !is.na(`2016`),
@@ -54,8 +55,8 @@ plot_discard_current <- function(x, year, caption = T, cap_year, cap_month, retu
                              -landings)
         df5 <- dplyr::left_join(df5,df3, by = c("Year", "StockKeyLabel", "AssessmentYear"))
         # df5 <- dplyr::left_join(df5,df4, by = c("Year", "StockKeyLabel", "AssessmentYear"))
-        df5 <- dplyr::group_by(df5,Year, FisheriesGuild) %>%
-                summarize(guildLandings = sum(catches, na.rm = TRUE)/ 1000,
+        df5 <- dplyr::group_by(df5,Year, FisheriesGuild) 
+        df5 <- dplyr::summarize(df5,guildLandings = sum(catches, na.rm = TRUE)/ 1000,
                           guildDiscards = sum(discards, na.rm = TRUE)/ 1000)
         
         # df5 <- dplyr::mutate(df5,guildRate = guildDiscards/ (guildLandings + guildDiscards))

@@ -39,8 +39,9 @@ plot_discard_trends <- function(x, year, caption = F, cap_year, cap_month, retur
         df <- dplyr::left_join(df,df2,
                           by = c("Year", "StockKeyLabel", "AssessmentYear","FisheriesGuild"))
         df3 <- dplyr::select(df, StockKeyLabel, Year, discards, AssessmentYear)
-        df3 <- unique(df3)%>% tibble::rowid_to_column()
-        df3 <- df3 %>% tidyr::spread(Year, discards) 
+        df3 <- unique(df3)
+        df3 <- tibble::rowid_to_column(df3)
+        df3 <- tidyr::spread(df3,Year, discards) 
         df3<- dplyr::mutate(df3,`2017` = ifelse(AssessmentYear == 2017 &
                                                is.na(`2017`) &
                                                !is.na(`2016`),
@@ -51,34 +52,36 @@ plot_discard_trends <- function(x, year, caption = F, cap_year, cap_month, retur
                        discards = as.numeric(discards))
         
         df4<- dplyr::select(df,StockKeyLabel, Year, landings, AssessmentYear)
-        df4 <- unique(df4)%>% tibble::rowid_to_column()
-        df4 <- dplyr::group_by(df4,StockKeyLabel) %>%
-                tidyr::spread(Year, landings)
+        df4 <- unique(df4)
+        df4 <- tibble::rowid_to_column(df4)
+        df4 <- dplyr::group_by(df4,StockKeyLabel)
+        df4 <- tidyr::spread(df4,Year, landings)
         df4 <- dplyr::mutate(df4,`2017` = ifelse(AssessmentYear == 2017 &
                                                is.na(`2017`) &
                                                !is.na(`2016`),
                                        `2016`,
                                        `2017`))
-        df4 <- tidyr::gather(df4,Year, landings, 4:8) %>%
-                mutate(Year = as.numeric(Year),
+        df4 <- tidyr::gather(df4,Year, landings, 4:8) 
+        df4 <- dplyr::mutate(df4,Year = as.numeric(Year),
                        landings = as.numeric(landings))
         df5 <- dplyr::select(df,-discards,
                        -landings)
         df5 <- dplyr::left_join(df5,df3, by = c("Year", "StockKeyLabel", "AssessmentYear"))
         df5 <- dplyr::left_join(df5,df4, by = c("Year", "StockKeyLabel", "AssessmentYear"))
-        df5 <- dplyr::group_by(df5,Year, FisheriesGuild) %>%
-                summarize(guildLandings = sum(landings, na.rm = TRUE)/ 1000,
+        df5 <- dplyr::group_by(df5,Year, FisheriesGuild)
+        df5 <- dplyr::summarize(df5, guildLandings = sum(landings, na.rm = TRUE)/ 1000,
                           guildDiscards = sum(discards, na.rm = TRUE)/ 1000)
         
         df5 <- dplyr::mutate(df5,guildRate = guildDiscards/ (guildLandings + guildDiscards))
         df5 <- tidyr::gather(df5,variable, value, -Year, -FisheriesGuild)
         df5 <- dplyr::filter(df5,!variable %in% c("guildDiscards", "guildLandings"))
+        df6 <- dplyr::filter(df5, Year == year - 1)
         plot <- ggplot2::ggplot(ungroup(df5),
                                ggplot2::aes(x = Year,
                                    y = value,
                                    color = FisheriesGuild)) +
                 ggplot2::geom_line() +
-                ggrepel::geom_label_repel(data = df5 %>% filter(Year == year - 1),
+                ggrepel::geom_label_repel(data = df6,
                                           ggplot2::aes(label = FisheriesGuild,
                                               color = FisheriesGuild,
                                               fill = FisheriesGuild),
@@ -116,7 +119,7 @@ plot_discard_trends <- function(x, year, caption = F, cap_year, cap_month, retur
                                                      y = value,
                                                      color = FisheriesGuild)) +
                         ggplot2::geom_line() +
-                        ggrepel::geom_label_repel(data = df5 %>% filter(Year == year - 1),
+                        ggrepel::geom_label_repel(data = df6,
                                                   ggplot2::aes(label = FisheriesGuild,
                                                                color = FisheriesGuild,
                                                                fill = FisheriesGuild),

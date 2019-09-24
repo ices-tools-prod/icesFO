@@ -47,49 +47,49 @@ CLD_trends <- function(x){
                                        !is.na(discards)), 
                          # Missing discards, but catches == landings
                          dplyr::filter(df, is.na(discards),
-                                       catches == landings) %>%
-                                mutate(discards = 0), 
+                                       catches == landings),
+                         dplyr::mutate(df, discards = 0), 
                        # Missing catches, but have landings and discards
                        dplyr::filter(df,is.na(catches),
                                        !is.na(landings),
-                                       !is.na(discards)) %>%
-                                mutate(catches = landings + discards), 
+                                       !is.na(discards)), 
+                       dplyr::mutate(df,catches = landings + discards), 
                         # missing catches, but have landings
                        dplyr::filter(df, is.na(catches),
                                        !is.na(landings),
-                                       is.na(discards)) %>%
-                                mutate(catches = NA,
+                                       is.na(discards)),
+                       dplyr::mutate(df,catches = NA,
                                        discards = NA),
                         # missing everything
                        dplyr::filter(df, is.na(catches),
                                        is.na(landings),
-                                       is.na(discards)) %>%
-                                mutate(catches = NA,
+                                       is.na(discards)), 
+                       dplyr::mutate(df,catches = NA,
                                        discards = NA,
                                        landings = NA),
                         # missing landings and discards
                        dplyr::filter(df, !is.na(catches),
                                        is.na(landings),
-                                       is.na(discards)) %>%
-                                mutate(landings = NA,
+                                       is.na(discards)),
+                       dplyr::mutate(df,landings = NA,
                                        discards = NA),
                         # landings and catches
                        dplyr::filter(df, is.na(catches),
                                        is.na(landings),
-                                       !is.na(discards)) %>%
-                                mutate(catches = NA,
+                                       !is.na(discards)),
+                       dplyr::mutate(df,catches = NA,
                                        landings = NA),
                         # Missing discards, but have landings and catches
                        dplyr::filter(df, !is.na(catches),
                                        !is.na(landings),
                                        is.na(discards),
-                                       landings != catches) %>%
-                                mutate(discards = catches - landings),
+                                       landings != catches),
+                       dplyr::mutate(df,discards = catches - landings),
                         # Missing landings, but have catches and discards
                        dplyr::filter(df, !is.na(catches),
                                        is.na(landings),
-                                       !is.na(discards)) %>%
-                                mutate(landings = catches - discards)
+                                       !is.na(discards)),
+                       dplyr::mutate(df,landings = catches - discards)
                 )
         return(df)
 }

@@ -38,9 +38,13 @@ plot_kobe <- function(x, guild, caption = F, cap_year, cap_month, return_data = 
         if(guild == "All"){
                 df <-x
         }else(df <- dplyr::filter(x,FisheriesGuild %in% guild))
+        xmax = max(df$F_FMSY, na.rm = TRUE)
+        ifelse(xmax < 3, xmax2 <- 3, xmax2 <- (xmax + 0.5))
+        ymax = max(df$SSB_MSYBtrigger, na.rm = TRUE)
+        ifelse(ymax < 3, ymax2 <- 3, ymax2 <- (ymax + 0.5))
         kobe <- ggplot2::ggplot(df, ggplot2::aes(x = F_FMSY, y = SSB_MSYBtrigger,
                                          data_id = StockKeyLabel)) +
-                ggplot2::coord_cartesian(xlim = c(0, 3), ylim = (0: 3))+
+                ggplot2::coord_cartesian(xlim = c(0, xmax2), ylim = c(0, ymax2))+
                 ggplot2::geom_point(ggplot2::aes(color = Status), size = 2,
                            alpha = 0.7, na.rm = TRUE) +
                 ggplot2::geom_hline(yintercept = 1, color = "grey60", linetype = "dashed") +

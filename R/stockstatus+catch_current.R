@@ -45,36 +45,35 @@ stockstatus_CLD_current <- function(x) {
         df$SSB <- as.numeric(df$SSB)
         df$FMSY <- as.numeric(df$FMSY)
         df$MSYBtrigger <- as.numeric(df$MSYBtrigger)
-        df2<-dplyr::full_join(df %>%
-                                 dplyr::group_by(StockKeyLabel) %>%
-                                 dplyr::filter(Year == AssessmentYear - 1) %>%
-                                 dplyr::mutate(F_FMSY =  ifelse(!is.na(FMSY),
+        df2 <- dplyr::group_by(df,StockKeyLabel)
+        df2 <- dplyr::filter(df2,Year == AssessmentYear - 1)
+        df2 <- dplyr::mutate(df2,F_FMSY =  ifelse(!is.na(FMSY),
                                                                 F / FMSY,
-                                                                NA)) %>%
-                                 dplyr::select(StockKeyLabel,
+                                                                NA))
+        df2 <- dplyr::select(df2,StockKeyLabel,
                                                FisheriesGuild,
                                                F_FMSY,
                                                catches,
                                                landings,
                                                discards,
                                                FMSY,
-                                               F),
-                         df %>%
-                                 dplyr::group_by(StockKeyLabel) %>%
-                                 dplyr::filter(Year == AssessmentYear ) %>%
-                                 dplyr::mutate(SSB_MSYBtrigger = ifelse(!is.na(MSYBtrigger),
+                                               F)
+        df3 <- dplyr::group_by(df,StockKeyLabel)
+        df3 <- dplyr::filter(df3, Year == AssessmentYear )
+        df3 <- dplyr::mutate(df3, SSB_MSYBtrigger = ifelse(!is.na(MSYBtrigger),
                                                                         SSB / MSYBtrigger,
-                                                                        NA)) %>%
-                                 dplyr::select(StockKeyLabel,
+                                                                        NA))
+        df3 <- dplyr::select(df3, StockKeyLabel,
                                                FisheriesGuild,
                                                SSB_MSYBtrigger,
                                                SSB,
-                                               MSYBtrigger)) %>%
-        dplyr::mutate(Status = ifelse(is.na(F_FMSY) | is.na(SSB_MSYBtrigger),
+                                               MSYBtrigger)
+        df4 <- dplyr::full_join(df2, df3)
+        df4 <- dplyr::mutate(df4, Status = ifelse(is.na(F_FMSY) | is.na(SSB_MSYBtrigger),
                                       "GREY",
                                       if_else(F_FMSY < 1 & SSB_MSYBtrigger >= 1,
                                               "GREEN",
                                               "RED",
                                               "GREY")))
-        df2
+        df4
 }

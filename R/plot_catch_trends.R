@@ -56,8 +56,7 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD")[1],
         df$type_var[which(df$type_var == "Anglerfishes nei")] <- "Anglerfish spp"
         df$type_var[which(df$type_var == "Megrims nei")] <- "Megrim"
         df$type_var[which(df$type_var == "Norway lobster")] <- "Nephrops"
-        df <- dplyr::mutate(df,type_var = gsub("Atlantic ", "", type_var),
-                              type_var = gsub("European ", "", type_var),
+        df <- dplyr::mutate(df,type_var = gsub("European ", "", type_var),
                               type_var = gsub("Sandeels.*", "sandeel", type_var),
                               type_var = gsub("Finfishes nei", "undefined finfish", type_var),
                               type_var = gsub("Blue whiting.*", "blue whiting", type_var),

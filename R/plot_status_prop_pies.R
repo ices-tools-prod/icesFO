@@ -46,49 +46,51 @@ plot_status_prop_pies <- function(x, cap_month = "November",
                      "GREY" = "#d3d3d3",
                      "ORANGE" = "#ff7f00",
                      "RED" = "#d93b1c",
-                     "qual_RED" = "#d93b5c",
-                     "qual_GREEN" = "#00B28F")
+                     "qual_RED" = "#d93b1c",
+                     "qual_GREEN" = "#00B26D")
         
         
-        df_stock <- df %>%
-                select(StockKeyLabel,
+        df_stock <- dplyr::select(df,StockKeyLabel,
                        FisheriesGuild,
                        lineDescription,
                        FishingPressure,
                        StockSize,
-                       SBL) %>%
-                tidyr::gather(Variable, Colour, FishingPressure:SBL, factor_key = TRUE) 
-        df2 <- df_stock %>% group_by(FisheriesGuild, lineDescription, Variable, Colour) %>%
-                summarize(COUNT = n())%>%
-                tidyr::spread(Colour, COUNT)
+                       SBL)
+        df_stock <- tidyr::gather(df_stock,Variable, Colour, FishingPressure:SBL, factor_key = TRUE) 
+        df2 <- dplyr::group_by(df_stock, FisheriesGuild, lineDescription, Variable, Colour)
+        df2 <- dplyr::summarize(df2, COUNT = n())
+        df2 <- tidyr::spread(df2, Colour, COUNT)
         df2[is.na(df2)] <- 0
         df3 <- subset(df2,select =-c(FisheriesGuild))
-        df3 <- df3%>% group_by(lineDescription, Variable)%>% summarise_each(funs(sum))
+        df3 <- dplyr::group_by(df3,lineDescription, Variable)
+        df3 <- dplyr::summarise_each(df3,funs(sum))
         df3$FisheriesGuild <- "total"
         df2 <- rbind(df2,df3)
         
-        df4 <- df2 %>% filter(Variable == "SBL") 
+        df4 <- dplyr::filter(df2,Variable == "SBL") 
         df4$lineDescription <- ""
         df4 <- unique(df4)
-        df2 <- df2 %>% filter(Variable != "SBL")
+        df2 <- dplyr::filter(df2,Variable != "SBL")
         df2 <- rbind(df2,df4)
         df2$lineDescription <- gsub("Maximum sustainable yield","MSY", df2$lineDescription)
         df2$lineDescription <- gsub("Precautionary approach", "PA", df2$lineDescription)
         df2$header <- paste0(df2$Variable, "\n" , df2$lineDescription)
         
-        df2 <- df2 %>% tidyr::gather(colour, value,GREEN:RED, factor_key = TRUE)
-        df2 <- df2 %>% filter(value > 0)
+        df2 <- tidyr::gather(df2,colour, value,GREEN:RED, factor_key = TRUE)
+        df2 <- dplyr::filter(df2,value > 0)
         
         
-        tot <- df2 %>% filter(FisheriesGuild == "total")
-        tot <- tot %>% group_by(header) %>% mutate(tot = sum(value))
+        tot <- dplyr::filter(df2,FisheriesGuild == "total")
+        tot <- dplyr::group_by(tot,header)
+        tot <- dplyr::mutate(tot, tot = sum(value))
         max <- unique(tot$tot)
-        df2 <- df2 %>% group_by(FisheriesGuild, header) %>% mutate(sum = sum(value))
+        df2 <- dplyr::group_by(df2, FisheriesGuild, header)
+        df2 <- dplyr::mutate(df2,sum = sum(value))
         df2$fraction <- df2$value*max/df2$sum
         df2$header <- factor(df2$header, levels = c("FishingPressure\nMSY", "StockSize\nMSY",
                                                     "FishingPressure\nPA" ,"StockSize\nPA",
                                                     "SBL\n" ))
-        df2$FisheriesGuild <- factor(df2$FisheriesGuild, levels= c("total", "benthic", "demersal", "pelagic"))
+        df2$FisheriesGuild <- factor(df2$FisheriesGuild, levels= c("total", "benthic", "demersal", "pelagic", "crustacean", "elasmobranch"))
         p1 <- ggplot2::ggplot(data = df2, ggplot2::aes(x = "", y = fraction, fill = colour)) +
                 ggplot2::geom_bar(stat = "identity", width = 1) +
                 ggplot2::geom_text(ggplot2::aes(label = value),

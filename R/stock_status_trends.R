@@ -64,27 +64,27 @@ stock_trends <- function(x){
         df2 <-tidyr::gather(df,Metric, Value, -Year, -StockKeyLabel, -FisheriesGuild) 
         df2 <- dplyr::filter(df2,!is.na(Year))
         
-        df3 <- dplyr::group_by(df2,StockKeyLabel, FisheriesGuild,Metric, Year) %>%
-                summarize(Value = mean(Value, na.rm = TRUE)) %>%
-                select(FisheriesGuild,
+        df3 <- dplyr::group_by(df2,StockKeyLabel, FisheriesGuild,Metric, Year)
+        df3 <- dplyr::summarize(df3,Value = mean(Value, na.rm = TRUE))
+        df3 <- dplyr::select(df3,FisheriesGuild,
                        StockKeyLabel,
                        Year,
                        Metric,
-                       Value) %>%
-                filter(!is.na(Value))
+                       Value) 
+        df3 <- dplyr::filter(df3, !is.na(Value))
         
-        means <- dplyr::group_by(df2,FisheriesGuild, Metric, Year) %>%
-                summarize(Value = mean(Value, na.rm = TRUE),
-                          StockKeyLabel = "MEAN") %>%
-                select(FisheriesGuild,
+        means <- dplyr::group_by(df2,FisheriesGuild, Metric, Year) 
+        means <- dplyr::summarize(means, Value = mean(Value, na.rm = TRUE),
+                          StockKeyLabel = "MEAN")
+        means <- dplyr::select(means, FisheriesGuild,
                        StockKeyLabel,
                        Year,
                        Metric,
-                       Value) %>%
-                filter(!is.na(Value))
+                       Value)
+        means <- dplyr::filter(means, !is.na(Value))
         
-        df4 <- bind_rows(df3,means) %>%
-                distinct(.keep_all = TRUE)
+        df4 <- dplyr::bind_rows(df3,means) 
+        df4 <- dplyr::distinct(df4,.keep_all = TRUE)
         df4
 }
 
