@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ices-tools-prod/icesFO.svg?branch=master)](https://travis-ci.org/ices-tools-prod/icesFO)
+[![Build Status](https://travis-ci.org/ices-tools-prod/icesFO.svg?branch=devel)](https://travis-ci.org/ices-tools-prod/icesFO)
 [![CRAN Status](http://r-pkg.org/badges/version/icesFO)](https://cran.r-project.org/package=icesFO)
 [![CRAN Monthly](http://cranlogs.r-pkg.org/badges/icesFO)](https://cran.r-project.org/package=icesFO)
 [![CRAN Total](http://cranlogs.r-pkg.org/badges/grand-total/icesFO)](https://cran.r-project.org/package=icesFO)
@@ -22,7 +22,7 @@ icesFO can be installed from GitHub using the `install_github` command from the
 
 ```R
 library(devtools)
-install_github("ices-tools-prod/icesFO")
+install_github("ices-tools-prod/icesFO@devel")
 ```
 
 Usage
