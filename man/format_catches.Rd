@@ -7,6 +7,8 @@
 format_catches(year, ecoregion, x, y, z = NULL)
 }
 \arguments{
+\item{year}{the year required}
+
 \item{ecoregion}{an identifier of the Ecoregion of interest}
 
 \item{x}{a dataframe output from load_historical_catches() required.}

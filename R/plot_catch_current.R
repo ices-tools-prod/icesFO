@@ -7,6 +7,7 @@
 #'
 #' @param x a dataframe output of stockstatus+catch_current.R
 #' @param guild an identifier of the Fisheries guild to plot
+#' @param caption logical flag
 #' @param cap_month  the month to be shown in the figure caption, the accession date to SAG usually
 #' @param cap_year the year to be shown in the figure caption
 #' @param return_data a parameter indicating if the data behind the plot should be returned as a dataframe
@@ -35,7 +36,7 @@
 
 #find a way to set caption(cap_year, cap_month) being conditional
 
-plot_CLD_bar <- function(x, guild, caption = T, cap_year, cap_month, return_data = F){
+plot_CLD_bar <- function(x, guild, caption = TRUE, cap_year, cap_month, return_data = FALSE){
         if(guild == "All"){
                 df <-x
         }else(df <- dplyr::filter(x,FisheriesGuild %in% guild))

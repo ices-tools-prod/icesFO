@@ -6,21 +6,25 @@
 F/F<sub>MSY</sub> and SSB/MSY B<sub>trigger</sub>
 by fish category and ecoregion}
 \usage{
-plot_catch_trends(x, type = c("COMMON_NAME", "COUNTRY", "GUILD")[1],
-  line_count = 10, plot_type = c("line", "area")[1],
+plot_catch_trends(x, type = c("COMMON_NAME", "COUNTRY", "GUILD"),
+  line_count = 10, plot_type = c("line", "area"),
   preliminary_catches = TRUE, official_catches_year = 2018,
-  return_data = F)
+  return_data = FALSE)
 }
 \arguments{
 \item{x}{a dataframe output of stockstatus+catch_current.R}
 
+\item{type}{COMMON_NAME, COUNTRY or GUILD}
+
+\item{line_count}{number of lines to show}
+
+\item{plot_type}{either line or area}
+
+\item{preliminary_catches}{logical flag}
+
+\item{official_catches_year}{year required}
+
 \item{return_data}{a parameter indicating if the data behind the plot should be returned as a dataframe}
-
-\item{guild}{an identifier of the Fisheries guild to plot}
-
-\item{cap_month}{the month to be shown in the figure caption, the accession date to SAG usually}
-
-\item{cap_year}{the year to be shown in the figure caption}
 }
 \value{
 A plot

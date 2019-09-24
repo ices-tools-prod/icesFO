@@ -4,7 +4,9 @@
 #' guild, or species.
 #'
 #' @param x a dataframe resulting from format_stecf_effort function
-#' @param guild an identifier of the Fisheries guild to plot
+#' @param type need description
+#' @param variable need description
+#' @param stecf_report need description
 #' @param cap_month  the month to be shown in the figure caption, the accession date to SAG usually
 #' @param cap_year the year to be shown in the figure caption
 #' @param line_count indicates the number of lines to be shown in the graph
@@ -15,13 +17,17 @@
 #' 
 #' @examples
 #' \dontrun{
-#' stecf_plot("Greater North Sea Ecoregion", metric = "EFFORT", type = "GEAR", return_plot = TRUE, line_count = 4)
+#' stecf_plot("Greater North Sea Ecoregion", 
+#'            metric = "EFFORT", 
+#'            type = "GEAR", 
+#'            return_plot = TRUE, 
+#'            line_count = 4)
 #' }
 #' @export
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # Landings over time by country, guild, or species #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-plot_stecf <- function(x, type,variable=NULL, cap_year, cap_month, line_count, stecf_report, return_data = F) {
+plot_stecf <- function(x, type, variable = NULL, cap_year, cap_month, line_count, stecf_report, return_data = FALSE) {
         
         if(type == "effort"){
                 if(variable=="COUNTRY"){

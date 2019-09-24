@@ -4,11 +4,15 @@
 \alias{plot_discard_current}
 \title{Returns a plot of discard rate by fish category for an ecoregion in the last assessment year.}
 \usage{
-plot_discard_current(x, year, caption = T, cap_year, cap_month,
-  return_data = F)
+plot_discard_current(x, year, caption = TRUE, cap_year, cap_month,
+  return_data = FALSE)
 }
 \arguments{
 \item{x}{a dataframe output of CLD_trends}
+
+\item{year}{the year required}
+
+\item{caption}{logical for whether there should be a caption}
 
 \item{cap_year}{the year to be shown in the figure caption}
 

@@ -28,6 +28,7 @@
 #I need to do the means without dplyr, lapply?lapply(years,function(x)
 #Need to add a parameter to be able to have the output for EO plots by ecoregion
 
+
 CLD_trends <- function(x){
         df<- dplyr::select(x,Year,
                        StockKeyLabel,
@@ -93,3 +94,5 @@ CLD_trends <- function(x){
                 )
         return(df)
 }
+
+globalVariables(c('Year', 'StockKeyLabel', 'FisheriesGuild', 'AssessmentYear', 'FMSY', 'SSB', 'MSYBtrigger', 'catches', 'landings', 'discards'))
