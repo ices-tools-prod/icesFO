@@ -26,10 +26,13 @@
 #'
 #' The ICES stock assessment graphs Database web sevices: \url{http://standardgraphs.ices.dk/stockList.aspx}
 #'
-#' @export
-#' 
-#' 
+#' @rdname load_sag
+#' @name load_sag
+NULL
 
+
+#' @rdname load_sag
+#' @export
 load_sag_summary <-  function(year){
         years <- ((year-3):year)
         out <- icesSAG::getSAG(stock = NULL,
@@ -52,8 +55,9 @@ load_sag_summary <-  function(year){
         unique(out)
         }
         
-#' @export
 
+#' @rdname load_sag
+#' @export
 load_sag_refpts <- function(year){
         years <- ((year-3):year)
         out <- icesSAG::getSAG(stock = NULL,
@@ -80,8 +84,8 @@ load_sag_refpts <- function(year){
 #for each StockKeyLabel, should only keep last year, maybe here maybe later 
 #Check the issue with old stock codes for stocks last assessed before 2016
 
+#' @rdname load_sag
 #' @export
-
 load_sag_status <- function(year) {
         years <- ((year-3):year)
         out <- do.call("rbind", lapply(years,function(x) icesSAG::findAssessmentKey(stock = NULL,
@@ -116,6 +120,4 @@ load_sag_status <- function(year) {
         out2<- tidyr::unnest(out2,stock_status)
         out2 <- unique(out2)
         # out3 <- subset(out, !(StockKeyLabel %in% out2$StockKeyLabel))
-   
-        
 }

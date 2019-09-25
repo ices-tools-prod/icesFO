@@ -4,10 +4,12 @@
 #' each stock in the Ecoregion, according to the last assessment (relative to the set year)
 #'
 #' @param x a dataframe output of CLD_trends
+#' @param year the year required
+#' @param caption logical for whether there should be a caption
 #' @param cap_month  the month to be shown in the figure caption, the accession date to SAG usually
 #' @param cap_year the year to be shown in the figure caption
 #' @param return_data a parameter indicating if the data behind the plot should be returned as a dataframe
-#
+#'
 #'
 #' @return A plot
 #'
@@ -33,7 +35,7 @@
 
 #find a way to set caption(cap_year, cap_month) being conditional
 
-plot_discard_current <- function(x, year, caption = T, cap_year, cap_month, return_data = F){
+plot_discard_current <- function(x, year, caption = TRUE, cap_year, cap_month, return_data = FALSE){
         df <- dplyr::filter(x,Year %in% seq(year-5, year -1))
         df2 <- tidyr::expand(df,Year, tidyr::nesting(StockKeyLabel,AssessmentYear,FisheriesGuild))
         df <- dplyr::left_join(df,df2,

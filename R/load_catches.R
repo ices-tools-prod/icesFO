@@ -26,11 +26,12 @@
 #'
 #' The ICES stock information Database web sevices: \url{http://sid.ices.dk/services/}
 #'
+#' @rdname load_catches
+#' @name load_catches
+NULL
+
+#' @rdname load_catches
 #' @export
-#' 
-#' 
-
-
 load_historical_catches<- function(){
         url <- "http://ices.dk/marine-data/Documents/CatchStats/HistoricalLandings1950-2010.zip"
         tmpFileHistoric <- tempfile(fileext = ".zip")
@@ -43,8 +44,8 @@ load_historical_catches<- function(){
 }
 
 
+#' @rdname load_catches
 #' @export
-
 load_official_catches<- function(){
         url <- "http://ices.dk/marine-data/Documents/CatchStats/OfficialNominalCatches.zip"
         tmpFileCatch <- tempfile(fileext = ".zip")
@@ -60,8 +61,8 @@ load_official_catches<- function(){
 }
 
 
+#' @rdname load_catches
 #' @export
-
 load_preliminary_catches <- function (year){
         url<- paste0("http://data.ices.dk/rec12/download/", year, "preliminaryCatchStatistics.csv")
         tmpFilePrelimCatch <- tempfile(fileext = ".csv")

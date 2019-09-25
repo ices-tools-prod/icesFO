@@ -4,6 +4,9 @@
 #' other information that might be required for an annex table
 #'
 #' @param x a dataframe output from format_sag_status.
+#' @param year the active year
+#' @param return_data logical whether to return the data behind
+#'        the table
 #'
 #' @return A data frame
 #'
@@ -22,7 +25,7 @@
 #'
 #'
 
-format_annex_table <- function(x, year, return_data = F){
+format_annex_table <- function(x, year, return_data = FALSE){
         df <-x
         sid <- load_sid(year)
         sid <- dplyr::filter(sid,!is.na(YearOfLastAssessment))

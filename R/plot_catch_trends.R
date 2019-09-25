@@ -6,9 +6,11 @@
 #' each stock in the Ecoregion, according to the last assessment (relative to the set year)
 #'
 #' @param x a dataframe output of stockstatus+catch_current.R
-#' @param guild an identifier of the Fisheries guild to plot
-#' @param cap_month  the month to be shown in the figure caption, the accession date to SAG usually
-#' @param cap_year the year to be shown in the figure caption
+#' @param type COMMON_NAME, COUNTRY or GUILD
+#' @param line_count number of lines to show
+#' @param plot_type either line or area
+#' @param preliminary_catches logical flag
+#' @param official_catches_year year required
 #' @param return_data a parameter indicating if the data behind the plot should be returned as a dataframe
 #'
 #' @return A plot
@@ -35,12 +37,12 @@
 
 #find a way to set caption(cap_year, cap_month) being conditional
 
-plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD")[1],
+plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD"),
                               line_count = 10,
-                              plot_type = c("line", "area")[1],
+                              plot_type = c("line", "area"),
                               preliminary_catches = TRUE,
                               official_catches_year = 2018,
-                              return_data = F) {
+                              return_data = FALSE) {
         capyear <- official_catches_year-1
         capyear <- as.character(capyear)
         cap_lab <-ggplot2::labs(x = "",

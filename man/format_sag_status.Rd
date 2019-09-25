@@ -9,6 +9,8 @@ format_sag_status(x, year, ecoregion)
 \arguments{
 \item{x}{a dataframe output from load_sag_status() required.}
 
+\item{year}{the year required}
+
 \item{ecoregion}{an identifier of the Ecoregion of interest}
 }
 \value{

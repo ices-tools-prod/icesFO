@@ -4,10 +4,15 @@
 \alias{format_annex_table}
 \title{Format the SAG status data for its use as an annex table.}
 \usage{
-format_annex_table(x, year, return_data = F)
+format_annex_table(x, year, return_data = FALSE)
 }
 \arguments{
 \item{x}{a dataframe output from format_sag_status.}
+
+\item{year}{the active year}
+
+\item{return_data}{logical whether to return the data behind
+the table}
 }
 \value{
 A data frame

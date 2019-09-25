@@ -3,6 +3,7 @@
 #' Format the data from the ICES Stock Assessment Database for the downloaded year and the specific Ecoregion
 #' for which you are producing the Fisheries Overviews.
 #'
+#' @param year the year required
 #' @param x a dataframe output from load_historical_catches() required.
 #' @param y a dataframe output from load_official_catches() required.
 #' @param z a dataframe output from load_preliminary_catches() optional.

@@ -4,6 +4,7 @@
 #' for which you are producing the Fisheries Overviews.
 #'
 #' @param x a dataframe output from load_sag_status() required.
+#' @param year the year required
 #' @param ecoregion an identifier of the Ecoregion of interest
 #'
 #' @return A data frame..

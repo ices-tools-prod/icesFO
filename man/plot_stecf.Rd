@@ -5,10 +5,14 @@
 \title{STECF Landings over time by country, guild, or species}
 \usage{
 plot_stecf(x, type, variable = NULL, cap_year, cap_month, line_count,
-  stecf_report, return_data = F)
+  stecf_report, return_data = FALSE)
 }
 \arguments{
 \item{x}{a dataframe resulting from format_stecf_effort function}
+
+\item{type}{need description}
+
+\item{variable}{need description}
 
 \item{cap_year}{the year to be shown in the figure caption}
 
@@ -16,9 +20,9 @@ plot_stecf(x, type, variable = NULL, cap_year, cap_month, line_count,
 
 \item{line_count}{indicates the number of lines to be shown in the graph}
 
-\item{return_data}{a parameter indicating if the data behind the plot should be returned as a dataframe}
+\item{stecf_report}{need description}
 
-\item{guild}{an identifier of the Fisheries guild to plot}
+\item{return_data}{a parameter indicating if the data behind the plot should be returned as a dataframe}
 }
 \value{
 A ggplot2 object
@@ -29,6 +33,10 @@ guild, or species.
 }
 \examples{
 \dontrun{
-stecf_plot("Greater North Sea Ecoregion", metric = "EFFORT", type = "GEAR", return_plot = TRUE, line_count = 4)
+stecf_plot("Greater North Sea Ecoregion", 
+           metric = "EFFORT", 
+           type = "GEAR", 
+           return_plot = TRUE, 
+           line_count = 4)
 }
 }

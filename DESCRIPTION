@@ -1,10 +1,27 @@
 Package: icesFO
 Version: 1.0-0
-Date: 2019-02-05
+Date: 2019-09-24
 Title: Functions to support the creation of ICES Fisheries Overviews
 Authors@R: c(person("Adriana", "Villamor", role=c("aut","cre"), email="adriana.villamor@ices.dk"),
-             person("Scott", "Large", role="aut"))
-Imports: jsonlite
+             person("Scott", "Large", role="aut"),
+             person("Colin", "Millar", role="aut"),
+             person("Sarah", "Millar", role="ctb"))
+Imports: jsonlite,
+         countrycode,
+         flextable,
+         forcats,
+         ggplot2,
+         ggrepel,
+         ggthemes, 
+         icesSAG,
+         officer,
+         plyr,
+         dplyr, 
+         purrr,
+         scales, 
+         tibble,
+         tidyr,
+         sf
 Description: Functions to support the creation of ICES Fisheries Overviews, ....
 License: GPL (>= 2)
 Encoding: UTF-8

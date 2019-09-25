@@ -7,8 +7,6 @@
 #' The proper Annexes have to decided by the user.
 #'
 #' @param x the name of the dataframe with effort data
-#' @param y the name of the dataframe with landings data
-#' @param path, the path to the files
 #'
 #'@note Some considerable errors have been identified in the STECF data. Finland and Estonia effort data are not reliable,
 #' and Germany recorded an erroneous haul in 2013. These values have been removed.
@@ -33,9 +31,12 @@
 #'
 #' STECF dissemination tool https://stecf.jrc.ec.europa.eu/web/stecf/dd/effort/graphs-annex
 #' 
+#' @rdname format_stecf
+#' @name format_stecf
+NULL
+
+#' @rdname format_stecf
 #' @export
-
-
 format_stecf_effort <- function(x){
         df <- x
         df$country <- gsub("SCO|ENG|GBG|GBJ|IOM|NIR", "GBR", df$country)
@@ -94,8 +95,8 @@ format_stecf_effort <- function(x){
 }
 
 
+#' @rdname format_stecf
 #' @export
-
 format_stecf_landings <- function(x){
         df <- x
         df$country <- gsub("SCO|ENG|GBG|GBJ|IOM|NIR", "GBR", df$country)
