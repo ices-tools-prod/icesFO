@@ -1,43 +1,47 @@
+---
+output: github_document
+---
 
-[![Build
-Status](https://travis-ci.org/ices-tools-prod/icesFO.svg?branch=devel)](https://travis-ci.org/ices-tools-prod/icesFO)
-[![CRAN
-Status](http://r-pkg.org/badges/version/icesFO)](https://cran.r-project.org/package=icesFO)
-[![CRAN
-Monthly](http://cranlogs.r-pkg.org/badges/icesFO)](https://cran.r-project.org/package=icesFO)
-[![CRAN
-Total](http://cranlogs.r-pkg.org/badges/grand-total/icesFO)](https://cran.r-project.org/package=icesFO)
+[![Build Status](https://travis-ci.org/ices-tools-prod/icesFO.svg?branch=devel)](https://travis-ci.org/ices-tools-prod/icesFO)
+[![CRAN Status](http://r-pkg.org/badges/version/icesFO)](https://cran.r-project.org/package=icesFO)
+[![CRAN Monthly](http://cranlogs.r-pkg.org/badges/icesFO)](https://cran.r-project.org/package=icesFO)
+[![CRAN Total](http://cranlogs.r-pkg.org/badges/grand-total/icesFO)](https://cran.r-project.org/package=icesFO)
 
 [<img align="right" alt="ICES Logo" width="17%" height="17%" src="http://ices.dk/_layouts/15/1033/images/icesimg/iceslogo.png">](http://ices.dk)
 
-# icesFO
+icesFO
+=======
 
-icesFO Functions to support the creation of ICES Fisheries Overviews, ….
+icesFO Functions to support the creation of ICES Fisheries Overviews, ....
 
-icesFO is implemented as an [R](https://www.r-project.org) package
+icesFO is implemented as an [R](https://www.r-project.org) package 
 <!-- and available on [CRAN](https://cran.r-project.org/package=icesFO). -->
-and available on GitHub
+and available on GitHub 
 
-## Installation
+Installation
+------------
 
-icesFO can be installed from GitHub using the `install_github` command
-from the `devtools` package:
+icesFO can be installed from GitHub using the `install_github` command from the
+`devtools` package:
 
-``` r
+```R
 library(devtools)
 install_github("ices-tools-prod/icesFO")
 ```
 
-## Usage
+Usage
+-----
 
 For a summary of the package:
 
-``` r
+```R
 library(icesFO)
 ?icesFO
 ```
 
-## Development
+
+Development
+-----------
 
 icesFO is developed openly on
 [GitHub](https://github.com/ices-tools-prod/icesFO).
@@ -48,16 +52,17 @@ encounter problems or have suggestions for future versions.
 
 The current development version can be installed using:
 
-``` r
+```R
 library(devtools)
 install_github("ices-tools-prod/icesFO@devel")
 ```
 
-## Examples
+Examples
+--------
 
 ## plot something
 
-``` r
+```{r plot}
 # 1: ICES official cath statistics
 library(dplyr)
 library(operators)
@@ -71,14 +76,9 @@ prelim <- load_preliminary_catches(2018)
 
 # format / process
 catch_dat <- format_catches(2018, "Baltic Sea Ecoregion", hist, official, prelim)
-```
 
-    ## Joining, by = "X3A_CODE"
-
-``` r
 # plot
 p <- plot_catch_trends(catch_dat, type = "COMMON_NAME", line_count = 5, plot_type = "line")
 print(p)
 ```
 
-![](README_files/figure-gfm/plot-1.png)<!-- -->
