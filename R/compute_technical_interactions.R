@@ -1,3 +1,6 @@
+# import pipe
+`%>%` <- tidyr::`%>%`
+
 #' Compute a matrix of technical interactions.
 #'
 #' Based on landings and catches by species and gear, compute
