@@ -1,5 +1,5 @@
 Package: icesFO
-Version: 1.0.0.9000
+Version: 1.0.0.9001
 Date: 2019-10-01
 Title: Functions to support the creation of ICES Fisheries Overviews
 Authors@R: c(person("Adriana", "Villamor", role=c("aut","cre"), email="adriana.villamor@ices.dk"),
