@@ -22,6 +22,13 @@ Returns an map of the ecoregion and the divisions included in it
 \note{
 Can add some helpful information here
 }
+\examples{
+\dontrun{
+plot1 <- plot_ecoregionMap(ecoregions,areas, ecoregion = "Baltic Sea Ecoregion", 
+return_data = FALSE)
+}
+
+}
 \seealso{
 \code{\link{plot_CLD_bar}} Stock status relative to reference points. 
 

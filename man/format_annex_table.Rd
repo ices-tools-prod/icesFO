@@ -29,7 +29,6 @@ Can add some helpful information here
 sid_format <- format_sid(x, "Celtic Seas")
 }
 
-
 }
 \seealso{
 \code{\link{format_sag}} for formatting raw data from the ICES Stock Assessment database. 

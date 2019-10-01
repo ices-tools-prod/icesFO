@@ -17,7 +17,7 @@
 #' \dontrun{
 #' plot1 <- plot_ecoregionMap(ecoregions,areas, ecoregion = "Baltic Sea Ecoregion", 
 #' return_data = FALSE)
-#' 
+#' }
 #'
 plot_ecoregionMap <- function(x, y, ecoregion){
         

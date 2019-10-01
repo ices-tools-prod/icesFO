@@ -23,7 +23,7 @@
 #' sid_format <- format_sid(x, "Celtic Seas")
 #' }
 #'
-#'
+#' @export
 
 format_annex_table <- function(x, year, return_data = FALSE){
         df <-x
