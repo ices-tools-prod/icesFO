@@ -79,6 +79,8 @@ prelim <- load_preliminary_catches(2018)
 catch_dat <- format_catches(2018, "Baltic Sea Ecoregion", hist, official, prelim)
 ```
 
+then the plot can be made:
+
 ```{r plot_official_catch}
 # plot
 p <- plot_catch_trends(catch_dat, type = "COMMON_NAME", line_count = 5, plot_type = "line")

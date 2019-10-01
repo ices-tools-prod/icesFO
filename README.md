@@ -74,6 +74,8 @@ catch_dat <- format_catches(2018, "Baltic Sea Ecoregion", hist, official, prelim
 
     ## Joining, by = "X3A_CODE"
 
+then the plot can be made:
+
 ``` r
 # plot
 p <- plot_catch_trends(catch_dat, type = "COMMON_NAME", line_count = 5, plot_type = "line")
