@@ -60,6 +60,14 @@ install_github("ices-tools-prod/icesFO@devel")
 In this example, the plots for ICES official catch statistics for the
 Baltic Sea Ecoregion are made. First the data is downloaded and formated
 
+see
+
+``` r
+?icesFO::plot_catch_trends
+```
+
+for more details
+
 ``` r
 library(icesFO)
 
@@ -78,8 +86,52 @@ then the plot can be made:
 
 ``` r
 # plot
-p <- plot_catch_trends(catch_dat, type = "COMMON_NAME", line_count = 5, plot_type = "line")
+p <- 
+  plot_catch_trends(catch_dat, type = "COMMON_NAME", 
+                    line_count = 5, plot_type = "line")
 p
 ```
 
 ![](README_files/figure-gfm/plot_official_catch-1.png)<!-- -->
+
+## Plot technical interactions
+
+In this example, the plots of technical interactions between gears are
+shown
+
+see
+
+``` r
+?icesFO::compute_technical_interactions
+```
+
+for more details
+
+First we get the STECF landings data from the [Baltic Sea Fishery
+overview
+repository](https://github.com/ices-taf/2019_BtS_FisheriesOverview).
+
+``` r
+library(icesTAF)
+
+repoUrl <- 
+  sprintf("https://raw.githubusercontent.com/ices-taf/%s/master/",
+          "2019_BtS_FisheriesOverview")
+
+STECF_landings <-
+  read.taf(file.path(repoUrl, "bootstrap/initial/data/STECF_landings.csv"), 
+    fileEncoding = "UTF-8-BOM", check.names = TRUE)
+```
+
+then the calculation and plot can be made:
+
+``` r
+technical_interacton <- 
+  compute_technical_interactions(STECF_landings, catchCoverage = 0.99)
+```
+
+``` r
+plot_technical_interactions(technical_interacton$recapLand)
+```
+
+![](README_files/figure-gfm/plot_tech_interaction-1.png)<!-- -->
