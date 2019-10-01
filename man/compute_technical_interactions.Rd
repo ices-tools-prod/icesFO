@@ -2,7 +2,7 @@
 % Please edit documentation in R/compute_technical_interactions.R
 \name{compute_technical_interactions}
 \alias{compute_technical_interactions}
-\title{Compute a matrix of technical interactions}
+\title{Compute a matrix of technical interactions.}
 \usage{
 compute_technical_interactions(x, threshByCatch = 5,
   thresholdMainGear = 0.8, thresholdCoCatches = 0.5,
@@ -22,7 +22,7 @@ set this to 1 (default is 0.8)}
 we decide that there is co-catches (default 0.5)}
 
 \item{catchCoverage}{the propotion of total catch to cover in the tables
-i.e. 0.95 gives a table convering 95% of the total catch (default 0.95)}
+i.e. 0.95 gives a table convering 95\% of the total catch (default 0.95)}
 }
 \value{
 A list with four elements, technical interactions for landings (recapLand)
@@ -31,7 +31,7 @@ A list with four elements, technical interactions for landings (recapLand)
 }
 \description{
 Based on landings and catches by species and gear, compute
-a matrix of technical interaction values and main gear contributions
+a matrix of technical interaction values and main gear contributions.
 }
 \note{
 Technical interaction appears between stocks when they are caught by the same 
@@ -45,7 +45,7 @@ second species is also present in the landings of this strata and then dividing
 this number by the total landings of the first species:
 
  \deqn{T_{i,j}=\frac{\sum_s L_{s,j}*P_{s,j}}{\sum_s L_{s,i}}*100}{%
-      T(i,j)=(\sum_s L(s,j)*P(s,j) / (\sum_s L(s,i) *100}
+      T(i,j)=(sum_s L(s,j)*P(s,j) / (sum_s L(s,i) *100}
 
 Where T is the value of the technical interaction, i and j are the two species for 
 which the technical interaction is assessed. P is an indicator variable and equals 

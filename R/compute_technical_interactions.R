@@ -1,7 +1,7 @@
-#' Compute a matrix of technical interactions
+#' Compute a matrix of technical interactions.
 #'
 #' Based on landings and catches by species and gear, compute
-#' a matrix of technical interaction values and main gear contributions
+#' a matrix of technical interaction values and main gear contributions.
 #'
 #' @param x a dataframe in the same format as the STECF data.
 #' @param threshByCatch minimum tonnage for a species to be considered
@@ -12,13 +12,14 @@
 #' @param thresholdCoCatches a proportion giving the threshold for when 
 #'        we decide that there is co-catches (default 0.5)
 #' @param catchCoverage the propotion of total catch to cover in the tables
-#'        i.e. 0.95 gives a table convering 95% of the total catch (default 0.95)
+#'        i.e. 0.95 gives a table convering 95\% of the total catch (default 0.95)
 #'
 #' @return A list with four elements, technical interactions for landings (recapLand)
 #'         and catch (recapCatch) and tables of main gears involved in the interactions
 #'         based on landings (MainGearsLandings) and catches (MainGearsCatches)
 #'
 #' @note
+#' 
 #' Technical interaction appears between stocks when they are caught by the same 
 #' gear during a fishing operation. Ideally the technical interaction should then 
 #' be studied at the scale of the fishing operation to prevent artificially creating 
@@ -30,7 +31,7 @@
 #' this number by the total landings of the first species:
 #'
 #'  \deqn{T_{i,j}=\frac{\sum_s L_{s,j}*P_{s,j}}{\sum_s L_{s,i}}*100}{%
-#'       T(i,j)=(\sum_s L(s,j)*P(s,j) / (\sum_s L(s,i) *100}
+#'       T(i,j)=(sum_s L(s,j)*P(s,j) / (sum_s L(s,i) *100}
 #'
 #' Where T is the value of the technical interaction, i and j are the two species for 
 #' which the technical interaction is assessed. P is an indicator variable and equals 

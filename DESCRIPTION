@@ -25,8 +25,9 @@ Imports: jsonlite,
          tidyr,
          sf,
          data.table,
-         fields
-Description: Functions to support the creation of ICES Fisheries Overviews
+         fields,
+         rnaturalearth
+Description: Functions to support the creation of ICES Fisheries Overviews.
 License: GPL (>= 2)
 Encoding: UTF-8
 RoxygenNote: 6.1.1

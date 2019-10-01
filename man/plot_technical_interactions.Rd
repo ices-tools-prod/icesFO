@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_technical_interaction.R
 \name{plot_technical_interactions}
 \alias{plot_technical_interactions}
-\title{Visualise a matrix of technical interactions}
+\title{Visualise a matrix of technical interactions.}
 \usage{
 plot_technical_interactions(x, col = heat.colors(5, rev = TRUE))
 }
@@ -19,7 +19,7 @@ A list with four elements, technical interactions for landings (recapLand)
 }
 \description{
 Based on a matrix of technical interactions produce an image plot
-with a legend
+with a legend.
 }
 \examples{
 \dontrun{
@@ -31,7 +31,7 @@ plot_technical_interactions(technical_interacton$recapLand)
 
 }
 \seealso{
-\code{\link{compute_technical_interactions}} for plotting technical interactions.
+\code{\link{compute_technical_interactions}} for computing technical interactions.
 
 \code{\link{icesFO-package}} gives an overview of the package.
 }

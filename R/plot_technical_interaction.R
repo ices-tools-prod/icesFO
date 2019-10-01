@@ -1,7 +1,7 @@
-#' Visualise a matrix of technical interactions
+#' Visualise a matrix of technical interactions.
 #'
 #' Based on a matrix of technical interactions produce an image plot
-#' with a legend
+#' with a legend.
 #'
 #' @param x a square matrix with identical row and column names containing
 #'        values of tecnical interaction between species
@@ -13,7 +13,7 @@
 #'
 #' @seealso
 #'
-#' \code{\link{compute_technical_interactions}} for plotting technical interactions.
+#' \code{\link{compute_technical_interactions}} for computing technical interactions.
 #' 
 #' \code{\link{icesFO-package}} gives an overview of the package.
 #'
@@ -25,6 +25,9 @@
 #' plot_technical_interactions(technical_interacton$recapLand)
 #' }
 #'
+#' @importFrom grDevices heat.colors
+#' @importFrom graphics image mtext par
+#' 
 #' @export
 
 plot_technical_interactions <- function(x, col = heat.colors(5, rev = TRUE)) {
