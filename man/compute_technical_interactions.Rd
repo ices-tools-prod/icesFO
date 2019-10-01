@@ -45,7 +45,7 @@ second species is also present in the landings of this strata and then dividing
 this number by the total landings of the first species:
 
  \deqn{T_{i,j}=\frac{\sum_s L_{s,j}*P_{s,j}}{\sum_s L_{s,i}}*100}{%
-      T(i,j)=(sum_s L(s,j)*P(s,j) / (sum_s L(s,i) *100}
+      T(i,j)=(sum_s L(s,j)*P(s,j)) / (sum_s L(s,i)) *100}
 
 Where T is the value of the technical interaction, i and j are the two species for 
 which the technical interaction is assessed. P is an indicator variable and equals 
