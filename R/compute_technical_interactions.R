@@ -71,16 +71,16 @@ compute_technical_interactions <-
   # initial formatting
   sp <- 
     x %>% 
-      select(annex, regulated.area, country, 
+      dplyr::select(annex, regulated.area, country, 
              regulated.gear, specon, species, 
              sum_landings, sum_discards) %>%
-      rename(
+      dplyr::rename(
         reg_area = regulated.area,
         reg_gear = regulated.gear,
         land = sum_landings,
         disc = sum_discards
         ) %>%
-      mutate(catch = land + disc) %>%
+      dplyr::mutate(catch = land + disc) %>%
       data.table::data.table()
 
   ### preparation
