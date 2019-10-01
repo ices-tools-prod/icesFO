@@ -1,5 +1,7 @@
 ---
-output: github_document
+output: 
+  github_document:
+    html_preview: false
 ---
 
 [![Build Status](https://travis-ci.org/ices-tools-prod/icesFO.svg?branch=devel)](https://travis-ci.org/ices-tools-prod/icesFO)
@@ -60,14 +62,13 @@ install_github("ices-tools-prod/icesFO@devel")
 Examples
 --------
 
-## plot something
+## Plot ICES official catch statistics
 
-```{r plot}
-# 1: ICES official cath statistics
-library(dplyr)
-library(operators)
+In this example, the plots for ICES official catch statistics for the
+Baltic Sea Ecoregion are made.  First the data is downloaded and formated
+
+```{r download_official_catch, cache=TRUE}
 library(icesFO)
-library(ggplot2)
 
 # download data
 hist <- load_historical_catches()
@@ -76,9 +77,11 @@ prelim <- load_preliminary_catches(2018)
 
 # format / process
 catch_dat <- format_catches(2018, "Baltic Sea Ecoregion", hist, official, prelim)
+```
 
+```{r plot_official_catch}
 # plot
 p <- plot_catch_trends(catch_dat, type = "COMMON_NAME", line_count = 5, plot_type = "line")
-print(p)
+p
 ```
 

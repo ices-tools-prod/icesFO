@@ -55,14 +55,13 @@ install_github("ices-tools-prod/icesFO@devel")
 
 ## Examples
 
-## plot something
+## Plot ICES official catch statistics
+
+In this example, the plots for ICES official catch statistics for the
+Baltic Sea Ecoregion are made. First the data is downloaded and formated
 
 ``` r
-# 1: ICES official cath statistics
-library(dplyr)
-library(operators)
 library(icesFO)
-library(ggplot2)
 
 # download data
 hist <- load_historical_catches()
@@ -78,7 +77,7 @@ catch_dat <- format_catches(2018, "Baltic Sea Ecoregion", hist, official, prelim
 ``` r
 # plot
 p <- plot_catch_trends(catch_dat, type = "COMMON_NAME", line_count = 5, plot_type = "line")
-print(p)
+p
 ```
 
-![](README_files/figure-gfm/plot-1.png)<!-- -->
+![](README_files/figure-gfm/plot_official_catch-1.png)<!-- -->
