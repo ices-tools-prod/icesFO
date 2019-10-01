@@ -58,6 +58,8 @@
 #' plot_technical_interactions(technical_interacton$recapLand)
 #' }
 #'
+#' @import data.table
+#' 
 #' @export
 
 compute_technical_interactions <- 
