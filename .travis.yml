@@ -1,7 +1,11 @@
 language: r
 cache: packages
 
-apt_packages: libudunits2-dev
+apt_packages: 
+  libudunits2-dev
+  libgdal-dev
+  libproj-dev
+  libgeos-dev
 
 # notifications
 notifications:
