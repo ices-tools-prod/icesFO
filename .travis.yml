@@ -1,2 +1,11 @@
 language: r
 cache: packages
+
+apt_packages: libudunits2-dev
+
+# notifications
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+    
