@@ -63,7 +63,7 @@ plot_status_prop_pies <- function(x, cap_month = "November",
         df2[is.na(df2)] <- 0
         df3 <- subset(df2,select =-c(FisheriesGuild))
         df3 <- dplyr::group_by(df3,lineDescription, Variable)
-        df3 <- dplyr::summarise_each(df3,funs(sum))
+        df3 <- dplyr::summarise_each(df3,dplyr::funs(sum))
         df3$FisheriesGuild <- "total"
         df2 <- rbind(df2,df3)
         

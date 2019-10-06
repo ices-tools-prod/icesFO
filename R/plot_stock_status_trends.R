@@ -45,9 +45,9 @@ plot_stock_trends <- function(x, guild, cap_year, cap_month, return_data = FALSE
                                   cap_month,
                                   cap_year))
         duplicates <- dplyr::group_by(df,Value)
-        duplicates <- dplyr::filter(duplicates, n()>1)
+        duplicates <- dplyr::filter(duplicates, dplyr::n()>1)
         duplicates <- dplyr::filter(duplicates,StockKeyLabel == "MEAN")
-        df <- anti_join(df,duplicates)
+        df <- dplyr::anti_join(df,duplicates)
         df <- dplyr::filter(df,Metric %in% c("F_FMSY", "SSB_MSYBtrigger"))
         df$Metric[which(df$Metric == "F_FMSY")] <- "F/F[MSY]"
         df$Metric[which(df$Metric == "SSB_MSYBtrigger")] <- "SSB/MSY~B[trigger]"

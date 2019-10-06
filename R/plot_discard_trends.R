@@ -78,7 +78,7 @@ plot_discard_trends <- function(x, year, caption = FALSE, cap_year, cap_month, r
         df5 <- tidyr::gather(df5,variable, value, -Year, -FisheriesGuild)
         df5 <- dplyr::filter(df5,!variable %in% c("guildDiscards", "guildLandings"))
         df6 <- dplyr::filter(df5, Year == year - 1)
-        plot <- ggplot2::ggplot(ungroup(df5),
+        plot <- ggplot2::ggplot(dplyr::ungroup(df5),
                                ggplot2::aes(x = Year,
                                    y = value,
                                    color = FisheriesGuild)) +

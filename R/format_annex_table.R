@@ -35,7 +35,7 @@ format_annex_table <- function(x, year, return_data = FALSE){
         df <- df[c(1,10,11,12,13,2,3,4,5,8,6,7)]
         df <- dplyr::mutate(df,D3C1 = FishingPressure,
                             D3C2 = StockSize,
-                            GES = case_when(FishingPressure == "GREEN" & StockSize == "GREEN" ~ "GREEN",
+                            GES = dplyr::case_when(FishingPressure == "GREEN" & StockSize == "GREEN" ~ "GREEN",
                                             FishingPressure == "RED" | StockSize == "RED" ~ "RED",
                                             FishingPressure == "GREY"  |  StockSize == "GREY" ~ "GREY",
                                             TRUE ~ "GREY"))
@@ -50,9 +50,9 @@ format_annex_table <- function(x, year, return_data = FALSE){
         # orange.path <- "~/git/ices-dk/fisheryO/inst/symbols/orange_oh.png"
         
         
-        grey.path <<- system.file("symbols", "grey_q.png", package = "icesFO")
-        red.path <<- system.file("symbols", "red_cross.png", package = "icesFO")
-        green.path <<- system.file("symbols", "green_check.png", package = "icesFO")
+        grey.path <- system.file("symbols", "grey_q.png", package = "icesFO")
+        red.path <- system.file("symbols", "red_cross.png", package = "icesFO")
+        green.path <- system.file("symbols", "green_check.png", package = "icesFO")
         # orange.path <- system.file("symbols", "orange_oh.png", package = "icesFO")
         
         merge_custom <- function(ft, x, columns){

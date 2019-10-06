@@ -51,7 +51,7 @@ plot_stecf <- function(x, type, variable = NULL, cap_year, cap_month, line_count
         Plot <- dplyr::summarise(Plot,typeTotal = sum(VALUE, na.rm = TRUE))
         Plot <- dplyr::arrange(Plot,-typeTotal)        
         Plot <- dplyr::filter(Plot, typeTotal >= 1)
-        Plot <- dplyr::mutate(Plot,RANK = min_rank(desc(typeTotal))) 
+        Plot <- dplyr::mutate(Plot,RANK = dplyr::min_rank(dplyr::desc(typeTotal))) 
         
         Plot <- subset(Plot,select = -typeTotal)
         dat <- dplyr::left_join(dat, Plot)
@@ -90,7 +90,7 @@ plot_stecf <- function(x, type, variable = NULL, cap_year, cap_month, line_count
                 dat$typeTotal <- dat$typeTotal/1000
                 }
 
-        pl <- ggplot2::ggplot(ungroup(dat), ggplot2::aes(x = YEAR, y = typeTotal)) +
+        pl <- ggplot2::ggplot(dplyr::ungroup(dat), ggplot2::aes(x = YEAR, y = typeTotal)) +
                 ggplot2::scale_fill_manual(values = myColors) +
                 ggplot2::scale_color_manual(values = myColors) +
                 ggplot2::scale_x_continuous(breaks = seq(min(dat$YEAR, na.rm = TRUE),

@@ -75,7 +75,7 @@ plot_discard_current <- function(x, year, caption = TRUE, cap_year, cap_month, r
         
         # df5$FisheriesGuild <- factor(df5$FisheriesGuild,
         #                                 levels = df5_order$FisheriesGuild[order(df5_order$total)])
-        plot <- ggplot2::ggplot(ungroup(df5),
+        plot <- ggplot2::ggplot(dplyr::ungroup(df5),
                                 ggplot2::aes(x = reorder(FisheriesGuild, value), y = value, fill = variable)) +
                 ggplot2::geom_bar(stat = "identity") +
                 ggplot2::scale_color_brewer(type = "qual", palette = "Dark2", direction = -1) +
@@ -92,7 +92,7 @@ plot_discard_current <- function(x, year, caption = TRUE, cap_year, cap_month, r
                 cap_lab <- ggplot2::labs(caption = sprintf("ICES Stock Assessment Database, %s/%s. ICES, Copenhagen",
                                                            cap_month,
                                                            cap_year))
-                plot <- ggplot2::ggplot(ungroup(df5),
+                plot <- ggplot2::ggplot(dplyr::ungroup(df5),
                                         ggplot2::aes(x = reorder(FisheriesGuild, value), y = value, fill = variable)) +
                         ggplot2::geom_bar(stat = "identity") +
                         ggplot2::scale_color_brewer(type = "qual", palette = "Dark2", direction = -1) +

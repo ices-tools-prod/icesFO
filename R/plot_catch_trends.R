@@ -72,7 +72,7 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD"),
         plot <- dplyr::summarise(plot,typeTotal = sum(VALUE, na.rm = TRUE))
         plot <- dplyr::arrange(plot, -typeTotal)
         plot <- dplyr::filter(plot, typeTotal >= 1) 
-        plot <- dplyr::mutate(plot,RANK = min_rank(desc(typeTotal)))
+        plot <- dplyr::mutate(plot,RANK = dplyr::min_rank(dplyr::desc(typeTotal)))
         plot <- dplyr::inner_join(plot,df, by = "type_var")
         
         plot$RANK<-as.numeric(plot$RANK)
@@ -100,7 +100,7 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD"),
         names(myColors) <- levels(plot$type_var)
         myColors["other"] <- "#7F7F7F"
         
-        pl <- ggplot2::ggplot(ungroup(plot), ggplot2::aes(x = YEAR, y = typeTotal)) +
+        pl <- ggplot2::ggplot(dplyr::ungroup(plot), ggplot2::aes(x = YEAR, y = typeTotal)) +
                 ggplot2::scale_fill_manual(values = myColors) +
                 ggplot2::scale_color_manual(values = myColors) +
                 ggplot2::scale_x_continuous(breaks = seq(min(plot$YEAR),
@@ -161,9 +161,9 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD"),
                 
         }
         
-        if(return_data == T){
+        if (return_data == TRUE){
                 plot
-        }else{
+        } else {
                 pl
         }
 }
