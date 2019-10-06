@@ -35,5 +35,5 @@ plot1 <-
 
 }
 \seealso{
-\code{\link{plot_ecoregionMap}} plots ICES areas and ecoregion.
+\code{\link{plot_ecoregion_map}} plots ICES areas and ecoregion.
 }
