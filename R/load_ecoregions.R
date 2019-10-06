@@ -5,6 +5,7 @@
 #'
 #' @param ecoregion an ICES ecoregion to download (e.g "Baltic Sea")
 #' @param precision the numnber of decimal places required in the coordinates
+#' 
 #' @return A simple features collection
 #'
 #'

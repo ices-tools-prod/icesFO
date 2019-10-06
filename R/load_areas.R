@@ -20,7 +20,7 @@
 #'
 #' @export
 
-load_areas <- function(ecoregion, precision) {
+load_areas <- function(ecoregion, precision = 3) {
 
   # get areas
   areas <- get_area_27(ecoregion)

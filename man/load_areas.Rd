@@ -4,7 +4,7 @@
 \alias{load_areas}
 \title{Download ICES areas polygons}
 \usage{
-load_areas(ecoregion, precision)
+load_areas(ecoregion, precision = 3)
 }
 \arguments{
 \item{ecoregion}{an ICES ecoregion to download ICES areas from (e.g "Baltic Sea")}
