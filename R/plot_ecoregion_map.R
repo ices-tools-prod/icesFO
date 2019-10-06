@@ -31,12 +31,14 @@ plot_ecoregion_map <- function(ecoregion, ices_areas){
 
   # prepare ices areas
   ices_areas <- sf::st_transform(ices_areas, crs = crs)
+  ices_areas <- dplyr::select(ices_areas, -WKT)
 
   # prepare ecoregion
   ecoregion <- sf::st_transform(ecoregion, crs = crs)
+  ecoregion <- dplyr::select(ecoregion, -WKT)
 
   # Centroids for labels
-  centroids <- sf::st_centroid(select(ices_areas, -WKT))
+  centroids <- sf::st_centroid(ices_areas)
   centroids <- cbind(centroids, sf::st_coordinates(centroids))
 
   #if (ecoregion == "Celtic Seas") {
@@ -45,32 +47,15 @@ plot_ecoregion_map <- function(ecoregion, ices_areas){
   #  extracentroids[,3] <- c(3710000, 3760000)
   #  extracentroids[,4] <- c(4250000, 4500000)
   #  extraareas <- dplyr::filter(ices_areas,Area_27 %in% c("4.a", "2.a.2"))
-  #  extracentroids<<- extracentroids
+  #  extracentroids <- extracentroids
   #  extraareas<<- extraareas
   #}
 
-  if(ecoregion == "Baltic Sea") {
-    baltic_3a <- dplyr::filter(ices_areas, SubArea == "3", Division == "a")
-    baltic_3a <- dplyr::summarize(baltic_3a, Area_27 = "3.a",
-                      ECOREGION = "Baltic Sea Ecoregion",
-                      geometry = sf::st_union(geometry))
-    baltic_3a <- sf::st_sf(baltic_3a)
-    baltic_3a <- sf::st_centroid(baltic_3a)
-
-    baltic_3a <- data.frame(baltic_3a$Area_27,
-                            baltic_3a$ECOREGION,
-                            matrix(unlist(baltic_3a$geometry),
-                                   ncol = 2,
-                                   byrow = TRUE),
-                            stringsAsFactors = FALSE)
-
-    colnames(baltic_3a) <- c("Area_27", "ECOREGION", "X", "Y")
-
-    centroids <- dplyr::bind_rows(centroids, baltic_3a)
+  if (ecoregion == "Baltic Sea") {
+    ices_areas <- dplyr::filter(ices_areas, substr(Area_27, 1, 3) != "3.a")
   }
 
-
-  
+  # get plot extent
   box1 <- sf::st_bbox(ecoregion)
   box2 <- sf::st_bbox(ices_areas)
 
@@ -79,6 +64,7 @@ plot_ecoregion_map <- function(ecoregion, ices_areas){
   ylims <- c(min(box1["ymin"], box2["ymin"]), 
              max(box1["ymax"], box2["ymax"]))
 
+  # make plot
   p <- 
     ggplot2::ggplot() +
     ggplot2::theme_bw(base_size = 8) +
