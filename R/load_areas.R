@@ -4,6 +4,8 @@
 #' subdivisions
 #'
 #' @param ecoregion an ICES ecoregion to download ICES areas from (e.g "Baltic Sea")
+#' @param precision the numnber of decimal places required in the coordinates
+#' 
 #' @return A simple features collection
 #'
 #'
@@ -18,7 +20,7 @@
 #'
 #' @export
 
-load_areas <- function(ecoregion) {
+load_areas <- function(ecoregion, precision) {
 
   # get areas
   areas <- get_area_27(ecoregion)

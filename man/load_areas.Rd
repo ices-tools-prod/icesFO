@@ -4,10 +4,12 @@
 \alias{load_areas}
 \title{Download ICES areas polygons}
 \usage{
-load_areas(ecoregion)
+load_areas(ecoregion, precision)
 }
 \arguments{
 \item{ecoregion}{an ICES ecoregion to download ICES areas from (e.g "Baltic Sea")}
+
+\item{precision}{the numnber of decimal places required in the coordinates}
 }
 \value{
 A simple features collection
