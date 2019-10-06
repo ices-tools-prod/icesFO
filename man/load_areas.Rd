@@ -4,7 +4,10 @@
 \alias{load_areas}
 \title{Download ICES areas polygons}
 \usage{
-load_areas()
+load_areas(ecoregion)
+}
+\arguments{
+\item{ecoregion}{an ICES ecoregion to download ICES areas from (e.g "Baltic Sea")}
 }
 \value{
 A simple features collection
@@ -15,7 +18,7 @@ subdivisions
 }
 \examples{
 \dontrun{
-  areas <- load_areas()
+  areas <- load_areas("Greater North Sea")
 }
 
 }

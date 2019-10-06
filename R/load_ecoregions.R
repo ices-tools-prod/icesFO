@@ -3,6 +3,8 @@
 #' Returns a simple features object with a polygon for each
 #' ecoregion
 #'
+#' @param ecoregion an ICES ecoregion to download (e.g "Baltic Sea")
+#' @param precision the numnber of decimal places required in the coordinates
 #' @return A simple features collection
 #'
 #'
@@ -17,22 +19,29 @@
 #'
 #' @export
 
-load_ecoregions <- function() {
+load_ecoregions <- function(ecoregion, precision = 3) {
 
-  # get tempdir
-  tmpdir <- tempdir()
+  # base url
+  baseurl <- "http://gis.ices.dk/gis/rest/services/ICES_reference_layers/ICES_Ecoregions/MapServer/0/query?where=Ecoregion%3D%27Baltic%20Sea%27&geometryType=esriGeometryPolygon&geometryPrecision=2&f=geojson"
+  url <- httr::parse_url(baseurl)
 
-  filename <- "ICES_ecoregions.zip"
-  # download and unzip
-  download.file(paste0("http://gis.ices.dk/shapefiles/", filename),
-                destfile = file.path(tmpdir, filename),
-                quiet = TRUE)
-  unzip(file.path(tmpdir, filename),
-        exdir = file.path(tmpdir, "ICES_ecoregions"))
+  # add query
+  url$query$where <- paste0("Ecoregion='", ecoregion, "'")
+  url$query$geometryPrecision <- precision
+
+  url <- httr::build_url(url)
+
+  # file name
+  filename <- tempfile(fileext = ".geojson")
+
+  # download
+  download.file(url,
+                destfile = filename,
+                quiet = FALSE)
+  ecoreg <- sf::read_sf(filename)
+
   # delete zip file
-  unlink(file.path(tmpdir, filename))
-
-  ecoreg <- sf::read_sf(file.path(tmpdir, "ICES_ecoregions"))
+  unlink(filename)
 
   ecoreg
 }

@@ -26,7 +26,8 @@ Imports: jsonlite,
          sf,
          data.table,
          fields,
-         rnaturalearth
+         rnaturalearth,
+         httr
 Description: Functions to support the creation of ICES Fisheries Overviews.
 License: GPL (>= 2)
 Encoding: UTF-8
