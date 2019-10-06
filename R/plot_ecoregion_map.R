@@ -17,6 +17,8 @@
 #'   eco_map <- plot_ecoregion_map(ecoregion, ices_areas)
 #' }
 #'
+#' @export
+
 plot_ecoregion_map <- function(ecoregion, ices_areas) {
 
   # set the csr for the map
@@ -40,7 +42,7 @@ plot_ecoregion_map <- function(ecoregion, ices_areas) {
   centroids <- sf::st_centroid(ices_areas)
   centroids <- cbind(centroids, sf::st_coordinates(centroids))
 
-  #if (ecoregion == "Celtic Seas") {
+  #if (ecoregion$Ecoregion == "Celtic Seas") {
   #  extracentroids <- dplyr::filter(centroids, Area_27 %in% c("4.a", "2.a.2", "5.b"))
   #  #mutate, change the position of labels so they are close to Celtic Seas
   #  extracentroids[,3] <- c(3710000, 3760000)
@@ -50,7 +52,7 @@ plot_ecoregion_map <- function(ecoregion, ices_areas) {
   #  extraareas<<- extraareas
   #}
 
-  if (ecoregion == "Baltic Sea") {
+  if (ecoregion$Ecoregion == "Baltic Sea") {
     ices_areas <- dplyr::filter(ices_areas, substr(Area_27, 1, 3) != "3.a")
   }
 
@@ -73,9 +75,9 @@ plot_ecoregion_map <- function(ecoregion, ices_areas) {
     ggplot2::coord_sf(crs = crs, xlim = xlims, ylim = ylims) +
     ggplot2::geom_text(data = centroids, ggplot2::aes(x = X, y = Y, label = Area_27), size = 2.5) +
     ggplot2::theme(plot.caption = ggplot2::element_text(size = 6),
-          plot.subtitle = ggplot2::element_text(size = 7),
-          axis.title.x = ggplot2::element_blank(),
-          axis.title.y = ggplot2::element_blank()) +
+                   plot.subtitle = ggplot2::element_text(size = 7),
+                   axis.title.x = ggplot2::element_blank(),
+                   axis.title.y = ggplot2::element_blank()) +
     ggplot2::labs(caption = "Made with Natural Earth and ICES Marine Data")
 
   p
