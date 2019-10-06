@@ -4,18 +4,24 @@
 \alias{format_catches}
 \title{Format the data from the time-series of ICES historical, official and preliminary catches.}
 \usage{
-format_catches(year, ecoregion, x, y, z = NULL)
+format_catches(year, ecoregion, historical, official, preliminary = NULL,
+  species_list, sid)
 }
 \arguments{
 \item{year}{the year required}
 
 \item{ecoregion}{an identifier of the Ecoregion of interest}
 
-\item{x}{a dataframe output from load_historical_catches() required.}
+\item{historical}{a dataframe output from load_historical_catches() required.}
 
-\item{y}{a dataframe output from load_official_catches() required.}
+\item{official}{a dataframe output from load_official_catches() required.}
 
-\item{z}{a dataframe output from load_preliminary_catches() optional.}
+\item{preliminary}{a dataframe output from load_preliminary_catches() optional.}
+
+\item{species_list}{a list of species common names and scientific names
+from ASFIS}
+
+\item{sid}{the main table from ICES Stock Information DB (SD)}
 }
 \value{
 A data frame..
@@ -29,7 +35,14 @@ Can add some helpful information here
 }
 \examples{
 \dontrun{
-catches_format <- format_catches(x,y,z, "Celtic Seas")
+  sid <- load_sid(2019)
+  species_list <- load_asfis_species()
+  historical <- load_historical_catches()
+  official <- load_official_catches()
+  preliminary <- load_preliminary_catches(2018)
+  catches_format <- 
+    format_catches(2019, "Celtic Seas", historical, official, preliminary,
+                   species_list, sid)
 }
 
 }
