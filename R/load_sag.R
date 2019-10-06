@@ -94,7 +94,7 @@ load_sag_status <- function(year) {
                                                                                                         "AssessmentKey",
                                                                                                         "StockKeyLabel", "Purpose")]))
         out <- dplyr::filter(out,Purpose =="Advice")
-        out <<- out[,-4]
+        out <- out[,-4]
         sid<-load_sid(year)
         sid <-dplyr::filter(sid,!is.na(YearOfLastAssessment))
         sid <- dplyr::select(sid,StockKeyLabel,
@@ -115,9 +115,11 @@ load_sag_status <- function(year) {
                 if(is.null(dat)) stop(paste0("NULL value returned for assessmentKey = ", assessmentKey))
                 dat
         }
+        out <- dplyr::filter(out, !is.na(out$AssessmentKey))
         out2 <- dplyr::mutate(out, stock_status = purrr::map(.x = AssessmentKey, purrr::possibly(get_stock_status, otherwise = NA_real_)))
-        out2<- dplyr::filter(out2,!is.na(stock_status)) 
-        out2<- tidyr::unnest(out2,stock_status)
+        out2 <- dplyr::filter(out2, !is.na(stock_status)) 
+        out2 <- dplyr::select(out2, -AssessmentKey)
+        out2 <- tidyr::unnest(out2, stock_status)
         out2 <- unique(out2)
         # out3 <- subset(out, !(StockKeyLabel %in% out2$StockKeyLabel))
 }
