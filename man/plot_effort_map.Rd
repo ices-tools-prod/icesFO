@@ -4,14 +4,12 @@
 \alias{plot_effort_map}
 \title{Returns an map of the ecoregion and the divisions included in it}
 \usage{
-plot_effort_map(effort, ecoregion_shape, ecoregion)
+plot_effort_map(effort, ecoregion)
 }
 \arguments{
 \item{effort}{a dataframe of effort data with a WKT columns (see notes)}
 
-\item{ecoregion_shape}{a dataframe output of load_ecoregions()}
-
-\item{ecoregion}{the ecoregion of interest (e.g. "Baltic Sea")}
+\item{ecoregion}{a dataframe output of load_ecoregion( ... )}
 }
 \value{
 A ggplot object
@@ -26,11 +24,9 @@ of c-squares
 }
 \examples{
 \dontrun{
-ecoregions <- load_ecoregions()
+ecoregion <- load_ecoregion("Baltic Sea")
 effort <- icesVMS::get_effort_map("Baltic Sea")
-plot1 <- 
-  plot_effort_map(ecoregions, ecoregion = "Baltic Sea", 
-                  return_data = FALSE)
+plot1 <- plot_effort_map(effort, ecoregion)
 }
 
 }
