@@ -32,11 +32,9 @@ plot_ecoregion_map <- function(ecoregion, ices_areas) {
 
   # prepare ices areas
   ices_areas <- sf::st_transform(ices_areas, crs = crs)
-  ices_areas <- dplyr::select(ices_areas)
 
   # prepare ecoregion
   ecoregion <- sf::st_transform(ecoregion, crs = crs)
-  ecoregion <- dplyr::select(ecoregion)
 
   # Centroids for labels
   centroids <- sf::st_centroid(ices_areas)
