@@ -15,12 +15,12 @@
 #'
 #' @examples
 #' \dontrun{
-#'   ecoregions <- load_ecoregions()
+#'   ecoregion <- load_ecoregion("Baltic Sea")
 #' }
 #'
 #' @export
 
-load_ecoregions <- function(ecoregion, precision = 3) {
+load_ecoregion <- function(ecoregion, precision = 3) {
 
   # base url
   baseurl <- "http://gis.ices.dk/gis/rest/services/ICES_reference_layers/ICES_Ecoregions/MapServer/0/query?where=Ecoregion%3D%27Baltic%20Sea%27&geometryType=esriGeometryPolygon&geometryPrecision=2&f=geojson"

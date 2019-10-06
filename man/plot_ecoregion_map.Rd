@@ -19,8 +19,9 @@ Returns an map of the ecoregion and the divisions included in it
 }
 \examples{
 \dontrun{
-plot1 <- plot_ecoregionMap(ecoregions,areas, ecoregion = "Baltic Sea Ecoregion", 
-return_data = FALSE)
+  ices_areas <- load_areas("Baltic Sea")
+  ecoregion <- load_ecoregion("Baltic Sea")
+  eco_map <- plot_ecoregion_map(ecoregion, ices_areas)
 }
 
 }

@@ -12,11 +12,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' plot1 <- plot_ecoregionMap(ecoregions,areas, ecoregion = "Baltic Sea Ecoregion", 
-#' return_data = FALSE)
+#'   ices_areas <- load_areas("Baltic Sea")
+#'   ecoregion <- load_ecoregion("Baltic Sea")
+#'   eco_map <- plot_ecoregion_map(ecoregion, ices_areas)
 #' }
 #'
-plot_ecoregion_map <- function(ecoregion, ices_areas){
+plot_ecoregion_map <- function(ecoregion, ices_areas) {
 
   # set the csr for the map
   crs <- "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
@@ -31,11 +32,11 @@ plot_ecoregion_map <- function(ecoregion, ices_areas){
 
   # prepare ices areas
   ices_areas <- sf::st_transform(ices_areas, crs = crs)
-  ices_areas <- dplyr::select(ices_areas, -WKT)
+  ices_areas <- dplyr::select(ices_areas)
 
   # prepare ecoregion
   ecoregion <- sf::st_transform(ecoregion, crs = crs)
-  ecoregion <- dplyr::select(ecoregion, -WKT)
+  ecoregion <- dplyr::select(ecoregion)
 
   # Centroids for labels
   centroids <- sf::st_centroid(ices_areas)

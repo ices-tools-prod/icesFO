@@ -20,7 +20,7 @@ subdivisions
 }
 \examples{
 \dontrun{
-  areas <- load_areas("Greater North Sea")
+  ices_areas <- load_areas("Greater North Sea")
 }
 
 }
