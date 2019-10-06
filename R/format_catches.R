@@ -40,7 +40,6 @@
 #'
 #' @export
 
-#other variables to keep?
 format_catches <- function(year, ecoregion, historical, official, preliminary = NULL, species_list, sid) {
 
   fish_category <- dplyr::mutate(sid, X3A_CODE = substr(sid$StockKeyLabel, start = 1, stop = 3))

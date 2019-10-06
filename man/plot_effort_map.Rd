@@ -19,6 +19,11 @@ A ggplot object
 \description{
 Returns an map of the ecoregion and the divisions included in it
 }
+\note{
+The effort data.frame is conveted to an sf object for plotting and
+is expeted to have a Well Known Text column containing polygons
+of c-squares
+}
 \examples{
 \dontrun{
 ecoregions <- load_ecoregions()

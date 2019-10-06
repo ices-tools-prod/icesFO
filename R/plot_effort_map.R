@@ -5,7 +5,7 @@
 #' @param ecoregion the ecoregion of interest (e.g. "Baltic Sea")
 #' @return A ggplot object
 #'
-#' @notes
+#' @note
 #' 
 #' The effort data.frame is conveted to an sf object for plotting and
 #' is expeted to have a Well Known Text column containing polygons
