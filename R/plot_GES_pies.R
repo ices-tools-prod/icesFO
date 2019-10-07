@@ -51,34 +51,35 @@ plot_GES_pies <- function(x, y, cap_month = "August",
                      "qual_GREEN" = "#00B28F")
         
         
-        df_stock <- df %>%filter (lineDescription == "Maximum sustainable yield")%>%
-                select(StockKeyLabel,
+        df_stock <- dplyr::filter (df, lineDescription == "Maximum sustainable yield")
+        df_stock <- dplyr::select(df_stock, StockKeyLabel,
                        FishingPressure,
-                       StockSize) %>%
-                tidyr::gather(Variable, Colour, FishingPressure:StockSize, factor_key = TRUE) 
-        df2 <- df_stock %>% group_by(Variable, Colour) %>%
-                summarize(COUNT = n())%>%
+                       StockSize) 
+        df_stock <- tidyr::gather(df_stock,Variable, Colour, FishingPressure:StockSize, factor_key = TRUE) 
+        df2 <- dplyr::group_by(df_stock,Variable, Colour) %>%
+                dplyr::summarize(COUNT = n())%>%
                 tidyr::spread(Colour, COUNT)
         df2[is.na(df2)] <- 0
         
-        df3 <-y %>% filter(StockKeyLabel %in% df_stock$StockKeyLabel) %>%
-                mutate(CATCH = ifelse(is.na(catches) & !is.na(landings),
+        df3 <- dplyr::filter(y, StockKeyLabel %in% df_stock$StockKeyLabel)
+        df3 <- dplyr::mutate(df3,CATCH = ifelse(is.na(catches) & !is.na(landings),
                                          landings,
-                                         catches)) %>%
-                select(c(StockKeyLabel, CATCH))
-        df4 <- df_stock %>% left_join(df3)
+                                         catches))
+        df3 <- dplyr::select(df3,c(StockKeyLabel, CATCH))
+        df4 <- dplyr::left_join(df_stock,df3)
         df4[is.na(df4)] <- 0
-        df4 <- df4%>% group_by(Variable, Colour) %>%
-                summarize(CATCH = sum(CATCH))%>%
+        df4 <- dplyr::group_by(df4,Variable, Colour) %>%
+                dplyr::summarize(CATCH = sum(CATCH))%>%
                 tidyr::spread(Colour, CATCH)
-        df4 <- df4 %>% tidyr::gather(Color, Catch, GREEN:RED, factor_key = TRUE)
-        df2 <- df2 %>% tidyr::gather(Color, Stocks, GREEN:RED, factor_key = TRUE)
+        df4 <- tidyr::gather(df4,Color, Catch, GREEN:RED, factor_key = TRUE)
+        df2 <- tidyr::gather(df2,Color, Stocks, GREEN:RED, factor_key = TRUE)
         df5 <- merge(df2,df4)
         df5[is.na(df5)] <- 0
         tot <- sum(df5$Catch)/2
         stocks <- sum(df5$Stocks)/2
-        df5 <- df5 %>% tidyr::gather(Metric, Value, Stocks:Catch)
-        df5 <- df5 %>% group_by(Metric) %>% mutate(sum = sum(Value)/2)
+        df5 <- tidyr::gather(df5,Metric, Value, Stocks:Catch)
+        df5 <- dplyr::group_by(df5,Metric)
+        df5 <- dplyr::mutate(df5,sum = sum(Value)/2)
         # df5 <- df5 %>% group_by(Metric) %>% mutate(max = max(Value)/2)
         
         df5$fraction <- ifelse(df5$Metric == "Stocks", (df5$Value*tot)/stocks, df5$Value)
