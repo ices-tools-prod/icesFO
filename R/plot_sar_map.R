@@ -51,7 +51,7 @@ plot_sar_map <- function(sar, ecoregion, what) {
 
   # prepare effort
   sar <- sf::st_transform(sar, crs = crs)
-  sar$val <- sar[[what]]
+  sar$val <- as.numeric(sar[[what]])
 
   # define plot limits
   box <- sf::st_bbox(ecoregion)
