@@ -15,6 +15,8 @@
 #' catches_official_raw <- load_official_catches()
 #' catches_prelim_raw <- load_preliminary_catches()
 #' }
+#' 
+#' @export
 
 load_asfis_species <- function() {
 

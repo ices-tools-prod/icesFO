@@ -18,6 +18,7 @@ catches_hist_raw <- load_historical_catches()
 catches_official_raw <- load_official_catches()
 catches_prelim_raw <- load_preliminary_catches()
 }
+
 }
 \seealso{
 \code{\link{load_sag}} for loading data from the ICES Stock Assessment database. 
