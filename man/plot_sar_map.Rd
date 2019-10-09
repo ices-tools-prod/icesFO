@@ -4,7 +4,7 @@
 \alias{plot_sar_map}
 \title{Returns an map of the ecoregion and the divisions included in it}
 \usage{
-plot_sar_map(sar, ecoregion)
+plot_sar_map(sar, ecoregion, what)
 }
 \arguments{
 \item{sar}{a dataframe of swept area ratio data with a WKT 
