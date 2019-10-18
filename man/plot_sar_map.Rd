@@ -29,7 +29,12 @@ of c-squares
 \dontrun{
 ecoregion <- load_ecoregion("Baltic Sea")
 sar <- icesVMS::get_sar_map("Baltic Sea")
-plot1 <- plot_effort_map(sar, ecoregion)
+
+# convert to sf
+sar$wkt <- sf::st_as_sfc(sar$wkt)
+sar <- sf::st_sf(sar, sf_column_name = "wkt", crs = 4326)
+
+plot1 <- plot_sar_map(sar, ecoregion, what = "surface")
 }
 
 }
