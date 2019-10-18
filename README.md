@@ -55,6 +55,45 @@ install_github("ices-tools-prod/icesFO@devel")
 
 ## Examples
 
+## Plot ecoregion map
+
+In this example the map of the Greater North Sea ecoregion is plotted
+
+see
+
+``` r
+?icesFO::plot_ecoregion_map
+```
+
+for more details
+
+first download the ices area shape and the ecoregion shape. Both are
+converted to sf polygons for easy plotting
+
+``` r
+library(icesFO)
+
+# download data
+ices_areas_nrs <- load_areas("Greater North Sea")
+ecoregion_nrs <- load_ecoregion("Greater North Sea")
+```
+
+then the plot can be made:
+
+``` r
+# plot
+eco_map <- plot_ecoregion_map(ecoregion_nrs, ices_areas_nrs)
+```
+
+    ## Warning in st_centroid.sf(ices_areas): st_centroid assumes attributes are
+    ## constant over geometries of x
+
+``` r
+eco_map
+```
+
+![](README_files/figure-gfm/plot_ecoregion-1.png)<!-- -->
+
 ## Plot ICES official catch statistics
 
 In this example, the plots for ICES official catch statistics for the
@@ -93,6 +132,68 @@ p
 ```
 
 ![](README_files/figure-gfm/plot_official_catch-1.png)<!-- -->
+
+## Plot surface swept area ratio plot
+
+In this example the map of the average swept area ration for the Celtic
+Sea ecoregion is plotted
+
+see
+
+``` r
+?icesFO::plot_sar_map
+```
+
+for more details
+
+first download the ICES ecoregion shape. Both are converted to sf
+polygons for easy plotting
+
+``` r
+library(icesFO)
+
+# download data
+ecoregion_cs <- load_ecoregion("Celtic Seas")
+```
+
+Then dowload the SAR data using the icesVMS package.
+
+<div class="alert alert-danger"
+  <strong>NOTE:</strong> Only users with permission to access aggregated VMS data
+  can use this service.
+</div>
+
+``` r
+remotes::install_github("ices-tools-prod/icesVMS")
+```
+
+    ## Skipping install of 'icesVMS' from a github remote, the SHA1 (8f2fd475) has not changed since last install.
+    ##   Use `force = TRUE` to force installation
+
+``` r
+library(icesVMS)
+
+# download data
+sar <- icesVMS::get_sar_map("Celtic Seas")
+```
+
+    ## status code: 200
+
+``` r
+# convert to sf
+sar$wkt <- sf::st_as_sfc(sar$wkt)
+sar <- sf::st_sf(sar, sf_column_name = "wkt", crs = 4326)
+```
+
+then the plot can be made:
+
+``` r
+# plot
+sar_map <- plot_sar_map(sar, ecoregion_cs, what = "subsurface")
+sar_map
+```
+
+![](README_files/figure-gfm/plot_sar-1.png)<!-- -->
 
 ## Plot technical interactions
 

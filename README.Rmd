@@ -62,6 +62,36 @@ install_github("ices-tools-prod/icesFO@devel")
 Examples
 --------
 
+## Plot ecoregion map
+
+In this example the map of the Greater North Sea ecoregion is plotted
+
+see
+```r
+?icesFO::plot_ecoregion_map
+```
+for more details
+
+first download the ices area shape and the ecoregion shape.  Both
+are converted to sf polygons for easy plotting
+```{r download_ecoregion_shape, cache=TRUE}
+library(icesFO)
+
+# download data
+ices_areas_nrs <- load_areas("Greater North Sea")
+ecoregion_nrs <- load_ecoregion("Greater North Sea")
+```
+
+then the plot can be made:
+
+```{r plot_ecoregion}
+# plot
+eco_map <- plot_ecoregion_map(ecoregion_nrs, ices_areas_nrs)
+
+eco_map
+```
+
+
 ## Plot ICES official catch statistics
 
 In this example, the plots for ICES official catch statistics for the
@@ -95,6 +125,56 @@ p <-
                     line_count = 5, plot_type = "line")
 p
 ```
+
+## Plot surface swept area ratio plot
+
+In this example the map of the average swept area ration for the
+Celtic Sea ecoregion is plotted
+
+see
+```r
+?icesFO::plot_sar_map
+```
+for more details
+
+first download the ICES ecoregion shape.  Both
+are converted to sf polygons for easy plotting
+```{r download_ecoregion_shape2, cache=TRUE}
+library(icesFO)
+
+# download data
+ecoregion_cs <- load_ecoregion("Celtic Seas")
+```
+
+Then dowload the SAR data using the icesVMS package.
+
+<div class="alert alert-danger"
+  <strong>NOTE:</strong> Only users with permission to access aggregated VMS data
+  can use this service.
+</div>
+
+```{r download_sar_shape, cache=TRUE}
+remotes::install_github("ices-tools-prod/icesVMS")
+library(icesVMS)
+
+# download data
+sar <- icesVMS::get_sar_map("Celtic Seas")
+ 
+# convert to sf
+sar$wkt <- sf::st_as_sfc(sar$wkt)
+sar <- sf::st_sf(sar, sf_column_name = "wkt", crs = 4326)
+```
+
+
+then the plot can be made:
+
+```{r plot_sar}
+# plot
+sar_map <- plot_sar_map(sar, ecoregion_cs, what = "subsurface")
+sar_map
+```
+
+
 
 ## Plot technical interactions
 
