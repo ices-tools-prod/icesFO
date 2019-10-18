@@ -18,6 +18,15 @@
 #' \dontrun{
 #' ecoregion <- load_ecoregion("Baltic Sea")
 #' effort <- icesVMS::get_effort_map("Baltic Sea")
+#' 
+#' # convert to sf
+#' effort$wkt <- sf::st_as_sfc(effort$wkt)
+#' effort <- sf::st_sf(effort, sf_column_name = "wkt", crs = 4326)
+#'
+#' # select gears to plot
+#' gears <- c("Static", "Midwater", "Otter", "Demersal seine")
+#' effort <- effort[effort$fishing_category_FO %in% gears,]
+#' 
 #' plot1 <- plot_effort_map(effort, ecoregion)
 #' }
 #'
@@ -51,7 +60,7 @@ plot_effort_map <- function(effort, ecoregion){
   p <- 
     ggplot2::ggplot() +
     ggplot2::geom_sf(data = effort, ggplot2::aes(fill = mw_fishinghours), col = "transparent") +
-    ggplot2::scale_fill_viridis_c(trans = "sqrt") +
+    ggplot2::scale_fill_viridis_c(trans = "sqrt", name = "MW Fishing Hours") +
     ggplot2::geom_sf(data = ecoregion, color = "grey90", fill = "transparent") +
     ggplot2::geom_sf(data = europe_shape, fill = "grey80", color = "grey90") +
     ggplot2::theme(plot.caption = ggplot2::element_text(size = 6),
