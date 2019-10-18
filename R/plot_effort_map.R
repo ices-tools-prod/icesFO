@@ -56,13 +56,23 @@ plot_effort_map <- function(effort, ecoregion){
   xlims <- c(box[1], box[3])
   ylims <- c(box[2], box[4])
 
+  # get and format breaks
+  trans <- scales::sqrt_trans()
+  breaks <- trans$breaks(effort$mw_fishinghours)
+  breaks[1] <- 0
+  labels <- paste(breaks)
+  labels[1] <- ">0"
+
   # do plot
   p <- 
     ggplot2::ggplot() +
-    ggplot2::geom_sf(data = effort, ggplot2::aes(fill = mw_fishinghours), col = "transparent") +
-    ggplot2::scale_fill_viridis_c(trans = "sqrt", name = "MW Fishing Hours") +
     ggplot2::geom_sf(data = ecoregion, color = "grey90", fill = "transparent") +
-    ggplot2::geom_sf(data = europe_shape, fill = "grey80", color = "grey90") +
+    ggplot2::geom_sf(data = europe_shape, fill = "grey80", color = "grey90", size = 0.1) +
+    ggplot2::geom_sf(data = effort, ggplot2::aes(fill = mw_fishinghours), col = "transparent") +
+    ggplot2::scale_fill_viridis_c(name = "MW Fishing Hours", 
+                                  trans = "sqrt",
+                                  breaks = breaks, 
+                                  labels = labels) +
     ggplot2::theme(plot.caption = ggplot2::element_text(size = 6),
                    plot.subtitle = ggplot2::element_text(size = 7),
                    axis.title.x = ggplot2::element_blank(),

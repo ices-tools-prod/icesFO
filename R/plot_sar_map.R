@@ -58,21 +58,34 @@ plot_sar_map <- function(sar, ecoregion, what) {
   # prepare effort
   sar <- sf::st_transform(sar, crs = crs)
   sar$val <- as.numeric(sar[[what]])
+  sar <- dplyr::filter(sar, val > 0)
 
   # define plot limits
   box <- sf::st_bbox(ecoregion)
   xlims <- c(box[1], box[3])
   ylims <- c(box[2], box[4])
 
+  # get and format breaks
+  limits <- c(0, max(sar$val))
+  trans <- scales::sqrt_trans()
+  breaks <- trans$breaks(sar$val)
+  breaks <- sort(unique(c(0, breaks, round(max(sar$val), 2))))
+  labels <- paste(breaks)
+  labels[1] <- ">0"
+  
   # do plot
   p <- 
     ggplot2::ggplot() +
-    ggplot2::geom_sf(data = dplyr::filter(sar, val > 0), 
-                     ggplot2::aes(fill = val), 
-                     col = "transparent") +
-    ggplot2::scale_fill_viridis_c(name = legend_name, trans = "sqrt") +
     ggplot2::geom_sf(data = ecoregion, color = "grey90", fill = "transparent") +
     ggplot2::geom_sf(data = europe_shape, fill = "grey80", color = "grey90") +
+    ggplot2::geom_sf(data = sar, 
+                     ggplot2::aes(fill = val), 
+                     col = "transparent") +
+    ggplot2::scale_fill_viridis_c(name = legend_name, 
+                                  trans = "sqrt", 
+                                  breaks = breaks, 
+                                  labels = labels,
+                                  limits = limits) +
     ggplot2::theme(plot.caption = ggplot2::element_text(size = 6),
                    plot.subtitle = ggplot2::element_text(size = 7),
                    axis.title.x = ggplot2::element_blank(),
