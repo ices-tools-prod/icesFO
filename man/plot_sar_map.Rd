@@ -11,6 +11,8 @@ plot_sar_map(sar, ecoregion, what)
 columns (see notes)}
 
 \item{ecoregion}{a dataframe output of load_ecoregion( ... )}
+
+\item{what}{a flag which SAR value to plot - either "surface" or "subsurface"}
 }
 \value{
 A ggplot object

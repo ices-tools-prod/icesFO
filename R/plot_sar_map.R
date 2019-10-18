@@ -3,6 +3,7 @@
 #' @param sar a dataframe of swept area ratio data with a WKT 
 #'        columns (see notes)
 #' @param ecoregion a dataframe output of load_ecoregion( ... )
+#' @param what a flag which SAR value to plot - either "surface" or "subsurface"
 #' @return A ggplot object
 #'
 #' @note
