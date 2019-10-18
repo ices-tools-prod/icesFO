@@ -1,6 +1,6 @@
 # icesFO 1.0.0.9003
 
-- Internal changes only.
+- Internal changes and bug fixes only.
 
 
 # icesFO 1.0.0.9002
