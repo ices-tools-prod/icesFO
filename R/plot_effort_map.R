@@ -57,8 +57,10 @@ plot_effort_map <- function(effort, ecoregion){
   ylims <- c(box[2], box[4])
 
   # get and format breaks
+  limits <- c(0, max(effort$mw_fishinghours, na.rm = TRUE))
   trans <- scales::sqrt_trans()
   breaks <- trans$breaks(effort$mw_fishinghours)
+  breaks <- sort(unique(c(0, breaks, round(limits[2], 2))))
   breaks[1] <- 0
   labels <- paste(breaks)
   labels[1] <- ">0"
@@ -72,7 +74,8 @@ plot_effort_map <- function(effort, ecoregion){
     ggplot2::scale_fill_viridis_c(name = "MW Fishing Hours", 
                                   trans = "sqrt",
                                   breaks = breaks, 
-                                  labels = labels) +
+                                  labels = labels,
+                                  limits = limits) +
     ggplot2::theme(plot.caption = ggplot2::element_text(size = 6),
                    plot.subtitle = ggplot2::element_text(size = 7),
                    axis.title.x = ggplot2::element_blank(),
