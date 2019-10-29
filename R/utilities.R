@@ -22,7 +22,7 @@ get_area_27 <- function(ecoregion) {
       c("8.a", "8.b","8.c",
         "8.d.2", "8.e.2", "9.a",
         "9.b.2"),
-    `Iceland Sea` = 
+    `Icelandic Waters` = 
       c("5.a.1", "5.a.2","12.a.4"),  
     `Norwegian Sea` = 
       c("2.a.1", "2.a.2", "2.b.1", "2.b.2", "14.a"),  

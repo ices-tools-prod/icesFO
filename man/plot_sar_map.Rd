@@ -11,6 +11,8 @@ plot_sar_map(sar, ecoregion, what)
 columns (see notes)}
 
 \item{ecoregion}{a dataframe output of load_ecoregion( ... )}
+
+\item{what}{a flag which SAR value to plot - either "surface" or "subsurface"}
 }
 \value{
 A ggplot object
@@ -27,7 +29,12 @@ of c-squares
 \dontrun{
 ecoregion <- load_ecoregion("Baltic Sea")
 sar <- icesVMS::get_sar_map("Baltic Sea")
-plot1 <- plot_effort_map(sar, ecoregion)
+
+# convert to sf
+sar$wkt <- sf::st_as_sfc(sar$wkt)
+sar <- sf::st_sf(sar, sf_column_name = "wkt", crs = 4326)
+
+plot1 <- plot_sar_map(sar, ecoregion, what = "surface")
 }
 
 }

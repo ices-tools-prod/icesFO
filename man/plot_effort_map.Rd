@@ -26,6 +26,15 @@ of c-squares
 \dontrun{
 ecoregion <- load_ecoregion("Baltic Sea")
 effort <- icesVMS::get_effort_map("Baltic Sea")
+
+# convert to sf
+effort$wkt <- sf::st_as_sfc(effort$wkt)
+effort <- sf::st_sf(effort, sf_column_name = "wkt", crs = 4326)
+
+# select gears to plot
+gears <- c("Static", "Midwater", "Otter", "Demersal seine")
+effort <- effort[effort$fishing_category_FO \%in\% gears,]
+
 plot1 <- plot_effort_map(effort, ecoregion)
 }
 
