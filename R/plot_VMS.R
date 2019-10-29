@@ -91,7 +91,7 @@ plot_vms <- function(x, metric = NULL, type = NULL, cap_year, cap_month, line_co
                 ggplot2::scale_color_manual(values = myColors) +
                 ggplot2::scale_x_continuous(breaks = seq(min(dat$year, na.rm = TRUE),
                                                 max(dat$year, na.rm = TRUE), by = 2)) +
-                ggplot2::geom_segment(ggplot2::aes(x = -Inf, xend = 2017, y = -Inf, yend = -Inf), color = "grey50")+
+                ggplot2::geom_segment(ggplot2::aes(x = -Inf, xend = 2018, y = -Inf, yend = -Inf), color = "grey50")+
                 ggplot2::geom_segment(ggplot2::aes(y = -Inf, yend = Inf, x = -Inf, xend = -Inf), color = "grey50")+
                 ggplot2::expand_limits(x = c(min(dat$year, na.rm = TRUE), 2022)) + # So that we have enough room along x-axis for labels.
                 cap_lab +
