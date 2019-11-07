@@ -69,7 +69,8 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                         collapse = "|")
   #these historical catches definition need decission on conflicts
   historic_bob <- c("VIII a", "VIII b", "VIII c", "VIII d2", "VIII e2",
-                    "IX a", "IX b2", "VIII d (not specified)", "IX (not specified)")
+                    "IX a", "IX b2", "VIII d (not specified)", "VIII (not specified)","VIII e (not specified)", "IX (not specified)",
+                    "IX b (not specified)")
 
   historic_cs <- c("VI a", "VI b2", "VII a", "VII b", "VII c2", "VII f", "VII g", "VII h",
                    "VII j2", "VII k2", "VII (not specified)", "VII b+c (not specified)",
