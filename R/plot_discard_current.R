@@ -35,7 +35,7 @@
 
 #find a way to set caption(cap_year, cap_month) being conditional
 
-plot_discard_current <- function(x, year, caption = TRUE, cap_year, cap_month, return_data = FALSE){
+plot_discard_current <- function(x, year, position_letter = "b)", caption = TRUE, cap_year, cap_month, return_data = FALSE){
         df <- dplyr::filter(x,Year %in% seq(year-5, year -1))
         df2 <- tidyr::expand(df,Year, tidyr::nesting(StockKeyLabel,AssessmentYear,FisheriesGuild))
         df <- dplyr::left_join(df,df2,
@@ -86,7 +86,7 @@ plot_discard_current <- function(x, year, caption = TRUE, cap_year, cap_month, r
                       plot.caption = ggplot2::element_text(size = 6),
                       panel.grid = ggplot2::element_blank(),
                       legend.key = ggplot2::element_rect(colour = NA)) +
-                ggplot2::labs(x = "", y = "Discards and landings(thousand tonnes)",title = "b)")
+                ggplot2::labs(x = "", y = "Discards and landings(thousand tonnes)",title = position_letter)
         
         if(caption == T){
                 cap_lab <- ggplot2::labs(caption = sprintf("ICES Stock Assessment Database, %s/%s. ICES, Copenhagen",
@@ -103,7 +103,7 @@ plot_discard_current <- function(x, year, caption = TRUE, cap_year, cap_month, r
                                        plot.caption = ggplot2::element_text(size = 6),
                                        panel.grid = ggplot2::element_blank(),
                                        legend.key = ggplot2::element_rect(colour = NA)) +
-                        ggplot2::labs(x = "", y = "Discards and landings(thousand tonnes)",title = "b)")+
+                        ggplot2::labs(x = "", y = "Discards and landings(thousand tonnes)",title = position_letter)+
                         cap_lab
         }
         

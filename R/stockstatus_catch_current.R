@@ -58,16 +58,20 @@ stockstatus_CLD_current <- function(x) {
                                                discards,
                                                FMSY,
                                                F)
-        df3 <- dplyr::group_by(df,StockKeyLabel)
-        df3 <- dplyr::filter(df3, Year == AssessmentYear )
+        df3 <- dplyr::group_by(df,StockKeyLabel, AssessmentYear)
+        df3 <- dplyr::filter(df3, Year %in% c(AssessmentYear, (AssessmentYear - 1)))
         df3 <- dplyr::mutate(df3, SSB_MSYBtrigger = ifelse(!is.na(MSYBtrigger),
                                                                         SSB / MSYBtrigger,
                                                                         NA))
-        df3 <- dplyr::select(df3, StockKeyLabel,
+        df3 <- dplyr::select(df3, StockKeyLabel,Year,
                                                FisheriesGuild,
                                                SSB_MSYBtrigger,
                                                SSB,
                                                MSYBtrigger)
+        check <- unique(df3[c("StockKeyLabel", "Year", "MSYBtrigger")])
+        check2 <- check[duplicated(check$StockKeyLabel),]
+        check <- anti_join(check,check2)
+        df3 <- anti_join(df3,check)
         df4 <- dplyr::full_join(df2, df3)
         df4 <- dplyr::mutate(df4, Status = ifelse(is.na(F_FMSY) | is.na(SSB_MSYBtrigger),
                                       "GREY",

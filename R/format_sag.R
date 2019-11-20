@@ -42,6 +42,7 @@ format_sag <- function(x,y,year,ecoregion){
         df1 <- dplyr::select(df1,Year,
                StockKeyLabel,
                FisheriesGuild,
+               Purpose,
                F,
                SSB,
                fishingPressureDescription,
@@ -62,4 +63,7 @@ format_sag <- function(x,y,year,ecoregion){
                MSYBtrigger)
         
         out <- dplyr::left_join(df1,df2)
+        check <-unique(out[c("StockKeyLabel", "Purpose")])
+        check <- check[duplicated(check$StockKeyLabel),]
+        out <- dplyr::anti_join(out, check)
 }
