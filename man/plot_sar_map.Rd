@@ -7,7 +7,7 @@
 plot_sar_map(sar, ecoregion, what)
 }
 \arguments{
-\item{sar}{a dataframe of swept area ratio data with a WKT 
+\item{sar}{a dataframe of swept area ratio data with a WKT
 columns (see notes)}
 
 \item{ecoregion}{a dataframe output of load_ecoregion( ... )}
@@ -31,8 +31,7 @@ ecoregion <- load_ecoregion("Baltic Sea")
 sar <- icesVMS::get_sar_map("Baltic Sea")
 
 # convert to sf
-sar$wkt <- sf::st_as_sfc(sar$wkt)
-sar <- sf::st_sf(sar, sf_column_name = "wkt", crs = 4326)
+sar <- sf::st_as_sf(sar, wkt = "wkt", crs = 4326)
 
 plot1 <- plot_sar_map(sar, ecoregion, what = "surface")
 }

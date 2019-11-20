@@ -28,8 +28,7 @@ ecoregion <- load_ecoregion("Baltic Sea")
 effort <- icesVMS::get_effort_map("Baltic Sea")
 
 # convert to sf
-effort$wkt <- sf::st_as_sfc(effort$wkt)
-effort <- sf::st_sf(effort, sf_column_name = "wkt", crs = 4326)
+effort <- sf::st_as_sf(effort, wkt = "wkt", crs = 4326)
 
 # select gears to plot
 gears <- c("Static", "Midwater", "Otter", "Demersal seine")
