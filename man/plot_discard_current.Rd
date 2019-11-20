@@ -12,6 +12,8 @@ plot_discard_current(x, year, position_letter = "b)", caption = TRUE,
 
 \item{year}{the year required}
 
+\item{position_letter}{is this figure "a)", or "b)" etc.}
+
 \item{caption}{logical for whether there should be a caption}
 
 \item{cap_year}{the year to be shown in the figure caption}
@@ -40,7 +42,7 @@ plot1 <- plot_discard_trends(CLDtrends, caption = T,cap_year, cap_month, return_
 The ICES stock information Database web sevices: \url{http://sid.ices.dk/services/}
 }
 \seealso{
-\code{\link{plot_discard_current}} a plot of landings and discards by fish category in the last year for an ecoregion. 
+\code{\link{plot_discard_current}} a plot of landings and discards by fish category in the last year for an ecoregion.
 
 \code{\link{icesFO-package}} gives an overview of the package.
 }
