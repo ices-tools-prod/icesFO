@@ -69,9 +69,9 @@ stockstatus_CLD_current <- function(x) {
                                                SSB,
                                                MSYBtrigger)
         check <- unique(df3[c("StockKeyLabel", "Year", "MSYBtrigger")])
+        check <- check[order(-check$Year),]
         check2 <- check[duplicated(check$StockKeyLabel),]
-        check <- anti_join(check,check2)
-        df3 <- anti_join(df3,check)
+        df3 <- anti_join(df3,check2)
         df4 <- dplyr::full_join(df2, df3)
         df4 <- dplyr::mutate(df4, Status = ifelse(is.na(F_FMSY) | is.na(SSB_MSYBtrigger),
                                       "GREY",
