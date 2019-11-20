@@ -1,12 +1,12 @@
-get_map_breaks <- function(value) {
+get_map_breaks <- function(value, min_breaks = 9) {
   # calculate breaks based on max value
   lmax <- log(max(value), 10)
   upper_int <- findInterval(lmax %% 1, log(c(1, 2, 5, 10), 10))
-  upper <- c(1, 2, 5)[1:(upper_int + 1)]
+  upper <- c(1, 2, 5, 10)[1:(upper_int + 1)]
 
   breaks <-
     c(0,
-      c(outer(c(1, 2, 5), (floor(lmax) - 3):floor(lmax), function(x, y) x*10^y)),
+      c(outer(c(1, 2, 5), (floor(lmax) - floor((min_breaks-1)/3):floor(lmax), function(x, y) x*10^y)),
       upper * 10^(ceiling(lmax)))
 
   # how small is the smallest number (in magnitude)
