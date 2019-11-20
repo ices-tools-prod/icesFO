@@ -4,7 +4,7 @@
 \alias{format_annex_table}
 \title{Format the SAG status data for its use as an annex table.}
 \usage{
-format_annex_table(x, year, return_data = FALSE)
+format_annex_table(x, year)
 }
 \arguments{
 \item{x}{a dataframe output from format_sag_status.}
@@ -18,7 +18,7 @@ the table}
 A data frame
 }
 \description{
-It provides an excel file with symbols per status, as well as 
+It provides an excel file with color names per status, as well as 
 other information that might be required for an annex table
 }
 \note{
