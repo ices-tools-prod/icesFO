@@ -6,7 +6,7 @@ get_map_breaks <- function(value, min_breaks = 9) {
 
   breaks <-
     c(0,
-      c(outer(c(1, 2, 5), (floor(lmax) - floor((min_breaks-1)/3)):floor(lmax), function(x, y) x*10^y)),
+      c(outer(c(1, 2, 5), pmin(0, (floor(lmax) - floor(min_breaks/4))):floor(lmax), function(x, y) x*10^y)),
       upper * 10^(ceiling(lmax)))
 
   # how small is the smallest number (in magnitude)
