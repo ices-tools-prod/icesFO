@@ -1,15 +1,15 @@
 #' Returns an map of the ecoregion and the divisions included in it
-#' 
+#'
 #' @param effort a dataframe of effort data with a WKT columns (see notes)
 #' @param ecoregion a dataframe output of load_ecoregion( ... )
 #' @return A ggplot object
 #'
 #' @note
-#' 
+#'
 #' The effort data.frame is conveted to an sf object for plotting and
 #' is expeted to have a Well Known Text column containing polygons
 #' of c-squares
-#' 
+#'
 #' @seealso
 #'
 #' \code{\link{plot_ecoregion_map}} plots ICES areas and ecoregion.
@@ -18,29 +18,28 @@
 #' \dontrun{
 #' ecoregion <- load_ecoregion("Baltic Sea")
 #' effort <- icesVMS::get_effort_map("Baltic Sea")
-#' 
+#'
 #' # convert to sf
-#' effort$wkt <- sf::st_as_sfc(effort$wkt)
-#' effort <- sf::st_sf(effort, sf_column_name = "wkt", crs = 4326)
+#' effort <- sf::st_as_sf(effort, wkt = "wkt", crs = 4326)
 #'
 #' # select gears to plot
 #' gears <- c("Static", "Midwater", "Otter", "Demersal seine")
 #' effort <- effort[effort$fishing_category_FO %in% gears,]
-#' 
+#'
 #' plot1 <- plot_effort_map(effort, ecoregion)
 #' }
 #'
 #' @export
 plot_effort_map <- function(effort, ecoregion){
-  
+
   # define projection to use
   crs <- "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
-        
-  # get europe coastline polygon      
-  europe_shape <- 
+
+  # get europe coastline polygon
+  europe_shape <-
     rnaturalearth::ne_countries(
-      scale = 10, type = "countries", 
-      continent = "europe", 
+      scale = 10, type = "countries",
+      continent = "europe",
       returnclass = "sf")
   europe_shape <- europe_shape[, c("iso_a3", "iso_n3", "admin", "geometry")]
 
@@ -56,26 +55,16 @@ plot_effort_map <- function(effort, ecoregion){
   xlims <- c(box[1], box[3])
   ylims <- c(box[2], box[4])
 
-  # get and format breaks
-  limits <- c(0, max(effort$mw_fishinghours, na.rm = TRUE))
-  trans <- scales::sqrt_trans()
-  breaks <- trans$breaks(effort$mw_fishinghours)
-  breaks <- sort(unique(c(0, breaks, round(limits[2], 2))))
-  breaks[1] <- 0
-  labels <- paste(breaks)
-  labels[1] <- ">0"
-
   # do plot
-  p <- 
+  p <-
     ggplot2::ggplot() +
     ggplot2::geom_sf(data = ecoregion, color = "grey90", fill = "transparent") +
     ggplot2::geom_sf(data = europe_shape, fill = "grey80", color = "grey90", size = 0.1) +
-    ggplot2::geom_sf(data = effort, ggplot2::aes(fill = mw_fishinghours), col = "transparent") +
-    ggplot2::scale_fill_viridis_c(name = "MW Fishing Hours", 
-                                  trans = "sqrt",
-                                  breaks = breaks, 
-                                  labels = labels,
-                                  limits = limits) +
+    ggplot2::geom_sf(data = effort, ggplot2::aes(fill = get_map_breaks(mw_fishinghours)), col = "transparent") +
+    ggplot2::scale_fill_viridis_d(name = "MW Fishing Hours",
+                                  direction = -1,
+                                  option = "A",
+                                  guide = ggplot2::guide_legend(reverse = TRUE)) +
     ggplot2::theme(plot.caption = ggplot2::element_text(size = 6),
                    plot.subtitle = ggplot2::element_text(size = 7),
                    axis.title.x = ggplot2::element_blank(),

@@ -4,21 +4,18 @@
 \alias{format_annex_table}
 \title{Format the SAG status data for its use as an annex table.}
 \usage{
-format_annex_table(x, year, return_data = FALSE)
+format_annex_table(df, year)
 }
 \arguments{
-\item{x}{a dataframe output from format_sag_status.}
+\item{df}{a dataframe output from format_sag_status.}
 
 \item{year}{the active year}
-
-\item{return_data}{logical whether to return the data behind
-the table}
 }
 \value{
 A data frame
 }
 \description{
-It provides an excel file with symbols per status, as well as 
+It provides an excel file with color names per status, as well as
 other information that might be required for an annex table
 }
 \note{
@@ -31,7 +28,7 @@ sid_format <- format_sid(x, "Celtic Seas")
 
 }
 \seealso{
-\code{\link{format_sag}} for formatting raw data from the ICES Stock Assessment database. 
+\code{\link{format_sag}} for formatting raw data from the ICES Stock Assessment database.
 
 \code{\link{icesFO-package}} gives an overview of the package.
 }
