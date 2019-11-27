@@ -29,16 +29,16 @@ plot_vms <- function(x, metric = NULL, type = NULL, cap_year, cap_month, line_co
         
         if(type == "effort"){
                 if(metric=="country"){
-                dat <- dplyr::rename_(x, "type_var" ="country",
+                dat <- dplyr::rename(x, "type_var" ="country",
                               "VALUE" = "kw_fishing_hours")}
                 if(metric=="gear_category"){
-                        dat <- dplyr::rename_(x, "type_var" ="gear_category",
+                        dat <- dplyr::rename(x, "type_var" ="gear_category",
                                               "VALUE" = "kw_fishing_hours")
                 }
                 Label <- "Nominal effort (1000 kW fishing hours)"
                 }
         if(type == "landings"){
-                dat <- dplyr::rename_(x, "type_var" ="gear_category",
+                dat <- dplyr::rename(x, "type_var" ="gear_category",
                                       "VALUE" = "totweight")
                 Label <- "Landings (thousand tonnes)"
                 }
