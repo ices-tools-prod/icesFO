@@ -11,7 +11,7 @@ get_area_27 <- function(ecoregion) {
         "3.d.30", "3.d.32", "3.d.29",
         "3.d.28.1", "3.d.28.2", "3.d.26"),
     `Greater North Sea` = 
-      c("3.a.20", "3.a.21",
+      c("3.a.20", "3.a.21","3.b.23",
         "4.a", "4.b", "4.c",
         "7.d", "7.e"),
     `Celtic Seas` = 
