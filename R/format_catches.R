@@ -78,6 +78,10 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                    "VII g-k (not specified)", "VII j (not specified)")
 
   historic_is <- c("V a (North-East)", "V a (South-West)", "V a1", "V a (not specified)", "V a2")
+  historic_az <- c("X (not specified)", "X a (not specified)")
+  historic_gs <- c("XII a3", "II (not specified)", "II b (not specified)", "II b2", "V (not specified)", "V a (North-East)", "V a (not specified)",
+                   "V a (South-West)", "V a+b1  (not specified)", "V a2", "XII (not specified)", "XII a (not specified)", "XIV (not specified)", 
+                   "XIV a", "XIV b (not specified)", "XIV b2" )
 
   if(ecoregion == "Norwegian Sea"){
   historic_nw <- c( "II a1", "II b1", "I  and  IIa (not specified)","II a (not specified)",
@@ -116,6 +120,8 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                          Division %in% historic_bob ~ "Bay of Biscay and the Iberian Coast",
                          Division %in% historic_cs ~ "Celtic Seas",
                          Division %in% historic_is ~ "Icelandic Waters",
+                         Division %in% historic_az ~ "Azores",
+                         Division %in% historic_gs ~ "Greenland Sea",
                          if(ecoregion == "Norwegian Sea"){
                          Division %in% historic_nw ~ "Norwegian Sea"
                                  },
@@ -162,6 +168,8 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                                        "27.7.f", "27.7.g", "27.7.h","27.7.j.2", "27.7.k.2") ~ "Celtic Seas",
                          
                          Area %in% c("27.5.a.1", "27.5.a.2","27.5.a_NK","27.5.a_nk","27.12.a.4") ~ "Icelandic Waters",
+                         Area %in% c("27.10.a.2") ~ "Azores",
+                         Area %in% c("27.12.a.3", "27.2.b.2", "27.5.a.2", "27.14.a", "27.14.b.2") ~ "Greenland Sea",
                          
                          if(ecoregion == "Norwegian Sea"){
                          Area %in% c("27.2.a.1", "27.2.a.2","27.2.a_NK","27.2.a_nk", "27.2.b.1", "27.2.b.2", "27.2.b_NK","27.2.b_nk","27.14.a", "27.14_NK", "27.14_nk") ~ "Norwegian Sea"
