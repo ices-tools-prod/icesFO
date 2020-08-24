@@ -1,6 +1,7 @@
 # icesFO 1.0.0.9004
 
-- Internal changes only.
+- updated urls in load catches
+- added specifications for AZ and GS in current and historical areas in format_catches
 
 
 # icesFO 1.0.0.9003
