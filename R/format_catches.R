@@ -193,57 +193,59 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
   catch_dat_2010 <- dplyr::summarise(catch_dat_2010, VALUE = sum(VALUE))
 
   # now do preliminary catches
-  catch_dat_prelim <- dplyr::filter(preliminary, Country != "") 
-          # tidyr::gather(ï..Year, -Country, -AphiaID, -Area, -Catch) %>%
-  catch_dat_prelim <- dplyr::mutate(catch_dat_prelim, YEAR = Year,
-                 VALUE = AMS.Catch.TLW.,
-                 Country = countrycode::countrycode(Country,"iso2c", "country.name"),
-                 Country = ifelse(grepl("Guernsey|Isle of Man|Jersey", Country),
-                                  "United Kingdom",
-                                  Country),
-                 ISO3 = countrycode::countrycode(Country, "country.name", "iso3c", warn = FALSE),
-                 Country = gsub("(United Kingdom) .*", "\\1", Country),
-                 Area = tolower(Area))
-
-
-  #check why areas names are different!!
-  catch_dat_prelim <- dplyr::mutate(catch_dat_prelim, ECOREGION = dplyr::case_when(
-                  Area %in% c("27_3_bc", "27_3_c_22","27_3_d","27_3_d_24","27_3_d_25","27_3_d_26","27_3_d_30",
-                                "27_3_d_27","27_3_d_31","27_3_nk", "27_3_b_23", "27_3_d_28_2","27_3_d_32","27_3_d_29") ~ "Baltic Sea",
-                  Area %in% c("27_3_a", "27_4_a","27_4_b", "27_4_c", "27_7_d") ~ "Greater North Sea",
-
-                  Area %in% c("27_8_a", "27_8_b","27_8_c",
-                                "27_8_d_2", "27_8_e_2", "27_9_a",
-                                "27_9_b_2")~ "Bay of Biscay and the Iberian Coast",
-                  Area %in% c("27_6_a", "27_6_b_2","27_7_a", "27_7_b", "27_7_c_2","27_7.e",
-                                "27_7_f", "27_7_g", "27_7_h","27_7_j_2", "27_7_k_2")~"Celtic Seas",
-
-                  Area %in% c("5_a_1", "5_a_2","12_a_4")~"Icelandic Waters",
-
-                 Area %in% c("2_a_1", "2_a_2", "2_b_1", "2_b_2", "14.a")~"Norwegian Sea",
-                  TRUE ~ "OTHER"))
-
-  catch_dat_prelim <- dplyr::filter(catch_dat_prelim,ECOREGION != "OTHER")
-  catch_dat_prelim <- dplyr::left_join(catch_dat_prelim, species_list, c("Species.Latin.Name" = "Scientific_name"))
-    
-  catch_dat_prelim <- dplyr::left_join(catch_dat_prelim, fish_category, by = "X3A_CODE")
-  catch_dat_prelim <- dplyr::select(catch_dat_prelim,YEAR,
-                                   COUNTRY = Country,
-                                   ISO3,
-                                   GUILD = FisheriesGuild,
-                                   ECOREGION,
-                                   SPECIES_NAME = Species.Latin.Name,
-                                   SPECIES_CODE = X3A_CODE,
-                                   COMMON_NAME = English_name,
-                                   VALUE)
-  catch_dat_prelim$COMMON_NAME[which(catch_dat_prelim$SPECIES_NAME == "Ammodytes")] <- "Sandeels(=Sandlances) nei"
-  catch_dat_prelim$SPECIES_CODE[which(catch_dat_prelim$SPECIES_NAME == "Ammodytes")] <- "SAN"
-
+  
   if (is.null(preliminary)) {
-    df <- dplyr::bind_rows(catch_dat_2010,catch_dat_1950)
+          df <- dplyr::bind_rows(catch_dat_2010,catch_dat_1950)
   } else {
-    df <- dplyr::bind_rows(catch_dat_2010,catch_dat_1950, catch_dat_prelim)
+          catch_dat_prelim <- dplyr::filter(preliminary, Country != "") 
+          # tidyr::gather(ï..Year, -Country, -AphiaID, -Area, -Catch) %>%
+          catch_dat_prelim <- dplyr::mutate(catch_dat_prelim, YEAR = Year,
+                                            VALUE = AMS.Catch.TLW.,
+                                            Country = countrycode::countrycode(Country,"iso2c", "country.name"),
+                                            Country = ifelse(grepl("Guernsey|Isle of Man|Jersey", Country),
+                                                             "United Kingdom",
+                                                             Country),
+                                            ISO3 = countrycode::countrycode(Country, "country.name", "iso3c", warn = FALSE),
+                                            Country = gsub("(United Kingdom) .*", "\\1", Country),
+                                            Area = tolower(Area))
+          
+          
+          #check why areas names are different!!
+          catch_dat_prelim <- dplyr::mutate(catch_dat_prelim, ECOREGION = dplyr::case_when(
+                  Area %in% c("27_3_bc", "27_3_c_22","27_3_d","27_3_d_24","27_3_d_25","27_3_d_26","27_3_d_30",
+                              "27_3_d_27","27_3_d_31","27_3_nk", "27_3_b_23", "27_3_d_28_2","27_3_d_32","27_3_d_29") ~ "Baltic Sea",
+                  Area %in% c("27_3_a", "27_4_a","27_4_b", "27_4_c", "27_7_d") ~ "Greater North Sea",
+                  
+                  Area %in% c("27_8_a", "27_8_b","27_8_c",
+                              "27_8_d_2", "27_8_e_2", "27_9_a",
+                              "27_9_b_2")~ "Bay of Biscay and the Iberian Coast",
+                  Area %in% c("27_6_a", "27_6_b_2","27_7_a", "27_7_b", "27_7_c_2","27_7.e",
+                              "27_7_f", "27_7_g", "27_7_h","27_7_j_2", "27_7_k_2")~"Celtic Seas",
+                  
+                  Area %in% c("5_a_1", "5_a_2","12_a_4")~"Icelandic Waters",
+                  
+                  Area %in% c("2_a_1", "2_a_2", "2_b_1", "2_b_2", "14.a")~"Norwegian Sea",
+                  TRUE ~ "OTHER"))
+          
+          catch_dat_prelim <- dplyr::filter(catch_dat_prelim,ECOREGION != "OTHER")
+          catch_dat_prelim <- dplyr::left_join(catch_dat_prelim, species_list, c("Species.Latin.Name" = "Scientific_name"))
+          
+          catch_dat_prelim <- dplyr::left_join(catch_dat_prelim, fish_category, by = "X3A_CODE")
+          catch_dat_prelim <- dplyr::select(catch_dat_prelim,YEAR,
+                                            COUNTRY = Country,
+                                            ISO3,
+                                            GUILD = FisheriesGuild,
+                                            ECOREGION,
+                                            SPECIES_NAME = Species.Latin.Name,
+                                            SPECIES_CODE = X3A_CODE,
+                                            COMMON_NAME = English_name,
+                                            VALUE)
+          catch_dat_prelim$COMMON_NAME[which(catch_dat_prelim$SPECIES_NAME == "Ammodytes")] <- "Sandeels(=Sandlances) nei"
+          catch_dat_prelim$SPECIES_CODE[which(catch_dat_prelim$SPECIES_NAME == "Ammodytes")] <- "SAN"
+          df <- dplyr::bind_rows(catch_dat_2010,catch_dat_1950, catch_dat_prelim)
   }
+  
+  
   df <- dplyr::ungroup(df)
   df <- dplyr::mutate(df, GUILD = ifelse(is.na(GUILD),
                                          "undefined",

@@ -41,13 +41,13 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD"),
                               line_count = 10,
                               plot_type = c("line", "area"),
                               preliminary_catches = TRUE,
-                              official_catches_year = 2018,
+                              official_catches_year = 2019,
                               return_data = FALSE) {
         capyear <- official_catches_year-1
         capyear <- as.character(capyear)
         cap_lab <-ggplot2::labs(x = "",
                        y = "Landings (thousand tonnes)",
-                       caption = sprintf(paste0("Historical Nominal Catches 1950-2010, \nOfficial Nominal Catches 2006-",capyear,"\nPreliminary Catches 2018 \n ICES, Copenhagen.")))
+                       caption = sprintf(paste0("Historical Nominal Catches 1950-2010, \nOfficial Nominal Catches 2006-",capyear,"\nPreliminary Catches 2019 \n ICES, Copenhagen.")))
         
         
         df <- dplyr::rename(x, type_var = setNames(type , "type_var"))
@@ -55,6 +55,8 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD"),
         if(type == "COMMON_NAME"){
         df$type_var[which(df$type_var == "Angler(=Monk)")] <- "Anglerfish spp"
         df$type_var[which(df$type_var == "Monkfishes nei")] <- "Anglerfish spp"
+        df$type_var[which(df$type_var == "Atlantic herring")] <- "herring"
+        df$type_var[which(df$type_var == "Atlantic cod")] <- "cod"
         df$type_var[which(df$type_var == "Anglerfishes nei")] <- "Anglerfish spp"
         df$type_var[which(df$type_var == "Megrims nei")] <- "Megrim"
         df$type_var[which(df$type_var == "Norway lobster")] <- "Nephrops"
