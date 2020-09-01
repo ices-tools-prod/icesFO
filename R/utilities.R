@@ -27,6 +27,8 @@ get_area_27 <- function(ecoregion) {
     `Norwegian Sea` = 
       c("2.a.1", "2.a.2", "2.b.1", "2.b.2", "14.a"),  
     `Barents Sea` = 
-    c("1.a", "1.b","2.a.2", "2.b.2")
+    c("1.a", "1.b","2.a.2", "2.b.2"),
+    `Greenland Sea` = 
+            c("12.a.3", "14.b.2","14.a", "5.a.2", "2.b.2")
   )
 }
