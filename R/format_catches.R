@@ -169,7 +169,7 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                          
                          Area %in% c("27.5.a.1", "27.5.a.2","27.5.a_NK","27.5.a_nk","27.12.a.4") ~ "Icelandic Waters",
                          Area %in% c("27.10.a.2") ~ "Azores",
-                         Area %in% c("27.12.a.3", "27.2.b.2", "27.5.a.2", "27.14.a", "27.14.b.2") ~ "Greenland Sea",
+                         Area %in% c("27.12.a.3", "27.2.b.2", "27.5.a.2", "27.14.a", "27.14.b.2", "27.14.b_NK", "27.14.b_nk", "27.14_NK", "27.14_nk") ~ "Greenland Sea",
                          
                          if(ecoregion == "Norwegian Sea"){
                          Area %in% c("27.2.a.1", "27.2.a.2","27.2.a_NK","27.2.a_nk", "27.2.b.1", "27.2.b.2", "27.2.b_NK","27.2.b_nk","27.14.a", "27.14_NK", "27.14_nk") ~ "Norwegian Sea"
