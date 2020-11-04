@@ -51,6 +51,7 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD"),
         
         
         df <- dplyr::rename(x, type_var = setNames(type , "type_var"))
+        df <- dplyr::rename(df, type_var= type_var...type_var)
         
         if(type == "COMMON_NAME"){
         df$type_var[which(df$type_var == "Angler(=Monk)")] <- "Anglerfish spp"

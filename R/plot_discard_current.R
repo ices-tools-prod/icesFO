@@ -53,7 +53,7 @@ plot_discard_current <- function(x, year, position_letter = "b)",
                                                   !is.na(`2016`),
                                           `2016`,
                                           `2017`))
-  df3 <- tidyr::gather(df3,Year, discards, 4:8)
+  df3 <- tidyr::gather(df3,Year, discards, 4:ncol(df3))
   df3 <- dplyr::mutate(df3,Year = as.numeric(Year),
                        discards = as.numeric(discards))
   df5 <- dplyr::select(df,-discards,
