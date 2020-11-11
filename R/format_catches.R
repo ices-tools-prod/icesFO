@@ -193,7 +193,6 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                          Area %in% c("27.6.a", "27.6.b.2","27.7.a", "27.7.b", "27.7.c.2",
                                        "27.7.f", "27.7.g", "27.7.h","27.7.j.2", "27.7.k.2") ~ "Celtic Seas",
                          Area %in% c("27.5.a.1", "27.5.a.2","27.5.a_NK","27.5.a_nk","27.12.a.4") ~ "Icelandic Waters",
-                         Area %in% c("27.10.a.2", "27.10.a_NK", "27.10.a_nk") ~ "Azores",
                          Area %in% c("27.5.b.1.a", "27.6.b.1","27.7.c.1", "27.7.j.1",
                                      "27.7.k.1", "27.8.d.1", "27.8.e.1", "27.9.b.1", 
                                      "27.10.a.1", "27.10.b", "27.12_nk", "27.12.a.1", "27.12.b", 
@@ -201,6 +200,9 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                         if(ecoregion == "Norwegian Sea"){
                          Area %in% c("27.2.a.1", "27.2.a.2","27.2.a_NK","27.2.a_nk", "27.2.b.1", "27.2.b.2", "27.2.b_NK","27.2.b_nk","27.14.a", "27.14_NK", "27.14_nk") ~ "Norwegian Sea"
                                  },
+                        if(ecoregion == "Azores"){
+                                Area %in% c("27.10.a.2", "27.10.a_NK", "27.10.a_nk", "27.10_NK", "27.10_nk") ~ "Azores"
+                        },
                         if(ecoregion == "Greenland Sea"){
                                 Area %in% c("27.12.a.3", "27.14.a", "27.14.b.2", "27.14.b_NK", "27.14.b_nk", "27.14_NK", "27.14_nk") ~ "Greenland Sea"
                         },
@@ -261,7 +263,7 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                   
                   Area %in% c("5_a_1", "5_a_2","12_a_4")~"Icelandic Waters",
                   Area %in% c("27_10_a_2", "27_10_A_2")~"Azores",
-                  Area %in% c("27_2_a_1", "27_2_a_2", "27_2_b_1", "27_2_b_2", "27_14_a")~"Norwegian Sea",
+                  Area %in% c("27_2_a_1", "27_2_a_2", "27_2_b_1", "27_2_b_2", "27_14_a", "27_2_a", "27_2_b")~"Norwegian Sea",
                   Area %in% c("27_5_b_1_A", "27_6_b_1","27_7_c_1", "27_7_j_1","27_7_k_1",
                               "27_8_d_1", "27_8_e_1", "27_9_b_1", "27_10_a_1", "27_10_b", 
                               "27_12_a_1", "27_12_b", "27_12_c", "27_14_b_1")~"Oceanic Northeast Atlantic",

@@ -87,10 +87,12 @@ plot_GES_pies <- function(x, y, cap_month = "August",
         df5$Metric <- plyr::revalue(df5$Metric, c("Stocks"="Number of stocks", "Catch"="Proportion of catch \n(thousand tonnes)"))
         df5$Value2 <- ifelse(df5$Metric == "Proportion of catch \n(thousand tonnes)", df5$Value/1000, df5$Value)
         df5$sum2 <- ifelse(df5$Metric == "Proportion of catch \n(thousand tonnes)", df5$sum/1000, df5$sum)
-        
+        df5$Value <- as.integer(df5$Value)
+        df5$Value2 <- as.integer(df5$Value2)
+        df5$sum2 <- as.integer(df5$sum2)
         p1 <- ggplot2::ggplot(data = df5, ggplot2::aes(x = "", y = fraction, fill = Color)) +
                 ggplot2::geom_bar(stat = "identity", width = 1) +
-                ggplot2::geom_text(ggplot2::aes(label = scales::comma(Value2)),
+                ggplot2::geom_text(ggplot2::aes(label = Value2),
                           position = ggplot2::position_stack(vjust = 0.5),
                           size = 3) +
                 ggplot2::geom_text(ggplot2::aes(label = paste0("total = ", sum2) ,x = 0, y = 0), size = 2)+
