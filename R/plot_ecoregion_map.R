@@ -41,6 +41,13 @@ plot_ecoregion_map <- function(ecoregion, ices_areas) {
   # Centroids for labels
   centroids <- sf::st_centroid(ices_areas)
   centroids <- cbind(centroids, sf::st_coordinates(centroids))
+  centroids$X[which(centroids$Area_27 == "2.a.2")] <- "4318359.91176762"
+  centroids$X[which(centroids$Area_27 == "10.a.1")] <- "460000.00000000"
+  centroids$Y[which(centroids$Area_27 == "12.a.2")] <- "4400000.00000000"
+  centroids$X[which(centroids$Area_27 == "5.b.1.a")] <- "3107623.00000000"
+  centroids$X <- as.numeric(centroids$X)
+  centroids$Y <- as.numeric(centroids$Y)
+  
 
   #if (ecoregion$Ecoregion == "Celtic Seas") {
   #  extracentroids <- dplyr::filter(centroids, Area_27 %in% c("4.a", "2.a.2", "5.b"))

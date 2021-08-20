@@ -89,7 +89,7 @@ plot_discard_current <- function(x, year, position_letter = "b)",
                 plot.caption = ggplot2::element_text(size = 6),
                 panel.grid = ggplot2::element_blank(),
                 legend.key = ggplot2::element_rect(colour = NA)) +
-          ggplot2::labs(x = "", y = "Discards and landings(thousand tonnes)",title = position_letter)
+          ggplot2::labs(x = "", y = "Discards and landings( thousand tonnes)",title = position_letter)
 
   if(caption == TRUE) {
     cap_lab <- ggplot2::labs(caption = sprintf("ICES Stock Assessment Database, %s/%s. ICES, Copenhagen",
@@ -106,7 +106,7 @@ plot_discard_current <- function(x, year, position_letter = "b)",
                            plot.caption = ggplot2::element_text(size = 6),
                            panel.grid = ggplot2::element_blank(),
                            legend.key = ggplot2::element_rect(colour = NA)) +
-            ggplot2::labs(x = "", y = "Discards and landings(thousand tonnes)",title = position_letter)+
+            ggplot2::labs(x = "", y = "Discards and landings(tonnes)",title = position_letter)+
             cap_lab
   }
 

@@ -100,14 +100,8 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
   }
   if(ecoregion == "Oceanic Northeast Atlantic"){
           historic_nea <- c( "V b1A", "VI b1", "VII c1", "VII j1", "VII k1", "VIII d1", "VIII e1",
-                             "IX b1", "X b", "XII a1", "XII b", "XIV b1", "V (not specified)",
-                             "V b1 (not specified)", "V a+b1 (not specified)", "V b (not specified)",
-                             "VI (not specified)", "VI b (not specified)", "VII (not specified)",
-                             "VII b+c (not specified)", "VII c (not specified)", "VII d-k (not specified)",
-                             "VII f-k (not specified)", "VII g-k (not specified)", "VII j (not specified)",
-                             "VII k (not specified)", "VIII (not specified)", "VIII d (not specified)",
-                             "VIII e (not specified)", "IX (not specified)", "IX b (not specified)",
-                             "X (not specified)", "X a (not specified)", "XII (not specified)", "XIV (not specified)", "XIV b (not specified)")
+                             "IX b1", "X b", "XII a1", "XII b", "XIV b1","X (not specified)", "X a (not specified)", 
+                             "XII (not specified)")
   }
 
   historical[is.na(historical)] <- 0
@@ -193,10 +187,6 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                          Area %in% c("27.6.a", "27.6.b.2","27.7.a", "27.7.b", "27.7.c.2",
                                        "27.7.f", "27.7.g", "27.7.h","27.7.j.2", "27.7.k.2") ~ "Celtic Seas",
                          Area %in% c("27.5.a.1", "27.5.a.2","27.5.a_NK","27.5.a_nk","27.12.a.4") ~ "Icelandic Waters",
-                         Area %in% c("27.5.b.1.a", "27.6.b.1","27.7.c.1", "27.7.j.1",
-                                     "27.7.k.1", "27.8.d.1", "27.8.e.1", "27.9.b.1", 
-                                     "27.10.a.1", "27.10.b", "27.12_nk", "27.12.a.1", "27.12.b", 
-                                     "27.12.c", "27.14.b.1") ~ "Oceanic Northeast Atlantic", 
                         if(ecoregion == "Norwegian Sea"){
                          Area %in% c("27.2.a.1", "27.2.a.2","27.2.a_NK","27.2.a_nk", "27.2.b.1", "27.2.b.2", "27.2.b_NK","27.2.b_nk","27.14.a", "27.14_NK", "27.14_nk") ~ "Norwegian Sea"
                                  },
@@ -210,8 +200,14 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                                 Area %in% c("27.5.b.2", "27.2.a.2", "27.2.a_NK", "27.5.b.1.b", "27.5.b.1_NK", "27.5.b_NK") ~ "Faroes"
                         },
                          if(ecoregion =="Barents Sea"){
-                         Area %in% c("27.1.a", "27.1.b","27.2.a.2","27.2.a_NK","27.2.a_nk", "27.2.b.2","27.2.b_NK","27.2.b_nk", "27.1_NK", "27.1_nk") ~ "Barents Sea"
+                                 Area %in% c("27.1.a", "27.1.b","27.2.a.2","27.2.a_NK","27.2.a_nk", "27.2.b.2","27.2.b_NK","27.2.b_nk", "27.1_NK", "27.1_nk") ~ "Barents Sea"
                                  },
+                        if(ecoregion == "Oceanic Northeast Atlantic"){
+                                Area %in% c("27.5.b.1.a", "27.6.b.1","27.7.c.1", "27.7.j.1",
+                                            "27.7.k.1", "27.8.d.1", "27.8.e.1", "27.9.b.1", 
+                                            "27.10.a.1", "27.10.b", "27.12_nk","27.12_NK", "27.12.a.1", "27.12.b", 
+                                            "27.12.c", "27.14.b.1") ~ "Oceanic Northeast Atlantic" 
+                        },
                         TRUE ~ "OTHER"))
   catch_dat_2010 <- dplyr::left_join(catch_dat_2010,species_list, c("Species" = "X3A_CODE"))
   catch_dat_2010 <- dplyr::left_join(catch_dat_2010,fish_category, by = c("Species" = "X3A_CODE")) 
@@ -267,7 +263,7 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                   Area %in% c("27_5_b_1_A", "27_6_b_1","27_7_c_1", "27_7_j_1","27_7_k_1",
                               "27_8_d_1", "27_8_e_1", "27_9_b_1", "27_10_a_1", "27_10_b", 
                               "27_12_a_1", "27_12_b", "27_12_c", "27_14_b_1")~"Oceanic Northeast Atlantic",
-                  Area %in% c("27_14_B", "27_14", "27_14_B_2", "27_14_A")~"Greenland Sea",
+                  Area %in% c("27_14_B", "27_14", "27_14_B_2", "27_14_A", "27_14_NK")~"Greenland Sea",
                   TRUE ~ "OTHER"))
           
           catch_dat_prelim <- dplyr::filter(catch_dat_prelim,ECOREGION != "OTHER")
