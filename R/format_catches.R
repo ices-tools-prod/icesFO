@@ -94,9 +94,7 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                     "II b2" )
   }
   if(ecoregion == "Faroes"){
-          historic_fo <- c( "II a2", "V b2", "I  and  IIa (not specified)","II a (not specified)",
-                            "II (not specified)", "V (not specified)","V a+b1 (not specified)",
-                            "V b (not specified)", "V b1 (not specified)", "V b1B")
+          historic_fo <- c( "V b2","V b (not specified)", "V b1 (not specified)", "V b1B")
   }
   if(ecoregion == "Oceanic Northeast Atlantic"){
           historic_nea <- c( "V b1A", "VI b1", "VII c1", "VII j1", "VII k1", "VIII d1", "VIII e1",
@@ -197,7 +195,7 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                                 Area %in% c("27.12.a.3", "27.14.a", "27.14.b.2", "27.14.b_NK", "27.14.b_nk", "27.14_NK", "27.14_nk") ~ "Greenland Sea"
                         },
                         if(ecoregion == "Faroes"){
-                                Area %in% c("27.5.b.2", "27.2.a.2", "27.2.a_NK", "27.5.b.1.b", "27.5.b.1_NK", "27.5.b_NK") ~ "Faroes"
+                                Area %in% c("27.5.b.2", "27.5.b.1.b", "27.5.b.1_NK", "27.5.b_NK") ~ "Faroes"
                         },
                          if(ecoregion =="Barents Sea"){
                                  Area %in% c("27.1.a", "27.1.b","27.2.a.2","27.2.a_NK","27.2.a_nk", "27.2.b.2","27.2.b_NK","27.2.b_nk", "27.1_NK", "27.1_nk") ~ "Barents Sea"
@@ -264,6 +262,7 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                               "27_8_d_1", "27_8_e_1", "27_9_b_1", "27_10_a_1", "27_10_b", 
                               "27_12_a_1", "27_12_b", "27_12_c", "27_14_b_1")~"Oceanic Northeast Atlantic",
                   Area %in% c("27_14_B", "27_14", "27_14_B_2", "27_14_A", "27_14_NK")~"Greenland Sea",
+                  Area %in% c(" 27_5_b", "27_5_b_1", "27_5_b_2", "27_5_b_1_b")~"Faroes",
                   TRUE ~ "OTHER"))
           
           catch_dat_prelim <- dplyr::filter(catch_dat_prelim,ECOREGION != "OTHER")
