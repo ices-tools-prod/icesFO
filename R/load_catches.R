@@ -63,6 +63,9 @@ load_official_catches<- function(){
 
 #' @rdname load_catches
 #' @export
+#' 
+#' change this 
+#' https://data.ices.dk/rec12/api/getPreliminaryCatchStatistics?year=20
 load_preliminary_catches <- function (year){
         url<- paste0("http://data.ices.dk/rec12/download/", year, "preliminaryCatchStatistics.csv")
         tmpFilePrelimCatch <- tempfile(fileext = ".csv")
