@@ -230,8 +230,9 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
           catch_dat_prelim <- dplyr::filter(preliminary, Country != "")
           catch_dat_prelim$VALUE <- catch_dat_prelim[,6]
           catch_dat_prelim <- catch_dat_prelim[, -grep("AMS", colnames(catch_dat_prelim))]
+          catch_dat_prelim <- catch_dat_prelim[, -grep("BMS", colnames(catch_dat_prelim))]
           catch_dat_prelim$Species.Latin.Name <- catch_dat_prelim[,3]
-          catch_dat_prelim <- catch_dat_prelim[, -grep("Species Latin Name", colnames(catch_dat_prelim))]
+          # catch_dat_prelim <- catch_dat_prelim[, -grep("Species.Latin.Name", colnames(catch_dat_prelim))]
           # tidyr::gather(ï..Year, -Country, -AphiaID, -Area, -Catch) %>%
           catch_dat_prelim <- dplyr::mutate(catch_dat_prelim, YEAR = Year,
                                             Country = countrycode::countrycode(Country,"iso2c", "country.name"),

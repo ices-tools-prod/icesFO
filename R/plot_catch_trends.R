@@ -41,13 +41,13 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD"),
                               line_count = 10,
                               plot_type = c("line", "area"),
                               preliminary_catches = TRUE,
-                              official_catches_year = 2019,
+                              official_catches_year = 2020,
                               return_data = FALSE) {
         capyear <- official_catches_year-1
         capyear <- as.character(capyear)
         cap_lab <-ggplot2::labs(x = "",
                        y = "Landings (thousand tonnes)",
-                       caption = sprintf(paste0("Historical Nominal Catches 1950-2010, \nOfficial Nominal Catches 2006-",capyear,"\nPreliminary Catches 2019 \n ICES, Copenhagen.")))
+                       caption = sprintf(paste0("Historical Nominal Catches 1950-2010, \nOfficial Nominal Catches 2006-",capyear,"\nPreliminary Catches 2020 \n ICES, Copenhagen.")))
         
         
         df <- dplyr::rename(x, type_var = setNames(type , "type_var"))
