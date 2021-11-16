@@ -2,12 +2,17 @@
 % Please edit documentation in R/plot_GES_pies.R
 \name{plot_GES_pies}
 \alias{plot_GES_pies}
-\title{Returns an ordered plot of catch bars colored according to 
+\title{Returns an ordered plot of catch bars colored according to
 F/F<sub>MSY</sub> and SSB/MSY B<sub>trigger</sub>
 by fish category and ecoregion}
 \usage{
-plot_GES_pies(x, y, cap_month = "August", cap_year = "2019",
-  return_data = FALSE)
+plot_GES_pies(
+  x,
+  y,
+  cap_month = "August",
+  cap_year = "2019",
+  return_data = FALSE
+)
 }
 \arguments{
 \item{x}{a dataframe output of format_sag_status.R}
@@ -40,7 +45,7 @@ plot1 <- plot_CLD_bar(CLDstatus, guild="Demersal", return_data = TRUE)
 The ICES stock information Database web sevices: \url{http://sid.ices.dk/services/}
 }
 \seealso{
-\code{\link{plot_CLD_bar}} Stock status relative to reference points. 
+\code{\link{plot_CLD_bar}} Stock status relative to reference points.
 
 \code{\link{icesFO-package}} gives an overview of the package.
 }

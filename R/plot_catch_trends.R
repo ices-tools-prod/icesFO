@@ -1,6 +1,6 @@
-#' Returns an ordered plot of catch bars colored according to 
+#' Returns an ordered plot of catch bars colored according to
 #' F/F<sub>MSY</sub> and SSB/MSY B<sub>trigger</sub>
-#' by fish category and ecoregion 
+#' by fish category and ecoregion
 #'
 #' Wrangling of format_sag output to obtain a dataframe with time-series of F, Fmsy, SSB and MSY B trigger for
 #' each stock in the Ecoregion, according to the last assessment (relative to the set year)
@@ -19,7 +19,7 @@
 #' Can add some helpful information here
 #'
 #' @seealso
-#' \code{\link{plot_CLD_bar}} Stock status relative to reference points. 
+#' \code{\link{plot_CLD_bar}} Stock status relative to reference points.
 #'
 #' \code{\link{icesFO-package}} gives an overview of the package.
 #'
@@ -48,11 +48,11 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD"),
         cap_lab <-ggplot2::labs(x = "",
                        y = "Landings (thousand tonnes)",
                        caption = sprintf(paste0("Historical Nominal Catches 1950-2010, \nOfficial Nominal Catches 2006-",capyear,"\nPreliminary Catches 2020 \n ICES, Copenhagen.")))
-        
-        
+
+
         df <- dplyr::rename(x, type_var = setNames(type , "type_var"))
         df <- dplyr::rename(df, type_var= type_var...type_var)
-        
+
         if(type == "COMMON_NAME"){
         df$type_var[which(df$type_var == "Angler(=Monk)")] <- "Anglerfish spp"
         df$type_var[which(df$type_var == "Monkfishes nei")] <- "Anglerfish spp"
@@ -70,39 +70,39 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD"),
                                                 type_var,
                                                 tolower(type_var)))
                               }
-        
+
         plot <- dplyr::group_by(df, type_var)
         plot <- dplyr::summarise(plot,typeTotal = sum(VALUE, na.rm = TRUE))
         plot <- dplyr::arrange(plot, -typeTotal)
-        plot <- dplyr::filter(plot, typeTotal >= 1) 
+        plot <- dplyr::filter(plot, typeTotal >= 1)
         plot <- dplyr::mutate(plot,RANK = dplyr::min_rank(dplyr::desc(typeTotal)))
         plot <- dplyr::inner_join(plot,df, by = "type_var")
-        
+
         plot$RANK<-as.numeric(plot$RANK)
-        
+
         plot <- dplyr::mutate(plot, type_var = replace(type_var, RANK > line_count, "other"))
         plot <- dplyr::group_by(plot,type_var, YEAR)
-        plot <- dplyr::summarise(plot, typeTotal= sum(VALUE, na.rm = TRUE) / 1000) 
+        plot <- dplyr::summarise(plot, typeTotal= sum(VALUE, na.rm = TRUE) / 1000)
         plot <- dplyr::filter(plot,!is.na(YEAR))
 
         plot <- rbind(plot[!plot$type_var == "other",],
                            plot[plot$type_var == "other",])
-        
+
         colList <- ggthemes::tableau_color_pal('Tableau 20')(line_count + 1)
-        
+
         order <- dplyr::group_by(plot,type_var)
         order <- dplyr::summarise(order,total = sum(typeTotal, na.rm = TRUE))
         order <- dplyr::arrange(order,-total)
         order <- dplyr::ungroup(order)
         order <- dplyr::mutate(order,type_var = factor(type_var, type_var))
-        
+
         plot$type_var <- factor(plot$type_var,
                                      levels = order$type_var[order(order$total)])
-        
+
         myColors <- colList[1:length(unique(plot$type_var))]
         names(myColors) <- levels(plot$type_var)
         myColors["other"] <- "#7F7F7F"
-        
+
         pl <- ggplot2::ggplot(dplyr::ungroup(plot), ggplot2::aes(x = YEAR, y = typeTotal)) +
                 ggplot2::scale_fill_manual(values = myColors) +
                 ggplot2::scale_color_manual(values = myColors) +
@@ -119,18 +119,18 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD"),
                       panel.grid.major = ggplot2::element_blank(),
                       panel.border = ggplot2::element_blank(),
                       axis.line = ggplot2::element_blank())
-        
+
         if(plot_type == "area") {
                 cumPlot <- dplyr::filter(plot,YEAR == max(YEAR, na.rm = TRUE))
                 cumPlot <- dplyr::ungroup(cumPlot)
-                cumPlot <- dplyr::arrange(cumPlot,desc(type_var))
+                cumPlot <- dplyr::arrange(cumPlot, dplyr::desc(type_var))
                 cumPlot <- dplyr::mutate(cumPlot, cs = cumsum(as.numeric(typeTotal)), # cumulative sum
-                               mp = lag(cs, order_by = desc(type_var)), # midpoint
+                               mp = lag(cs, order_by = dplyr::desc(type_var)), # midpoint
                                mp = ifelse(is.na(mp), 1, mp)) # midpoint
                 cumPlot <- dplyr::ungroup(cumPlot)
-                cumPlot <- dplyr::arrange(cumPlot, desc(type_var))
+                cumPlot <- dplyr::arrange(cumPlot, dplyr::desc(type_var))
                 cumPlot <- dplyr::mutate(cumPlot, td = rowMeans(cumPlot[4:5]))
-                
+
                 pl <- pl + ggplot2::geom_area(ggplot2::aes(fill = type_var, color = type_var),
                                      alpha = .8,
                                      position = "stack")
@@ -146,7 +146,7 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD"),
                                                      force = 3,
                                                      segment.color = 'grey60')
         }
-        
+
         if(plot_type == "line") {
                 pl <- pl + ggplot2::geom_line(ggplot2::aes(color = type_var),
                                      alpha = .8, position = "identity")
@@ -161,9 +161,9 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD"),
                                                      color = 'white',
                                                      force = 3,
                                                      segment.color = 'grey60')
-                
+
         }
-        
+
         if (return_data == TRUE){
                 plot
         } else {

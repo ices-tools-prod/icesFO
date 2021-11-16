@@ -1,6 +1,6 @@
-#' Returns an ordered plot of catch bars colored according to 
+#' Returns an ordered plot of catch bars colored according to
 #' F/F<sub>MSY</sub> and SSB/MSY B<sub>trigger</sub>
-#' by fish category and ecoregion 
+#' by fish category and ecoregion
 #'
 #' Wrangling of format_sag output to obtain a dataframe with time-series of F, Fmsy, SSB and MSY B trigger for
 #' each stock in the Ecoregion, according to the last assessment (relative to the set year)
@@ -16,7 +16,7 @@
 #' Can add some helpful information here
 #'
 #' @seealso
-#' \code{\link{plot_CLD_bar}} Stock status relative to reference points. 
+#' \code{\link{plot_CLD_bar}} Stock status relative to reference points.
 #'
 #' \code{\link{icesFO-package}} gives an overview of the package.
 #'
@@ -48,17 +48,17 @@ plot_status_prop_pies <- function(x, cap_month = "November",
                      "RED" = "#d93b1c",
                      "qual_RED" = "#d93b1c",
                      "qual_GREEN" = "#00B26D")
-        
-        
+
+
         df_stock <- dplyr::select(df,StockKeyLabel,
                        FisheriesGuild,
                        lineDescription,
                        FishingPressure,
                        StockSize,
                        SBL)
-        df_stock <- tidyr::gather(df_stock,Variable, Colour, FishingPressure:SBL, factor_key = TRUE) 
+        df_stock <- tidyr::gather(df_stock,Variable, Colour, FishingPressure:SBL, factor_key = TRUE)
         df2 <- dplyr::group_by(df_stock, FisheriesGuild, lineDescription, Variable, Colour)
-        df2 <- dplyr::summarize(df2, COUNT = n())
+        df2 <- dplyr::summarize(df2, COUNT = dplyr::n())
         df2 <- tidyr::spread(df2, Colour, COUNT)
         df2[is.na(df2)] <- 0
         df3 <- subset(df2,select =-c(FisheriesGuild))
@@ -66,8 +66,8 @@ plot_status_prop_pies <- function(x, cap_month = "November",
         df3 <- dplyr::summarise_each(df3,dplyr::funs(sum))
         df3$FisheriesGuild <- "total"
         df2 <- rbind(df2,df3)
-        
-        df4 <- dplyr::filter(df2,Variable == "SBL") 
+
+        df4 <- dplyr::filter(df2,Variable == "SBL")
         df4$lineDescription <- ""
         df4 <- unique(df4)
         df2 <- dplyr::filter(df2,Variable != "SBL")
@@ -75,11 +75,11 @@ plot_status_prop_pies <- function(x, cap_month = "November",
         df2$lineDescription <- gsub("Maximum sustainable yield","MSY", df2$lineDescription)
         df2$lineDescription <- gsub("Precautionary approach", "PA", df2$lineDescription)
         df2$header <- paste0(df2$Variable, "\n" , df2$lineDescription)
-        
+
         df2 <- tidyr::gather(df2,colour, value,GREEN:RED, factor_key = TRUE)
         df2 <- dplyr::filter(df2,value > 0)
-        
-        
+
+
         tot <- dplyr::filter(df2,FisheriesGuild == "total")
         tot <- dplyr::group_by(tot,header)
         tot <- dplyr::mutate(tot, tot = sum(value))
@@ -109,7 +109,7 @@ plot_status_prop_pies <- function(x, cap_month = "November",
                 cap_lab +
                 ggplot2::coord_polar(theta = "y", direction = 1) +
                 ggplot2::facet_grid(FisheriesGuild ~ header)
-        
+
         if(return_data == T){
                 df2
         }else{

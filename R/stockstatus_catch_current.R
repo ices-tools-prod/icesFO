@@ -1,5 +1,5 @@
 #' Stock status relative to reference points
-#' 
+#'
 #' returns a data frame of stock status relative to reference points and
 #' catch, discards, and landings by stock for the most recent assessment.
 #'
@@ -11,7 +11,7 @@
 #' Can add some helpful information here
 #'
 #' @seealso
-#' \code{\link{stock_trends}} for formatting data from the ICES Stock Assessment database. 
+#' \code{\link{stock_trends}} for formatting data from the ICES Stock Assessment database.
 #'
 #' \code{\link{icesFO-package}} gives an overview of the package.
 #'
@@ -71,7 +71,7 @@ stockstatus_CLD_current <- function(x) {
         check <- unique(df3[c("StockKeyLabel", "Year", "MSYBtrigger")])
         check <- check[order(-check$Year),]
         check2 <- check[duplicated(check$StockKeyLabel),]
-        df3 <- anti_join(df3,check2)
+        df3 <- dplyr::anti_join(df3,check2)
         df4 <- dplyr::full_join(df2, df3)
         df4 <- dplyr::mutate(df4, Status = ifelse(is.na(F_FMSY) | is.na(SSB_MSYBtrigger),
                                       "GREY",

@@ -6,8 +6,14 @@
 F/F<sub>MSY</sub> and SSB/MSY B<sub>trigger</sub>
 by fish category and ecoregion}
 \usage{
-plot_CLD_bar(x, guild, caption = TRUE, cap_year, cap_month,
-  return_data = FALSE)
+plot_CLD_bar(
+  x,
+  guild,
+  caption = TRUE,
+  cap_year,
+  cap_month,
+  return_data = FALSE
+)
 }
 \arguments{
 \item{x}{a dataframe output of stockstatus+catch_current.R}

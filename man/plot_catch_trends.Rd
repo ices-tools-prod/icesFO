@@ -2,14 +2,19 @@
 % Please edit documentation in R/plot_catch_trends.R
 \name{plot_catch_trends}
 \alias{plot_catch_trends}
-\title{Returns an ordered plot of catch bars colored according to 
+\title{Returns an ordered plot of catch bars colored according to
 F/F<sub>MSY</sub> and SSB/MSY B<sub>trigger</sub>
 by fish category and ecoregion}
 \usage{
-plot_catch_trends(x, type = c("COMMON_NAME", "COUNTRY", "GUILD"),
-  line_count = 10, plot_type = c("line", "area"),
-  preliminary_catches = TRUE, official_catches_year = 2018,
-  return_data = FALSE)
+plot_catch_trends(
+  x,
+  type = c("COMMON_NAME", "COUNTRY", "GUILD"),
+  line_count = 10,
+  plot_type = c("line", "area"),
+  preliminary_catches = TRUE,
+  official_catches_year = 2020,
+  return_data = FALSE
+)
 }
 \arguments{
 \item{x}{a dataframe output of stockstatus+catch_current.R}
@@ -46,7 +51,7 @@ plot1 <- plot_CLD_bar(CLDstatus, guild="Demersal", return_data = TRUE)
 The ICES stock information Database web sevices: \url{http://sid.ices.dk/services/}
 }
 \seealso{
-\code{\link{plot_CLD_bar}} Stock status relative to reference points. 
+\code{\link{plot_CLD_bar}} Stock status relative to reference points.
 
 \code{\link{icesFO-package}} gives an overview of the package.
 }

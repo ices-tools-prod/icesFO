@@ -17,7 +17,7 @@
 #' Can add some helpful information here
 #'
 #' @seealso
-#' \code{\link{plot_discard_current}} a plot of landings and discards by fish category in the last year for an ecoregion. 
+#' \code{\link{plot_discard_current}} a plot of landings and discards by fish category in the last year for an ecoregion.
 #'
 #' \code{\link{icesFO-package}} gives an overview of the package.
 #'
@@ -43,7 +43,7 @@ plot_discard_trends <- function(x, year, caption = FALSE, cap_year, cap_month, r
         df3 <- dplyr::select(df, StockKeyLabel, Year, discards, AssessmentYear)
         df3 <- unique(df3)
         df3 <- tibble::rowid_to_column(df3)
-        df3 <- tidyr::spread(df3,Year, discards) 
+        df3 <- tidyr::spread(df3,Year, discards)
         df3<- dplyr::mutate(df3,`2017` = ifelse(AssessmentYear == 2017 &
                                                is.na(`2017`) &
                                                !is.na(`2016`),
@@ -52,7 +52,7 @@ plot_discard_trends <- function(x, year, caption = FALSE, cap_year, cap_month, r
         df3 <- tidyr::gather(df3,Year, discards, 4:ncol(df3))
         df3 <- dplyr::mutate(df3,Year = as.numeric(Year),
                        discards = as.numeric(discards))
-        
+
         df4<- dplyr::select(df,StockKeyLabel, Year, landings, AssessmentYear)
         df4 <- unique(df4)
         df4 <- tibble::rowid_to_column(df4)
@@ -63,7 +63,7 @@ plot_discard_trends <- function(x, year, caption = FALSE, cap_year, cap_month, r
                                                !is.na(`2016`),
                                        `2016`,
                                        `2017`))
-        df4 <- tidyr::gather(df4,Year, landings, 4:ncol(df4)) 
+        df4 <- tidyr::gather(df4,Year, landings, 4:ncol(df4))
         df4 <- dplyr::mutate(df4,Year = as.numeric(Year),
                        landings = as.numeric(landings))
         df5 <- dplyr::select(df,-discards,
@@ -73,7 +73,7 @@ plot_discard_trends <- function(x, year, caption = FALSE, cap_year, cap_month, r
         df5 <- dplyr::group_by(df5,Year, FisheriesGuild)
         df5 <- dplyr::summarize(df5, guildLandings = sum(landings, na.rm = TRUE)/ 1000,
                           guildDiscards = sum(discards, na.rm = TRUE)/ 1000)
-        
+
         df5 <- dplyr::mutate(df5,guildRate = guildDiscards/ (guildLandings + guildDiscards))
         df5 <- tidyr::gather(df5,variable, value, -Year, -FisheriesGuild)
         df5 <- dplyr::filter(df5,!variable %in% c("guildDiscards", "guildLandings"))
@@ -101,7 +101,7 @@ plot_discard_trends <- function(x, year, caption = FALSE, cap_year, cap_month, r
                                  y = -Inf, yend = -Inf), color = "grey50") +
                 ggplot2::geom_segment(ggplot2::aes(y = -Inf, yend = Inf,
                                  x = -Inf, xend = -Inf), color = "grey50")+
-                ggplot2::expand_limits(x = c(min(df5$Year, na.rm = TRUE), year + 1)) + 
+                ggplot2::expand_limits(x = c(min(df5$Year, na.rm = TRUE), year + 1)) +
                 ggplot2::scale_color_brewer(type = "qual", palette = "Set2") +
                 ggplot2::scale_fill_brewer(type = "qual", palette = "Set2") +
                 ggplot2::theme_bw(base_size = 9) +
@@ -110,13 +110,13 @@ plot_discard_trends <- function(x, year, caption = FALSE, cap_year, cap_month, r
                       panel.grid = ggplot2::element_blank(),
                       legend.key = ggplot2::element_rect(colour = NA)) +
                 ggplot2::labs(x = "Year", y = "Discard rate", caption = "", title = "a)")
-        
-       
-        if(caption == T){
+
+
+        if(caption == TRUE){
                 cap_lab <- ggplot2::labs(caption = sprintf("ICES Stock Assessment Database, %s/%s. ICES, Copenhagen",
                                                            cap_month,
                                                            cap_year))
-                plot <- ggplot2::ggplot(ungroup(df5),
+                plot <- ggplot2::ggplot(dplyr::ungroup(df5),
                                         ggplot2::aes(x = Year,
                                                      y = value,
                                                      color = FisheriesGuild)) +
@@ -139,7 +139,7 @@ plot_discard_trends <- function(x, year, caption = FALSE, cap_year, cap_month, r
                                                            y = -Inf, yend = -Inf), color = "grey50") +
                         ggplot2::geom_segment(ggplot2::aes(y = -Inf, yend = Inf,
                                                            x = -Inf, xend = -Inf), color = "grey50")+
-                        ggplot2::expand_limits(x = c(min(df5$Year, na.rm = TRUE), year + 1)) + 
+                        ggplot2::expand_limits(x = c(min(df5$Year, na.rm = TRUE), year + 1)) +
                         ggplot2::scale_color_brewer(type = "qual", palette = "Set2") +
                         ggplot2::scale_fill_brewer(type = "qual", palette = "Set2") +
                         ggplot2::theme_bw(base_size = 9) +
@@ -149,13 +149,12 @@ plot_discard_trends <- function(x, year, caption = FALSE, cap_year, cap_month, r
                                        legend.key = ggplot2::element_rect(colour = NA)) +
                         ggplot2::labs(x = "Year", y = "Discard rate", caption = "", title = "a)")+
                         cap_lab
-                
+
         }
-        
-        if(return_data == T){
+
+        if(return_data == TRUE){
                 df5
         }else{
                 plot
         }
 }
-

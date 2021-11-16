@@ -4,9 +4,13 @@
 \alias{compute_technical_interactions}
 \title{Compute a matrix of technical interactions.}
 \usage{
-compute_technical_interactions(x, threshByCatch = 5,
-  thresholdMainGear = 0.8, thresholdCoCatches = 0.5,
-  catchCoverage = 0.95)
+compute_technical_interactions(
+  x,
+  threshByCatch = 5,
+  thresholdMainGear = 0.8,
+  thresholdCoCatches = 0.5,
+  catchCoverage = 0.95
+)
 }
 \arguments{
 \item{x}{a dataframe in the same format as the STECF data.}

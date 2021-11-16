@@ -4,8 +4,14 @@
 \alias{plot_discard_trends}
 \title{Returns a plot of discard rate trends by fish category for an ecoregion.}
 \usage{
-plot_discard_trends(x, year, caption = FALSE, cap_year, cap_month,
-  return_data = FALSE)
+plot_discard_trends(
+  x,
+  year,
+  caption = FALSE,
+  cap_year,
+  cap_month,
+  return_data = FALSE
+)
 }
 \arguments{
 \item{x}{a dataframe output of CLD_trends}
@@ -40,7 +46,7 @@ plot1 <- plot_discard_trends(CLDtrends, caption = T,cap_year, cap_month, return_
 The ICES stock information Database web sevices: \url{http://sid.ices.dk/services/}
 }
 \seealso{
-\code{\link{plot_discard_current}} a plot of landings and discards by fish category in the last year for an ecoregion. 
+\code{\link{plot_discard_current}} a plot of landings and discards by fish category in the last year for an ecoregion.
 
 \code{\link{icesFO-package}} gives an overview of the package.
 }
