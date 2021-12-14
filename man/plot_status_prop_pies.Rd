@@ -2,12 +2,16 @@
 % Please edit documentation in R/plot_status_prop_pies.R
 \name{plot_status_prop_pies}
 \alias{plot_status_prop_pies}
-\title{Returns an ordered plot of catch bars colored according to 
+\title{Returns an ordered plot of catch bars colored according to
 F/F<sub>MSY</sub> and SSB/MSY B<sub>trigger</sub>
 by fish category and ecoregion}
 \usage{
-plot_status_prop_pies(x, cap_month = "November", cap_year = "2018",
-  return_data = FALSE)
+plot_status_prop_pies(
+  x,
+  cap_month = "November",
+  cap_year = "2018",
+  return_data = FALSE
+)
 }
 \arguments{
 \item{x}{a dataframe output of format_sag_status.R}
@@ -38,7 +42,7 @@ plot1 <- plot_CLD_bar(CLDstatus, guild="Demersal", return_data = TRUE)
 The ICES stock information Database web sevices: \url{http://sid.ices.dk/services/}
 }
 \seealso{
-\code{\link{plot_CLD_bar}} Stock status relative to reference points. 
+\code{\link{plot_CLD_bar}} Stock status relative to reference points.
 
 \code{\link{icesFO-package}} gives an overview of the package.
 }

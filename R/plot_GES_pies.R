@@ -1,6 +1,6 @@
-#' Returns an ordered plot of catch bars colored according to 
+#' Returns an ordered plot of catch bars colored according to
 #' F/F<sub>MSY</sub> and SSB/MSY B<sub>trigger</sub>
-#' by fish category and ecoregion 
+#' by fish category and ecoregion
 #'
 #' Wrangling of format_sag output to obtain a dataframe with time-series of F, Fmsy, SSB and MSY B trigger for
 #' each stock in the Ecoregion, according to the last assessment (relative to the set year)
@@ -17,7 +17,7 @@
 #' Can add some helpful information here
 #'
 #' @seealso
-#' \code{\link{plot_CLD_bar}} Stock status relative to reference points. 
+#' \code{\link{plot_CLD_bar}} Stock status relative to reference points.
 #'
 #' \code{\link{icesFO-package}} gives an overview of the package.
 #'
@@ -49,18 +49,18 @@ plot_GES_pies <- function(x, y, cap_month = "August",
                      "RED" = "#d93b1c",
                      "qual_RED" = "#d93b5c",
                      "qual_GREEN" = "#00B28F")
-        
-        
+
+
         df_stock <- dplyr::filter (df, lineDescription == "Maximum sustainable yield")
         df_stock <- dplyr::select(df_stock, StockKeyLabel,
                        FishingPressure,
-                       StockSize) 
-        df_stock <- tidyr::gather(df_stock,Variable, Colour, FishingPressure:StockSize, factor_key = TRUE) 
+                       StockSize)
+        df_stock <- tidyr::gather(df_stock,Variable, Colour, FishingPressure:StockSize, factor_key = TRUE)
         df2 <- dplyr::group_by(df_stock,Variable, Colour) %>%
-                dplyr::summarize(COUNT = n())%>%
+                dplyr::summarize(COUNT = dplyr::n())%>%
                 tidyr::spread(Colour, COUNT)
         df2[is.na(df2)] <- 0
-        
+
         df3 <- dplyr::filter(y, StockKeyLabel %in% df_stock$StockKeyLabel)
         df3 <- dplyr::mutate(df3,CATCH = ifelse(is.na(catches) & !is.na(landings),
                                          landings,
@@ -81,7 +81,7 @@ plot_GES_pies <- function(x, y, cap_month = "August",
         df5 <- dplyr::group_by(df5,Metric)
         df5 <- dplyr::mutate(df5,sum = sum(Value)/2)
         # df5 <- df5 %>% group_by(Metric) %>% mutate(max = max(Value)/2)
-        
+
         df5$fraction <- ifelse(df5$Metric == "Stocks", (df5$Value*tot)/stocks, df5$Value)
         df5$Variable <- plyr::revalue(df5$Variable, c("FishingPressure"="D3C1", "StockSize"="D3C2"))
         df5$Metric <- plyr::revalue(df5$Metric, c("Stocks"="Number of stocks", "Catch"="Proportion of catch \n(thousand tonnes)"))
@@ -109,7 +109,7 @@ plot_GES_pies <- function(x, y, cap_month = "August",
                 cap_lab +
                 ggplot2::coord_polar(theta = "y") +
                 ggplot2::facet_grid(Metric ~ Variable)
-        
+
         if(return_data == T){
                 df5 <- subset(df5,select= -c(Value2, sum2))
                 df5

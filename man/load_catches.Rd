@@ -38,7 +38,7 @@ catches_prelim_raw <- load_preliminary_catches()
 The ICES stock information Database web sevices: \url{http://sid.ices.dk/services/}
 }
 \seealso{
-\code{\link{load_sag}} for loading data from the ICES Stock Assessment database. 
+\code{\link{load_sag}} for loading data from the ICES Stock Assessment database.
 
 \code{\link{icesFO-package}} gives an overview of the package.
 }

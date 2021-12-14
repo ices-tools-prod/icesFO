@@ -4,8 +4,15 @@
 \alias{plot_vms}
 \title{VMS Effort and landings over time by country or gear}
 \usage{
-plot_vms(x, metric = NULL, type = NULL, cap_year, cap_month,
-  line_count, return_data = FALSE)
+plot_vms(
+  x,
+  metric = NULL,
+  type = NULL,
+  cap_year,
+  cap_month,
+  line_count,
+  return_data = FALSE
+)
 }
 \arguments{
 \item{x}{a dataframe resulting from icesVMS::get_fo_effort() or icesVMS::get_fo_landings()}

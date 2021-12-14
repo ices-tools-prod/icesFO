@@ -11,7 +11,7 @@
 #' Can add some helpful information here
 #'
 #' @seealso
-#' \code{\link{load_sag}} for loading data from the ICES Stock Assessment database. 
+#' \code{\link{load_sag}} for loading data from the ICES Stock Assessment database.
 #'
 #' \code{\link{icesFO-package}} gives an overview of the package.
 #'
@@ -63,9 +63,9 @@ load_official_catches<- function(){
 
 #' @rdname load_catches
 #' @export
-#' 
-#' change this 
-#' https://data.ices.dk/rec12/api/getPreliminaryCatchStatistics?year=20
+#
+# change this
+# https://data.ices.dk/rec12/api/getPreliminaryCatchStatistics?year=20
 load_preliminary_catches <- function (year){
         url<- paste0("http://data.ices.dk/rec12/download/", year, "preliminaryCatchStatistics.csv")
         tmpFilePrelimCatch <- tempfile(fileext = ".csv")
@@ -76,5 +76,3 @@ load_preliminary_catches <- function (year){
                         fill = TRUE)
         out
 }
-
-

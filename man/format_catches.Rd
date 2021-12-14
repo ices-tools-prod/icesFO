@@ -4,8 +4,15 @@
 \alias{format_catches}
 \title{Format the data from the time-series of ICES historical, official and preliminary catches.}
 \usage{
-format_catches(year, ecoregion, historical, official, preliminary = NULL,
-  species_list, sid)
+format_catches(
+  year,
+  ecoregion,
+  historical,
+  official,
+  preliminary = NULL,
+  species_list,
+  sid
+)
 }
 \arguments{
 \item{year}{the year required}

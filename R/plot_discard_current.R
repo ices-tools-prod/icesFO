@@ -76,7 +76,7 @@ plot_discard_current <- function(x, year, position_letter = "c)",
   # df5_order <- dplyr::group_by(df5,FisheriesGuild) %>%
   #         summarize(total = sum(value, na.rm = TRUE)) %>%
   #         arrange(-total) %>%
-  #         ungroup()
+  #         dplyr::ungroup()
   # df5_order <- dplyr::mutate(df5_order,FisheriesGuild = factor(FisheriesGuild, FisheriesGuild))
 
   # df5$FisheriesGuild <- factor(df5$FisheriesGuild,

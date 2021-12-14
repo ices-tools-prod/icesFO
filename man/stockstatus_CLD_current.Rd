@@ -29,7 +29,7 @@ CLD_2018 <- catch_landings_discards(sag_formatted)
 The ICES stock information Database web sevices: \url{http://sid.ices.dk/services/}
 }
 \seealso{
-\code{\link{stock_trends}} for formatting data from the ICES Stock Assessment database. 
+\code{\link{stock_trends}} for formatting data from the ICES Stock Assessment database.
 
 \code{\link{icesFO-package}} gives an overview of the package.
 }
