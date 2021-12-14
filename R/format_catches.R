@@ -95,13 +95,25 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
   }
   if(ecoregion == "Faroes"){
           historic_fo <- c( "V b2","V b (not specified)", "V b1 (not specified)", "V b1B")
+          
   }
   if(ecoregion == "Oceanic Northeast Atlantic"){
           historic_nea <- c( "V b1A", "VI b1", "VII c1", "VII j1", "VII k1", "VIII d1", "VIII e1",
                              "IX b1", "X b", "XII a1", "XII b", "XIV b1","X (not specified)", "X a (not specified)", 
                              "XII (not specified)")
   }
+  fo_2020 <- historical %>% filter(Division == "ICES Area (not specified)")
+  fo_2020 <-fo_2020%>% filter(Country == "Faeroe Islands")
+  
+ 
+          
+  fo_2020$Division <- "V b1 (not specified)"
+  fo_2020$Division[which(fo_2020$Species == "Atlantic mackerel")] <- "ICES Area (not specified)"
+  fo_2020$Division[which(fo_2020$Species == "Atlantic horse mackerel")] <- "ICES Area (not specified)"
+  fo_2020$Division[which(fo_2020$Species == "Atlantic herring")] <- "ICES Area (not specified)"
+  historical <- full_join(historical, fo_2020)
 
+  
   historical[is.na(historical)] <- 0
 
   catch_dat_1950 <- tidyr::gather(historical, YEAR, VALUE, -Country, -Species, -Division) 
@@ -195,7 +207,8 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                                 Area %in% c("27.12.a.3", "27.14.a", "27.14.b.2", "27.14.b_NK", "27.14.b_nk", "27.14_NK", "27.14_nk") ~ "Greenland Sea"
                         },
                         if(ecoregion == "Faroes"){
-                                Area %in% c("27.5.b.2", "27.5.b.1.b", "27.5.b.1_NK", "27.5.b_NK") ~ "Faroes"
+                                Area %in% c("27.5.b.2","27.5.b.1.a","27.5.b.1.b", "27.5.b.1_NK", "27.5.b_NK", "27.5.b.1_nk",
+                                            "27.5.b_nk") ~ "Faroes"
                         },
                          if(ecoregion =="Barents Sea"){
                                  Area %in% c("27.1.a", "27.1.b","27.2.a.2","27.2.a_NK","27.2.a_nk", "27.2.b.2","27.2.b_NK","27.2.b_nk", "27.1_NK", "27.1_nk") ~ "Barents Sea"
@@ -258,6 +271,7 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                   
                   Area %in% c("5_a_1", "5_a_2","12_a_4")~"Icelandic Waters",
                   Area %in% c("27_10_a_2", "27_10_A_2")~"Azores",
+                  Area %in% c("27_1_a", "27_1_b", "27_2_b_2")~ "Barents Sea",
                   Area %in% c("27_2_a_1", "27_2_a_2", "27_2_b_1", "27_2_b_2", "27_14_a", "27_2_a", "27_2_b")~"Norwegian Sea",
                   Area %in% c("27_5_b_1_A", "27_6_b_1","27_7_c_1", "27_7_j_1","27_7_k_1",
                               "27_8_d_1", "27_8_e_1", "27_9_b_1", "27_10_a_1", "27_10_b", 

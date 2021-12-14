@@ -41,10 +41,16 @@ plot_ecoregion_map <- function(ecoregion, ices_areas) {
   # Centroids for labels
   centroids <- sf::st_centroid(ices_areas)
   centroids <- cbind(centroids, sf::st_coordinates(centroids))
-  centroids$X[which(centroids$Area_27 == "2.a.2")] <- "4318359.91176762"
+  # centroids$X[which(centroids$Area_27 == "2.a.2")] <- "3600000.00000000"
+  # centroids$Y[which(centroids$Area_27 == "2.a.2")] <- "4600000.00000000"
   centroids$X[which(centroids$Area_27 == "10.a.1")] <- "460000.00000000"
   centroids$Y[which(centroids$Area_27 == "12.a.2")] <- "4400000.00000000"
   centroids$X[which(centroids$Area_27 == "5.b.1.a")] <- "3107623.00000000"
+  # centroids$X[which(centroids$Area_27 == "6.a")] <- "3250000.00000000"
+  # centroids$Y[which(centroids$Area_27 == "6.a")] <- "4230000.00000000"
+  # centroids$X[which(centroids$Area_27 == "4.a")] <- "3650000.00000000"
+  # centroids$Y[which(centroids$Area_27 == "4.a")] <- "4300000.00000000"
+  # centroids$X[which(centroids$Area_27 == "5.b.1.a")] <- "3055000.00000000"
   centroids$X <- as.numeric(centroids$X)
   centroids$Y <- as.numeric(centroids$Y)
   
@@ -63,6 +69,8 @@ plot_ecoregion_map <- function(ecoregion, ices_areas) {
     ices_areas <- dplyr::filter(ices_areas, substr(Area_27, 1, 3) != "3.a")
   }
 
+  # ices_areas <- dplyr::filter(ices_areas, substr(Area_27, 1, 3) != "5.b.1.a")
+  
   # get plot extent
   box1 <- sf::st_bbox(ecoregion)
   box2 <- sf::st_bbox(ices_areas)
@@ -72,6 +80,12 @@ plot_ecoregion_map <- function(ecoregion, ices_areas) {
   ylims <- c(min(box1["ymin"], box2["ymin"]), 
              max(box1["ymax"], box2["ymax"]))
 
+  # xlims <- c(min(box1["xmin"], box1["xmin"]),
+  #            max(box1["xmax"], box1["xmax"]))
+  # ylims <- c(min(box1["ymin"], box1["ymin"]),
+  #            max(box1["ymax"], box1["ymax"]))
+
+  
   # make plot
   p <- 
     ggplot2::ggplot() +

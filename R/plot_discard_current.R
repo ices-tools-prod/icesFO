@@ -36,7 +36,7 @@
 
 #find a way to set caption(cap_year, cap_month) being conditional
 
-plot_discard_current <- function(x, year, position_letter = "b)",
+plot_discard_current <- function(x, year, position_letter = "c)",
                                  caption = TRUE, cap_year, cap_month,
                                  return_data = FALSE){
   df <- dplyr::filter(x,Year %in% seq(year-5, year -1))
@@ -48,11 +48,11 @@ plot_discard_current <- function(x, year, position_letter = "b)",
   df3 <- tibble::rowid_to_column(df3)
   df3 <- dplyr::group_by(df3,StockKeyLabel)
   df3 <- tidyr::spread(df3,Year, discards)
-  df3<- dplyr::mutate(df3,`2017` = ifelse(AssessmentYear == 2017 &
-                                                  is.na(`2017`) &
-                                                  !is.na(`2016`),
-                                          `2016`,
-                                          `2017`))
+  # df3<- dplyr::mutate(df3,`2017` = ifelse(AssessmentYear == 2017 &
+  #                                                 is.na(`2017`) &
+  #                                                 !is.na(`2016`),
+  #                                         `2016`,
+  #                                         `2017`))
   df3 <- tidyr::gather(df3,Year, discards, 4:ncol(df3))
   df3 <- dplyr::mutate(df3,Year = as.numeric(Year),
                        discards = as.numeric(discards))
@@ -63,12 +63,15 @@ plot_discard_current <- function(x, year, position_letter = "b)",
   df5 <- dplyr::group_by(df5,Year, FisheriesGuild)
   df5 <- dplyr::summarize(df5,guildLandings = sum(catches, na.rm = TRUE)/ 1000,
                     guildDiscards = sum(discards, na.rm = TRUE)/ 1000)
+  # df5 <- dplyr::summarize(df5,guildLandings = sum(catches, na.rm = TRUE),
+   #                        guildDiscards = sum(discards, na.rm = TRUE))
+   # 
 
   # df5 <- dplyr::mutate(df5,guildRate = guildDiscards/ (guildLandings + guildDiscards))
   df5 <- tidyr::gather(df5,variable, value, -Year, -FisheriesGuild)
 
   # df5 <- dplyr::filter(df5,!variable %in% c("guildDiscards", "guildLandings"))
-  df5 <- dplyr::filter(df5,Year == year - 1)
+  # df5 <- dplyr::filter(df5,Year == year - 1)
 
   # df5_order <- dplyr::group_by(df5,FisheriesGuild) %>%
   #         summarize(total = sum(value, na.rm = TRUE)) %>%
@@ -89,7 +92,7 @@ plot_discard_current <- function(x, year, position_letter = "b)",
                 plot.caption = ggplot2::element_text(size = 6),
                 panel.grid = ggplot2::element_blank(),
                 legend.key = ggplot2::element_rect(colour = NA)) +
-          ggplot2::labs(x = "", y = "Discards and landings( thousand tonnes)",title = position_letter)
+          ggplot2::labs(x = "", y = "Discards and landings(thousand tonnes)",title = position_letter)
 
   if(caption == TRUE) {
     cap_lab <- ggplot2::labs(caption = sprintf("ICES Stock Assessment Database, %s/%s. ICES, Copenhagen",
@@ -106,7 +109,7 @@ plot_discard_current <- function(x, year, position_letter = "b)",
                            plot.caption = ggplot2::element_text(size = 6),
                            panel.grid = ggplot2::element_blank(),
                            legend.key = ggplot2::element_rect(colour = NA)) +
-            ggplot2::labs(x = "", y = "Discards and landings(tonnes)",title = position_letter)+
+            ggplot2::labs(x = "", y = "Discards and landings(thousand tonnes)",title = position_letter)+
             cap_lab
   }
 

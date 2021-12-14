@@ -38,7 +38,7 @@ plot_guild_trends <- function(x,cap_year, cap_month, return_data = FALSE){
         values <- ggthemes::tableau_color_pal('Tableau 20')(length(adj_names))
         legend_pos <- "bottom"
         names(values) <- adj_names
-        values <- c(values, c(MEAN = "black"))
+        # values <- c(values, c(MEAN = "black"))
         cap_lab <- ggplot2::labs(caption = sprintf("ICES Stock Assessment Database, %s %s. ICES, Copenhagen",
                                   cap_month,
                                   cap_year))
@@ -62,7 +62,7 @@ plot_guild_trends <- function(x,cap_year, cap_month, return_data = FALSE){
                 ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(n = 5)) +
                 ggplot2::guides(fill = FALSE) +
                 ggplot2::theme(legend.position = legend_pos,
-                        strip.text = ggplot2::element_text(size = 9, angle = 0, hjust = 0),
+                        strip.text = ggplot2::element_text(size = 9, angle = 0, hjust = 0.5),
                         strip.background = ggplot2::element_blank(),
                         strip.placement = "outside",
                         panel.grid.major = ggplot2::element_blank(),
