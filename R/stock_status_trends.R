@@ -30,29 +30,29 @@
 #Need to add a parameter to be able to have the output for EO plots by ecoregion
 
 stock_trends <- function(x){
-        x$F <- as.numeric(x$F)
-        x$SSB <- as.numeric(x$SSB)
+        x$FishingPressure <- as.numeric(x$FishingPressure)
+        x$StockSize <- as.numeric(x$StockSize)
         x$FMSY <- as.numeric(x$FMSY)
         x$MSYBtrigger <- as.numeric(x$MSYBtrigger)
-        df <- dplyr::mutate(x,FMEAN = mean(F, na.rm = TRUE),
-                       SSBMEAN = mean(SSB, na.rm = TRUE),
-                       FMEAN = ifelse(!grepl("F|F(ages 3-6)", fishingPressureDescription),
+        df <- dplyr::mutate(x,FMEAN = mean(FishingPressure, na.rm = TRUE),
+                       SSBMEAN = mean(StockSize, na.rm = TRUE),
+                       FMEAN = ifelse(!grepl("F|F(ages 3-6)", FishingPressureDescription),
                                       NA,
                                       FMEAN),
-                       SSBMEAN = ifelse(!grepl("SSB", stockSizeDescription),
+                       SSBMEAN = ifelse(!grepl("StockSize", StockSizeDescription),
                                         NA,
                                         SSBMEAN))
         df <- dplyr::mutate(df,F_FMSY = ifelse(!is.na(FMSY),
-                                       F / FMSY,
+                                       FishingPressure / FMSY,
                                        NA),
                        SSB_MSYBtrigger = ifelse(!is.na(MSYBtrigger),
-                                                SSB / MSYBtrigger,
+                                                StockSize / MSYBtrigger,
                                                 NA))
         df <- dplyr::mutate(df,F_FMEAN = ifelse(!is.na(FMEAN),
-                                        F / FMEAN, 
+                                        FishingPressure / FMEAN, 
                                         NA),
                        SSB_SSBMEAN = ifelse(!is.na(SSBMEAN),
-                                            SSB / SSBMEAN,
+                                            StockSize / SSBMEAN,
                                             NA))
         df<- dplyr::select(df,Year,
                StockKeyLabel,

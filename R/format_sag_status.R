@@ -30,9 +30,9 @@
 
 
 
-format_sag_status <- function(x,year, ecoregion) {
+format_sag_status <- function(x) {
         df <- x
-        df <- dplyr::filter(df,(grepl(pattern = ecoregion, Ecoregion)))
+        # df <- dplyr::filter(df,(grepl(pattern = ecoregion, Ecoregion)))
         df <- dplyr::mutate(df,status = case_when(status == 0 ~ "UNDEFINED",
                                   status == 1 ~ "GREEN",
                                   status == 2 ~ "qual_GREEN", #qualitative green
@@ -70,19 +70,21 @@ format_sag_status <- function(x,year, ecoregion) {
                        TRUE ~ variable
                )) 
         df <- dplyr::filter(df,variable != "-")
-
+#CHECKCHECKCHECK
 df <- dplyr::filter(df, lineDescription != "Management plan")
 df <- dplyr::filter(df, lineDescription != "Qualitative evaluation")
-df <- dplyr::mutate(df,key = paste(StockKeyLabel, lineDescription, type))
+df <- dplyr::mutate(df,key = paste(StockKeyLabel, lineDescription, year))
 df<- df[order(-df$year),]
 df <- df[!duplicated(df$key), ]
 df<- subset(df, select = -key)
-df<- subset(df, select = c(StockKeyLabel, AssessmentYear, AdviceCategory, lineDescription, type, status))
+df<- subset(df, select = c(StockKeyLabel, lineDescription, status, type))
+df <- tidyr::spread(df, key = type, value = status)
 df<- tidyr::spread(df,type, status)
 
 df2<- dplyr::filter(df,lineDescription != "Maximum Sustainable Yield")
 df2<- dplyr::filter(df2,lineDescription != "Maximum sustainable yield")
 
+##AQUI!!
 colnames(df2) <- c("StockKeyLabel","AssessmentYear","AdviceCategory","lineDescription","FishingPressure","StockSize" )
 df2 <-dplyr::mutate(df2, SBL = case_when(FishingPressure == "GREEN" & StockSize == "GREEN" ~ "GREEN",
                                     FishingPressure == "RED" | StockSize == "RED" ~ "RED",

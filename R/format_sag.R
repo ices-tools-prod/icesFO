@@ -4,7 +4,9 @@
 #' for which you are producing the Fisheries Overviews.
 #'
 #' @param x a dataframe output from load_sag_summary() required.
-#' @param y a dataframe output from load_sag_refpts() required.
+
+# CHECK what to do with this
+#' @param y a dataframe output from webservice required.
 #' @param year the year for which data is required.
 #' @param ecoregion an identifier of the Ecoregion of interest
 #'
@@ -29,41 +31,50 @@
 #'
 #' @export
 
-#other variables to keep?
-format_sag <- function(x,y,year,ecoregion){
-        sid <- load_sid(year)
-        sid <- dplyr::filter(sid,!is.na(YearOfLastAssessment))
-        sid <- dplyr::select(sid,StockKeyLabel,
+#Saving all variables with some value, so we keep also custom values
+
+#this function only removes empty variables and adds SID, which is only used to find the Guild.
+
+
+format_sag <- function(x,y){
+        # sid <- load_sid(year)
+        sid <- dplyr::filter(y,!is.na(YearOfLastAssessment))
+        sid <- dplyr::select(sid,StockKeyLabel,AssessmentKey,
                              YearOfLastAssessment, EcoRegion, FisheriesGuild)
-        colnames(sid) <- c("StockKeyLabel", "AssessmentYear", "Ecoregion", "FisheriesGuild")
-        df1 <- dplyr::mutate(x, StockKeyLabel= fishstock)
-        df1 <- merge(df1, sid, by = c("StockKeyLabel", "AssessmentYear"), all = TRUE)
-        df1 <- dplyr::filter(df1,(grepl(pattern = ecoregion, Ecoregion)))
-        df1 <- dplyr::select(df1,Year,
-               StockKeyLabel,
-               FisheriesGuild,
-               Purpose,
-               F,
-               SSB,
-               fishingPressureDescription,
-               stockSizeDescription,
-               landings,
-               catches,
-               discards)
+        colnames(sid) <- c("StockKeyLabel", "AssessmentKey", "AssessmentYear", "Ecoregion", "FisheriesGuild")
+        sag <- dplyr::mutate(x, StockKeyLabel= FishStock)
+        df1 <- left_join(sag, sid, by = c("StockKeyLabel", "AssessmentYear"), all = TRUE)
+        df1 <-as.data.frame(df1)
+        # df1 <- df1 %>% filter(AssessmentKey %in% sag$AssessmentKey)
+        # df1 <- dplyr::filter(df1,(grepl(pattern = ecoregion, Ecoregion)))
+        # df1 <- df1 %>% filter(FishStock != NA)
+        df1 <- df1[, colSums(is.na(df1)) < nrow(df1)]
+        # df1 <- dplyr::select(df1,Year,
+        #        StockKeyLabel,
+        #        FisheriesGuild,
+        #        Purpose,
+        #        F,
+        #        SSB,
+        #        fishingPressureDescription,
+        #        stockSizeDescription,
+        #        landings,
+        #        catches,
+        #        discards)
         df1$FisheriesGuild <- tolower(df1$FisheriesGuild)
-        df2 <- merge(y, sid, by = c("StockKeyLabel", "AssessmentYear"), all = TRUE)
-        df2 <- dplyr::filter(df2,(grepl(pattern = ecoregion, Ecoregion)))
-        df2 <- dplyr::select(df2,StockKeyLabel,
-               AssessmentYear,
-               Flim = FLim,
-               Fpa,
-               Bpa,
-               Blim,
-               FMSY,
-               MSYBtrigger)
-        
-        out <- dplyr::left_join(df1,df2)
-        check <-unique(out[c("StockKeyLabel", "Purpose")])
+        df1 <- subset(df1, select = -c(FishStock))
+        # df2 <- merge(y, sid, by = c("StockKeyLabel", "AssessmentYear"), all = TRUE)
+        # df2 <- dplyr::filter(df2,(grepl(pattern = ecoregion, Ecoregion)))
+        # df2 <- dplyr::select(df2,StockKeyLabel,
+        #        AssessmentYear,
+        #        Flim = FLim,
+        #        Fpa,
+        #        Bpa,
+        #        Blim,
+        #        FMSY,
+        #        MSYBtrigger)
+        # 
+        # out <- dplyr::left_join(df1,df2)
+        check <-unique(df1[c("StockKeyLabel", "Purpose")])
         check <- check[duplicated(check$StockKeyLabel),]
-        out <- dplyr::anti_join(out, check)
+        out <- dplyr::anti_join(df1, check)
 }

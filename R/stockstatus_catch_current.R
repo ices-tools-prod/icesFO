@@ -33,40 +33,40 @@ stockstatus_CLD_current <- function(x) {
         df<- dplyr::select(x,Year,
                            StockKeyLabel,
                            FisheriesGuild,
+                           FishingPressure,
                            AssessmentYear,
-                           F,
                            FMSY,
-                           SSB,
+                           StockSize,
                            MSYBtrigger,
-                           catches,
-                           landings,
-                           discards)
-        df$F <- as.numeric(df$F)
-        df$SSB <- as.numeric(df$SSB)
+                           Catches,
+                           Landings,
+                           Discards)
+        df$FishingPressure <- as.numeric(df$FishingPressure)
+        df$StockSize <- as.numeric(df$StockSize)
         df$FMSY <- as.numeric(df$FMSY)
         df$MSYBtrigger <- as.numeric(df$MSYBtrigger)
         df2 <- dplyr::group_by(df,StockKeyLabel)
         df2 <- dplyr::filter(df2,Year == AssessmentYear - 1)
         df2 <- dplyr::mutate(df2,F_FMSY =  ifelse(!is.na(FMSY),
-                                                                F / FMSY,
+                                                                FishingPressure / FMSY,
                                                                 NA))
         df2 <- dplyr::select(df2,StockKeyLabel,
                                                FisheriesGuild,
                                                F_FMSY,
-                                               catches,
-                                               landings,
-                                               discards,
+                                               Catches,
+                                               Landings,
+                                               Discards,
                                                FMSY,
-                                               F)
-        df3 <- dplyr::group_by(df,StockKeyLabel, AssessmentYear)
+                                               FishingPressure)
+        df3 <- dplyr::group_by(df,StockKeyLabel)
         df3 <- dplyr::filter(df3, Year %in% c(AssessmentYear, (AssessmentYear - 1)))
         df3 <- dplyr::mutate(df3, SSB_MSYBtrigger = ifelse(!is.na(MSYBtrigger),
-                                                                        SSB / MSYBtrigger,
+                                                                        StockSize / MSYBtrigger,
                                                                         NA))
         df3 <- dplyr::select(df3, StockKeyLabel,Year,
                                                FisheriesGuild,
                                                SSB_MSYBtrigger,
-                                               SSB,
+                                               StockSize,
                                                MSYBtrigger)
         check <- unique(df3[c("StockKeyLabel", "Year", "MSYBtrigger")])
         check <- check[order(-check$Year),]

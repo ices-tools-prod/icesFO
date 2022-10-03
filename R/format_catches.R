@@ -241,7 +241,7 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
           df <- dplyr::bind_rows(catch_dat_2010,catch_dat_1950)
   } else {
           catch_dat_prelim <- dplyr::filter(preliminary, Country != "")
-          catch_dat_prelim$VALUE <- catch_dat_prelim[,6]
+          catch_dat_prelim$VALUE <- catch_dat_prelim[,7]
           catch_dat_prelim <- catch_dat_prelim[, -grep("AMS", colnames(catch_dat_prelim))]
           catch_dat_prelim <- catch_dat_prelim[, -grep("BMS", colnames(catch_dat_prelim))]
           catch_dat_prelim$Species.Latin.Name <- catch_dat_prelim[,3]
