@@ -62,9 +62,9 @@ plot_GES_pies <- function(x, y, cap_month = "August",
         df2[is.na(df2)] <- 0
 
         df3 <- dplyr::filter(y, StockKeyLabel %in% df_stock$StockKeyLabel)
-        df3 <- dplyr::mutate(df3,CATCH = ifelse(is.na(catches) & !is.na(landings),
-                                         landings,
-                                         catches))
+        df3 <- dplyr::mutate(df3,CATCH = ifelse(is.na(Catches) & !is.na(Landings),
+                                         Landings,
+                                         Catches))
         df3 <- dplyr::select(df3,c(StockKeyLabel, CATCH))
         df4 <- dplyr::left_join(df_stock,df3)
         df4[is.na(df4)] <- 0

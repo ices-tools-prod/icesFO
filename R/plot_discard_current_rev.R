@@ -36,13 +36,14 @@
 
 #find a way to set caption(cap_year, cap_month) being conditional
 
-plot_discard_current <- function(x, year, position_letter = "c)",
+plot_discard_current <- function(x, year, position_letter = "b)",
                                  caption = TRUE, cap_year, cap_month,
                                  return_data = FALSE){
   df <- dplyr::filter(x,Year %in% seq(year-5, year -1))
   df2 <- tidyr::expand(df,Year, tidyr::nesting(StockKeyLabel,FisheriesGuild))
   df <- dplyr::left_join(df,df2,
                          by = c("Year", "StockKeyLabel", "FisheriesGuild"))
+  df <- df[, -11]
   df3 <- dplyr::select(df, StockKeyLabel, Year, Discards)
   df3 <- unique(df3)
   df3 <- tibble::rowid_to_column(df3)
@@ -53,11 +54,10 @@ plot_discard_current <- function(x, year, position_letter = "c)",
   #                                                 !is.na(`2016`),
   #                                         `2016`,
   #                                         `2017`))
-  df3 <- tidyr::gather(df3,Year, Discards, 4:ncol(df3))
+  df3 <- tidyr::gather(df3,Year, Discards, 3:ncol(df3))
   df3 <- dplyr::mutate(df3,Year = as.numeric(Year),
                        Discards = as.numeric(Discards))
-  # df5 <- dplyr::select(df,-Discards,
-  #                      -Landings)
+  df5 <- dplyr::select(df,-Discards)
   df5 <- dplyr::left_join(df5,df3, by = c("Year", "StockKeyLabel"))
   # df5 <- dplyr::left_join(df5,df4, by = c("Year", "StockKeyLabel", "AssessmentYear"))
   df5 <- dplyr::group_by(df5,Year, FisheriesGuild)
@@ -70,6 +70,9 @@ plot_discard_current <- function(x, year, position_letter = "c)",
   
   # df5 <- dplyr::mutate(df5,guildRate = guildDiscards/ (guildLandings + guildDiscards))
   df5 <- tidyr::gather(df5,variable, value, -Year, -FisheriesGuild)
+  df5 <- dplyr::filter(df5, FisheriesGuild %in% c("demersal", "pelagic", "benthic"))
+  df5 <- dplyr::filter(df5,Year == year-1)
+  df5$value <- df5$value/1000
 
   # df5 <- dplyr::filter(df5,!variable %in% c("guildDiscards", "guildLandings"))
   #out?
