@@ -34,6 +34,36 @@ NULL
 #'@rdname load_sag
 #' @export
 
+
+load_sag_complete <- function(year){
+        years <- ((year-3):year)
+        # ecoreg <- gsub(" ", "%20", ecoregion, fixed = TRUE)
+        out <- data.frame()
+        res <- data.frame()
+        for(n in 1:4){
+                x <- years[n]
+                url <- paste0("https://sag.ices.dk/SAG_API/api/SAGDownload?year=", x)
+                tmpSAG <- tempfile(fileext = ".zip")
+                download.file(url, destfile = tmpSAG, mode = "wb", quiet = FALSE)
+                names <-unzip(tmpSAG, list = TRUE)
+                res <- read.csv(unz(tmpSAG, names$Name[1]),
+                                stringsAsFactors = FALSE,
+                                header = TRUE,
+                                fill = TRUE)
+                res<- unique(res)
+                out <- rbind(out, res)
+        }
+        out <- dplyr::filter(out, Purpose == "Advice")
+        out <- data.table::as.data.table(out) 
+        out <- out[out[, .I[AssessmentKey == max(AssessmentKey)], by=FishStock]$V1]
+        out <- as.data.frame(out)
+}
+
+
+
+
+
+
 load_sag <- function(year, ecoregion){
         years <- ((year-3):year)
         ecoreg <- gsub(" ", "%20", ecoregion, fixed = TRUE)
