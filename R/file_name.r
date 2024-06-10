@@ -2,7 +2,7 @@
 #' Helps creating the name of the file to save and save it in the right folder
 #' 
 #' @param year the active year
-#' @param ecoregion
+#' @param ecoregion the relevant ices ecoregion
 #' @param name (name of the file)
 #' @param ext (extention of the file, for example: csv, png...)
 #' @param dir (directory where to save the file)

@@ -64,6 +64,15 @@ load_sag_complete <- function(year){
 
 
 
+#' Title
+#'
+#' @param year 
+#' @param ecoregion 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 load_sag <- function(year, ecoregion){
         years <- ((year-3):year)
         ecoreg <- gsub(" ", "%20", ecoregion, fixed = TRUE)
@@ -88,8 +97,7 @@ load_sag <- function(year, ecoregion){
         out <- as.data.frame(out)
 }
 
-#' @rdname load_sag
-#' @export
+
 #' load_sag_summary <-  function(year){
 #'         years <- ((year-3):year)
 #'         out <- icesSAG::getSAG(stock = NULL,
@@ -113,8 +121,7 @@ load_sag <- function(year, ecoregion){
 #'         }
 #'         
 #' 
-#' #' @rdname load_sag
-#' #' @export
+
 #' load_sag_refpts <- function(year){
 #'         years <- ((year-3):year)
 #'         out <- icesSAG::getSAG(stock = NULL,
@@ -138,14 +145,14 @@ load_sag <- function(year, ecoregion){
 #' }
 
 
-#for each StockKeyLabel, should only keep last year, maybe here maybe later 
-#Check the issue with old stock codes for stocks last assessed before 2016
-
-#Now status loads whatever is in sag
-
-#' @rdname load_sag
+#' Title
+#'
+#' @param sag 
+#'
+#' @return
 #' @export
-
+#'
+#' @examples
 load_sag_status_new <- function(sag) {
         stocks <- unique(sag[c("AssessmentKey","FishStock")])
         status <- icesSAG::getStockStatusValues(stocks$AssessmentKey)
@@ -160,6 +167,14 @@ load_sag_status_new <- function(sag) {
 
 
 
+#' Title
+#'
+#' @param year 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 load_sag_status <- function(year) {
         years <- ((year-3):year)
         out <- do.call("rbind", lapply(years,function(x) icesSAG::findAssessmentKey(stock = NULL,

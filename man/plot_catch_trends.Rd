@@ -12,7 +12,7 @@ plot_catch_trends(
   line_count = 10,
   plot_type = c("line", "area"),
   preliminary_catches = TRUE,
-  official_catches_year = 2020,
+  official_catches_year = cap_year - 1,
   return_data = FALSE
 )
 }

@@ -4,8 +4,10 @@
 \name{icesFO-package}
 \alias{icesFO-package}
 \alias{icesFO}
-\title{Functions to support the creation of ICES Fisheries Overviews}
+\title{icesFO: Functions to support the creation of ICES Fisheries Overviews}
 \description{
+Functions to support the creation of ICES Fisheries Overviews.
+
 Functions to support the creation of ICES Fisheries Overviews, ....
 }
 \details{
@@ -34,5 +36,22 @@ Functions to support the creation of ICES Fisheries Overviews, ....
 }
 }
 \author{
+\strong{Maintainer}: Adriana Villamor \email{adriana.villamor@ices.dk}
+
+Authors:
+\itemize{
+  \item Colin Millar
+  \item Colm Lordan
+  \item Youen Vermard
+  \item Scott Large
+}
+
+Other contributors:
+\itemize{
+  \item Sarah Millar [contributor]
+}
+
+
 Adriana Villamor, Scott Large, Sarah Louise Millar and Colin Millar.
 }
+\keyword{internal#'}

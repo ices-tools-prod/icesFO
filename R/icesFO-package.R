@@ -1,5 +1,5 @@
-#' @docType package
-#'
+#' @keywords internal#'
+"_PACKAGE"
 #' @name icesFO-package
 #'
 #' @aliases icesFO

@@ -4,12 +4,12 @@
 \alias{format_sag}
 \title{Format the data from the ICES Stock Assessment Database.}
 \usage{
-format_sag(x, y, year, ecoregion)
+format_sag(x, y)
 }
 \arguments{
 \item{x}{a dataframe output from load_sag_summary() required.}
 
-\item{y}{a dataframe output from load_sag_refpts() required.}
+\item{y}{a dataframe output from webservice required.}
 
 \item{year}{the year for which data is required.}
 

@@ -2,26 +2,24 @@
 % Please edit documentation in R/load_sag.R
 \name{load_sag}
 \alias{load_sag}
-\alias{load_sag_summary}
-\alias{load_sag_refpts}
-\alias{load_sag_status}
+\alias{load_sag_complete}
 \title{Download data from the ICES Stock Assessment database.}
 \usage{
-load_sag_summary(year)
+load_sag_complete(year)
 
-load_sag_refpts(year)
-
-load_sag_status(year)
+load_sag(year, ecoregion)
 }
 \arguments{
-\item{year}{the year for which data is required.}
+\item{year}{}
+
+\item{ecoregion}{}
 }
 \value{
 A data frame..
 }
 \description{
 Download data from the ICES Stock Assessment database for the year in
-which you are producing the Fisheries Overviews. Form SAG
+which you are producing the Fisheries Overviews. From SAG
 }
 \note{
 Can add some helpful information here

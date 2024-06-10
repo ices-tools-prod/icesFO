@@ -31,4 +31,4 @@ Imports: jsonlite,
 Description: Functions to support the creation of ICES Fisheries Overviews.
 License: GPL (>= 2)
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.1
