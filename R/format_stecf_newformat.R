@@ -38,61 +38,6 @@ NULL
 #' @rdname format_stecf
 #' @export
 
-library(readxl)
-# data_list <- import_list("FDI-catches-by-country.xlsx", setclass = "tbl", rbind = TRUE)
-df1<- read_excel("FDI-catches-by-country.xlsx", 
-              sheet = 1)
-df2<- read_excel("FDI-catches-by-country.xlsx", 
-                 sheet = 2)
-df3<- read_excel("FDI-catches-by-country.xlsx", 
-                 sheet = 3)
-df4<- read_excel("FDI-catches-by-country.xlsx", 
-                 sheet = 4)
-df5<- read_excel("FDI-catches-by-country.xlsx", 
-                 sheet = 5)
-# df6<- read_excel("FDI-catches-by-country.xlsx", 
-#                  sheet = 6)
-
-df <- rbind(df1,df2,df3,df4,df5)
-
-df<- read_excel("FDI-effort-by-country.xlsx", 
-                 sheet = 2)
-
-
-names(df)
-unique(df$`supra-region`)
-unique(df$`sub-region`)
-unique(df$`sub-region`)
-
-bts_df <- df %>% filter(`sub-region`%in% c( "27.3.D.28.1","27.3.B.23", "27.3.D.32" ,"27.3.D.30",
-                                            "27.3.D.25","27.3.D.26","27.3.D.28.2","27.3.D.31",
-                                            "27.3.D.24","27.3.D.29","27.3.D.27","27.3.C.22" ))
-
-nrs_df <- df %>% filter(`sub-region`%in% c("27.3.A.20", "27.3.A.21", "27.4.A", "27.4.B",
-                                           "27.4.C", "27.4.D", "27.4.E"))
-
-cs_df <- df %>% filter(`sub-region`%in% c("27.6.A", "27.6.B.2", "27.7.A", "27.7.B",
-                                           "27.7.C.2", "27.7.F", "27.7.G", "27.2.H", "27.7.J.2", "27.7.K.2"))
-
-bi_df <- df %>% filter(`sub-region`%in% c("27.8.A", "27.8.B", "27.8.C", "27.8.D.2",
-                                           "27.8.E.2", "27.9.A", "27.9.B.2"))
-
-
-cs_df <- dplyr::mutate(cs_df, gear_class = case_when(
-        grepl("TBB",`gear type`) ~ "Beam trawl",
-        grepl("DRB|DRH|HMD", `gear type`) ~ "Dredge",
-        grepl("GNS|GND|GTN|GNC|LHP|LLS|FPN|GTR|FYK|LLD|SDN|LTL|LHM|LNB|LA|GEF", `gear type`) ~ "Static/Gill net/LL",
-        grepl("OTT|OTB|PTB|SSC|SB", `gear type`) ~ "Otter trawl/seine",
-        grepl("PTM|OTM|PS|SV|SPR", `gear type`) ~ "Pelagic trawl/seine",
-        grepl("FPO", `gear type`) ~ "Pots",
-        grepl("NK", `gear type`) ~ "other",
-        is.na(`gear type`) ~ "other",
-        TRUE ~ "other"
-)
-)
-
-check <-unique(cs_df[c("gear type", "gear_class")])
-names(nrs_df)
 
 format_stecf_effort <- function(x){
         df <- x
