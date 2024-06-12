@@ -125,6 +125,20 @@ format_catches_noecoregion <- function(hist, official, species_list, sid) {
 
 
 
+#' The previous function for formatting catches
+#'
+#' @param year 
+#' @param ecoregion 
+#' @param historical 
+#' @param official 
+#' @param preliminary 
+#' @param species_list 
+#' @param sid 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 format_catches <- function(year, ecoregion, historical, official, preliminary = NULL, species_list, sid) {
         
         fish_category <- dplyr::mutate(sid, X3A_CODE = substr(sid$StockKeyLabel, start = 1, stop = 3))
