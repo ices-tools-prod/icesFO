@@ -22,13 +22,11 @@
 #' }
 #'
 #' @export
-
-library(DT)
-library(webshot)
-library(dplyr)
-library(tidyverse)
-
-
+#' 
+#' @import DT
+#' @import dplyr
+#' @import package
+#' @importFrom R.utils createLink
 
 
 format_annex_table_html <- function(df, ecoregion, year) {
