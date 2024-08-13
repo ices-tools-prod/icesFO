@@ -25,7 +25,6 @@
 #' 
 #' @import DT
 #' @import dplyr
-#' @import package
 #' @importFrom R.utils createLink
 
 
