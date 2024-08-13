@@ -11,6 +11,8 @@
 #' The effort data.frame is conveted to an sf object for plotting and
 #' is expeted to have a Well Known Text column containing polygons
 #' of c-squares
+#' 
+#' @importFrom rnaturalearth ne_countries
 #'
 #' @seealso
 #'
@@ -45,7 +47,7 @@ plot_sar_map <- function(sar, ecoregion, what) {
 
   # get europe coastline polygon
   europe_shape <-
-    rnaturalearth::ne_countries(
+    ne_countries(
       scale = 10, type = "countries",
       continent = "europe",
       returnclass = "sf")

@@ -10,6 +10,8 @@
 #' is expeted to have a Well Known Text column containing polygons
 #' of c-squares
 #'
+#' @importFrom rnaturalearth ne_countries
+#'
 #' @seealso
 #'
 #' \code{\link{plot_ecoregion_map}} plots ICES areas and ecoregion.
@@ -37,7 +39,7 @@ plot_effort_map <- function(effort, ecoregion){
 
   # get europe coastline polygon
   europe_shape <-
-    rnaturalearth::ne_countries(
+    ne_countries(
       scale = 10, type = "countries",
       continent = "europe",
       returnclass = "sf")
