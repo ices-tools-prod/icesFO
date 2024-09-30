@@ -64,15 +64,21 @@ load_official_catches<- function(){
 #' @rdname load_catches
 #' @export
 #
+
+
 # change this
 # https://data.ices.dk/rec12/api/getPreliminaryCatchStatistics?year=20
 load_preliminary_catches <- function (year){
-        url<- paste0("http://data.ices.dk/rec12/download/", year, "preliminaryCatchStatistics.csv")
-        tmpFilePrelimCatch <- tempfile(fileext = ".csv")
+        url<- paste0("http://data.ices.dk/rec12/download/", year, "preliminaryCatchStatistics.zip")
+        tmpFilePrelimCatch <- tempfile(fileext = ".zip")
         download.file(url, destfile = tmpFilePrelimCatch, mode = "wb", quiet = TRUE)
-        out <- read.csv(tmpFilePrelimCatch,
+        out <- read.csv(unz(tmpFilePrelimCatch,
+                            grep("preliminaryCatchStatistics.*.csv", unzip(tmpFilePrelimCatch,
+                                                                           list = TRUE)$Name,
+                                 value = TRUE)),
                         stringsAsFactors = FALSE,
                         header = TRUE,
                         fill = TRUE)
+        out <- out %>% rename(Year = ï..Year)
         out
 }

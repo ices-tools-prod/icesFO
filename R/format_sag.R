@@ -38,43 +38,22 @@
 
 format_sag <- function(x,y){
         # sid <- load_sid(year)
-        sid <- dplyr::filter(y,!is.na(YearOfLastAssessment))
-        sid <- dplyr::select(sid,StockKeyLabel,AssessmentKey,
-                             YearOfLastAssessment, EcoRegion, FisheriesGuild)
-        colnames(sid) <- c("StockKeyLabel", "AssessmentKey", "AssessmentYear", "Ecoregion", "FisheriesGuild")
-        sag <- dplyr::mutate(x, StockKeyLabel= FishStock)
-        df1 <- left_join(sag, sid, by = c("StockKeyLabel", "AssessmentYear"), all = TRUE)
+        y <- dplyr::filter(y,!is.na(YearOfLastAssessment))
+        y <- dplyr::select(y,StockKeyLabel,FisheriesGuild)
+        x <- dplyr::mutate(x, FishStock= StockKeyLabel)
+        df1 <- merge(x,y, all.x = T, all.y = F)
+        # df1 <- left_join(x, y)
+        # df1 <- left_join(x, y, by = c("StockKeyLabel", "AssessmentYear"))
         df1 <-as.data.frame(df1)
-        # df1 <- df1 %>% filter(AssessmentKey %in% sag$AssessmentKey)
-        # df1 <- dplyr::filter(df1,(grepl(pattern = ecoregion, Ecoregion)))
-        # df1 <- df1 %>% filter(FishStock != NA)
+        
         df1 <- df1[, colSums(is.na(df1)) < nrow(df1)]
-        # df1 <- dplyr::select(df1,Year,
-        #        StockKeyLabel,
-        #        FisheriesGuild,
-        #        Purpose,
-        #        F,
-        #        SSB,
-        #        fishingPressureDescription,
-        #        stockSizeDescription,
-        #        landings,
-        #        catches,
-        #        discards)
+        
         df1$FisheriesGuild <- tolower(df1$FisheriesGuild)
+        
         df1 <- subset(df1, select = -c(FishStock))
-        # df2 <- merge(y, sid, by = c("StockKeyLabel", "AssessmentYear"), all = TRUE)
-        # df2 <- dplyr::filter(df2,(grepl(pattern = ecoregion, Ecoregion)))
-        # df2 <- dplyr::select(df2,StockKeyLabel,
-        #        AssessmentYear,
-        #        Flim = FLim,
-        #        Fpa,
-        #        Bpa,
-        #        Blim,
-        #        FMSY,
-        #        MSYBtrigger)
-        # 
-        # out <- dplyr::left_join(df1,df2)
+        
         check <-unique(df1[c("StockKeyLabel", "Purpose")])
         check <- check[duplicated(check$StockKeyLabel),]
+        # check <-unique(df1[c("StockKeyLabel", "FisheriesGuild")])
         out <- dplyr::anti_join(df1, check)
 }

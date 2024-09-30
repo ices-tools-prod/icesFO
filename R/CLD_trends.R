@@ -40,15 +40,18 @@ CLD_trends <- function(x){
                        Catches,
                        Landings,
                        Discards)
+        df["Discards"][df["Discards"] == 0] <- NA
+        df["Catches"][df["Catches"] == 0] <- NA
+        df["Landings"][df["Landings"] == 0] <- NA
         df <- dplyr::bind_rows(
                         # all present and accounted for
-                                dplyr::filter(df,!is.na(Catches),
+                       dplyr::filter(df,!is.na(Catches),
                                        !is.na(Landings),
                                        !is.na(Discards)), 
                          # Missing discards, but catches == landings
-                         dplyr::filter(df, is.na(Discards),
+                       dplyr::filter(df, is.na(Discards),
                                        Catches == Landings),
-                         dplyr::mutate(df, discards = 0), 
+                         dplyr::mutate(df, Discards = 0), 
                        # Missing catches, but have landings and discards
                        dplyr::filter(df,is.na(Catches),
                                        !is.na(Landings),

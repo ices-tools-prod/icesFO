@@ -33,5 +33,5 @@ load_asfis_species <- function() {
     read.csv(file.path(tempdir(), txtfile), 
              na.strings = "", stringsAsFactors = FALSE)
 
-  dplyr::select(species, English_name, Scientific_name, X3A_CODE)
+  dplyr::select(species, English_name, Scientific_Name, Alpha3_Code)
 }

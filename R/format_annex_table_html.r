@@ -38,10 +38,10 @@ format_annex_table_html <- function(df, ecoregion, year) {
   paste0("<a href='","https://www.ices.dk/sites/pub/Publication%20Reports/Advice/",AssessmentYear,"/", AssessmentYear,"/", StockKeyLabel,".pdf","'>", StockKeyLabel,"</a>")
 }
   # The paths to the icons
-  green_icon <- '<img src="D:/Profile/Documents/GitHub/icesFO/inst/symbols/green_check.png" width=30 height=30>'
-  grey_icon <- '<img src="D:/Profile/Documents/GitHub/icesFO/inst/symbols/grey_q.png" width=30 height=30>'
-  orange_icon <- '<img src="D:/Profile/Documents/GitHub/icesFO/inst/symbols/orange_oh.png" width=30 height=30>'
-  red_icon <- '<img src="D:/Profile/Documents/GitHub/icesFO/inst/symbols/red_cross.png" width=30 height=30>'
+  green_icon <- '<img src="D:/Profile/Documents/R_Projects/icesFO/inst/symbols/green_check.png" width=30 height=30>'
+  grey_icon <- '<img src="D:/Profile/Documents/R_Projects/icesFO/inst/symbols/grey_q.png" width=30 height=30>'
+  orange_icon <- '<img src="D:/Profile/Documents/R_Projects/icesFO/inst/symbols/orange_oh.png" width=30 height=30>'
+  red_icon <- '<img src="D:/Profile/Documents/R_Projects/icesFO/inst/symbols/red_cross.png" width=30 height=30>'
 
   df <- df %>%
     mutate_all(funs(str_replace(., "GREEN", green_icon))) %>%

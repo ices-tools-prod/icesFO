@@ -47,7 +47,7 @@ plot_catch_trends <- function(x,type = c("COMMON_NAME", "COUNTRY", "GUILD"),
         capyear <- as.character(capyear)
         cap_lab <-ggplot2::labs(x = "",
                        y = "Landings (thousand tonnes)",
-                       caption = sprintf(paste0("Historical Nominal Catches 1950-2010, \nOfficial Nominal Catches 2006-",capyear,"\nPreliminary Catches ", official_catches_year, "\n ICES, Copenhagen.")))
+                       caption = sprintf(paste0("Historical Nominal Catches 1950-2010, \nOfficial Nominal Catches 2006-",capyear, "\n ICES, Copenhagen.")))
 
 
         df <- dplyr::rename(x, type_var = setNames(type , "type_var"))

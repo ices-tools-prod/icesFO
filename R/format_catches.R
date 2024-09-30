@@ -42,9 +42,9 @@
 
 format_catches_noecoregion <- function(hist, official, species_list, sid) {
 
-  fish_category <- dplyr::mutate(sid, X3A_CODE = substr(sid$StockKeyLabel, start = 1, stop = 3))
-  fish_category <- dplyr::select(fish_category, X3A_CODE, FisheriesGuild)
-  fish_category$X3A_CODE <- toupper(fish_category$X3A_CODE)
+  fish_category <- dplyr::mutate(sid, Alpha3_Code = substr(sid$StockKeyLabel, start = 1, stop = 3))
+  fish_category <- dplyr::select(fish_category, Alpha3_Code, FisheriesGuild)
+  fish_category$Alpha3_Code <- toupper(fish_category$Alpha3_Code)
   fish_category <- unique(fish_category)
 
   catch_dat_1950 <- tidyr::gather(hist, YEAR, VALUE, -Country, -Species, -Division) 
@@ -71,8 +71,8 @@ format_catches_noecoregion <- function(hist, official, species_list, sid) {
   catch_dat_1950 <- dplyr::filter(catch_dat_1950, YEAR <= 2005)
   catch_dat_1950 <- dplyr::left_join(catch_dat_1950, species_list, c("Species" = "English_name"), multiple = "all")# Merge to add FAO species information
   catch_dat_1950 <- dplyr::left_join(catch_dat_1950, species_list,c("Species" = "Scientific_Name", # Merge to add FAO species information
-                                                                            "X3A_CODE"))
-  catch_dat_1950 <- dplyr::left_join(catch_dat_1950, y = fish_category, by = "X3A_CODE", multiple = "all")
+                                                                            "Alpha3_Code"))
+  catch_dat_1950 <- dplyr::left_join(catch_dat_1950, y = fish_category, by = "Alpha3_Code", multiple = "all")
   
 
   catch_dat_1950 <- dplyr::rename(catch_dat_1950, Area = Division)
@@ -103,8 +103,8 @@ format_catches_noecoregion <- function(hist, official, species_list, sid) {
                  Country = gsub("(United Kingdom) .*", "\\1", Country),
                  Area = tolower(Area))
 
-  catch_dat_2010 <- dplyr::left_join(catch_dat_2010,species_list, c("Species" = "X3A_CODE"))
-  catch_dat_2010 <- dplyr::left_join(catch_dat_2010,fish_category, by = c("Species" = "X3A_CODE"), multiple = "all") 
+  catch_dat_2010 <- dplyr::left_join(catch_dat_2010,species_list, c("Species" = "Alpha3_Code"))
+  catch_dat_2010 <- dplyr::left_join(catch_dat_2010,fish_category, by = c("Species" = "Alpha3_Code"), multiple = "all") 
 
   catch_dat_2010 <- dplyr::select(catch_dat_2010,YEAR,
                                    COUNTRY = Country,
@@ -127,9 +127,9 @@ format_catches_noecoregion <- function(hist, official, species_list, sid) {
 
 format_catches <- function(year, ecoregion, historical, official, preliminary = NULL, species_list, sid) {
         
-        fish_category <- dplyr::mutate(sid, X3A_CODE = substr(sid$StockKeyLabel, start = 1, stop = 3))
-        fish_category <- dplyr::select(fish_category, X3A_CODE, FisheriesGuild)
-        fish_category$X3A_CODE <- toupper(fish_category$X3A_CODE)
+        fish_category <- dplyr::mutate(sid, Alpha3_Code = substr(sid$StockKeyLabel, start = 1, stop = 3))
+        fish_category <- dplyr::select(fish_category, Alpha3_Code, FisheriesGuild)
+        fish_category$Alpha3_Code <- toupper(fish_category$Alpha3_Code)
         fish_category <- unique(fish_category)
         
         # fish_category<- fish_category[complete.cases(fish_category),]
@@ -245,16 +245,16 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
         
         catch_dat_1950 <- dplyr::filter(catch_dat_1950, YEAR <= 2005)
         catch_dat_1950 <- dplyr::left_join(catch_dat_1950, species_list, c("Species" = "English_name"))# Merge to add FAO species information
-        catch_dat_1950 <- dplyr::left_join(catch_dat_1950, species_list,c("Species" = "Scientific_name", # Merge to add FAO species information
-                                                                              "X3A_CODE"))
-        catch_dat_1950 <- dplyr::left_join(catch_dat_1950, fish_category, by = "X3A_CODE")
+        catch_dat_1950 <- dplyr::left_join(catch_dat_1950, species_list,c("Species" = "Scientific_Name", # Merge to add FAO species information
+                                                                              "Alpha3_Code"))
+        catch_dat_1950 <- dplyr::left_join(catch_dat_1950, fish_category, by = "Alpha3_Code")
         catch_dat_1950 <- dplyr::select(catch_dat_1950,YEAR,
                                         COUNTRY = Country,
                                         ISO3,
                                         GUILD = FisheriesGuild,
                                         ECOREGION,
-                                        SPECIES_NAME = Scientific_name,
-                                        SPECIES_CODE = X3A_CODE,
+                                        SPECIES_NAME = Scientific_Name,
+                                        SPECIES_CODE = Alpha3_Code,
                                         COMMON_NAME = Species,
                                         VALUE)
         
@@ -305,15 +305,15 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                                                                     "27.12.c", "27.14.b.1") ~ "Oceanic Northeast Atlantic" 
                                                 },
                                                 TRUE ~ "OTHER"))
-        catch_dat_2010 <- dplyr::left_join(catch_dat_2010,species_list, c("Species" = "X3A_CODE"))
-        catch_dat_2010 <- dplyr::left_join(catch_dat_2010,fish_category, by = c("Species" = "X3A_CODE")) 
+        catch_dat_2010 <- dplyr::left_join(catch_dat_2010,species_list, c("Species" = "Alpha3_Code"))
+        catch_dat_2010 <- dplyr::left_join(catch_dat_2010,fish_category, by = c("Species" = "Alpha3_Code")) 
         catch_dat_2010<- catch_dat_2010[!is.na(catch_dat_2010$ECOREGION),]
         catch_dat_2010 <- dplyr::select(catch_dat_2010,YEAR,
                                         COUNTRY = Country,
                                         ISO3,
                                         GUILD = FisheriesGuild,
                                         ECOREGION,
-                                        SPECIES_NAME = Scientific_name,
+                                        SPECIES_NAME = Scientific_Name,
                                         SPECIES_CODE = Species,
                                         COMMON_NAME = English_name,
                                         VALUE)
@@ -366,16 +366,16 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                         TRUE ~ "OTHER"))
                 
                 catch_dat_prelim <- dplyr::filter(catch_dat_prelim,ECOREGION != "OTHER")
-                catch_dat_prelim <- dplyr::left_join(catch_dat_prelim, species_list, c("Species.Latin.Name" = "Scientific_name"))
+                catch_dat_prelim <- dplyr::left_join(catch_dat_prelim, species_list, c("Species.Latin.Name" = "Scientific_Name"))
                 
-                catch_dat_prelim <- dplyr::left_join(catch_dat_prelim, fish_category, by = "X3A_CODE")
+                catch_dat_prelim <- dplyr::left_join(catch_dat_prelim, fish_category, by = "Alpha3_Code")
                 catch_dat_prelim <- dplyr::select(catch_dat_prelim,YEAR,
                                                   COUNTRY = Country,
-                                                  ISO3 = X3A_CODE,
+                                                  ISO3 = Alpha3_Code,
                                                   GUILD = FisheriesGuild,
                                                   ECOREGION,
                                                   SPECIES_NAME = "Species.Latin.Name",
-                                                  SPECIES_CODE = X3A_CODE,
+                                                  SPECIES_CODE = Alpha3_Code,
                                                   COMMON_NAME = English_name,
                                                   VALUE)
                 catch_dat_prelim$COMMON_NAME[which(catch_dat_prelim$SPECIES_NAME == "Ammodytes")] <- "Sandeels(=Sandlances) nei"

@@ -36,7 +36,7 @@
 
 #find a way to set caption(cap_year, cap_month) being conditional
 
-plot_discard_current <- function(x, year, position_letter = "b)",
+plot_discard_current <- function(x, year, position_letter = "c)",
                                  caption = TRUE, cap_year, cap_month,
                                  return_data = FALSE){
   df <- dplyr::filter(x,Year %in% seq(year-5, year -1))
@@ -70,7 +70,7 @@ plot_discard_current <- function(x, year, position_letter = "b)",
   
   # df5 <- dplyr::mutate(df5,guildRate = guildDiscards/ (guildLandings + guildDiscards))
   df5 <- tidyr::gather(df5,variable, value, -Year, -FisheriesGuild)
-  df5 <- dplyr::filter(df5, FisheriesGuild %in% c("demersal", "pelagic", "benthic"))
+  df5 <- dplyr::filter(df5, FisheriesGuild %in% c("demersal", "pelagic", "benthic", "crustacean"))
   df5 <- dplyr::filter(df5,Year == year-1)
   df5$value <- df5$value/1000
 
@@ -103,6 +103,8 @@ plot_discard_current <- function(x, year, position_letter = "b)",
     cap_lab <- ggplot2::labs(caption = sprintf("ICES Stock Assessment Database, %s/%s. ICES, Copenhagen",
                                                cap_month,
                                                cap_year))
+    # df5$value <- df5$value/100
+    
     plot <- ggplot2::ggplot(dplyr::ungroup(df5),
                             ggplot2::aes(x = reorder(FisheriesGuild, value, sum), y = value, fill = variable)) +
             ggplot2::geom_bar(stat = "identity") +
