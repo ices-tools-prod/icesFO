@@ -169,7 +169,7 @@ load_sag_status <- function(year) {
                                                                                                         "StockKeyLabel", "Purpose")]))
         out <- dplyr::filter(out,Purpose =="Advice")
         out <- out[,-4]
-        sid<-load_sid(year)
+        sid<-icesSD::getSD(NULL, year)
         sid <-dplyr::filter(sid,!is.na(YearOfLastAssessment))
         sid <- dplyr::select(sid,StockKeyLabel,
                              YearOfLastAssessment, PreviousStockKeyLabel, EcoRegion, AdviceCategory)
@@ -185,7 +185,7 @@ load_sag_status <- function(year) {
         out <-out[!duplicated(out$StockKeyLabel),]
 
         get_stock_status <- function(assessmentKey) {
-                dat <- icesSAG::getStockStatusValues(assessmentKey)[[1]]
+                dat <- icesSAG::StockStatusValues(assessmentKey)[[1]]
                 if(is.null(dat)) stop(paste0("NULL value returned for assessmentKey = ", assessmentKey))
                 dat
         }

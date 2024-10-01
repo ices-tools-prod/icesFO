@@ -40,7 +40,7 @@ format_sag <- function(x,y){
         # sid <- load_sid(year)
         y <- dplyr::filter(y,!is.na(YearOfLastAssessment))
         y <- dplyr::select(y,StockKeyLabel,FisheriesGuild)
-        x <- dplyr::mutate(x, FishStock= StockKeyLabel)
+        x <- dplyr::mutate(x, StockKeyLabel=FishStock)
         df1 <- merge(x,y, all.x = T, all.y = F)
         # df1 <- left_join(x, y)
         # df1 <- left_join(x, y, by = c("StockKeyLabel", "AssessmentYear"))

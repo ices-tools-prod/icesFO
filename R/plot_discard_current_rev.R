@@ -59,18 +59,34 @@ plot_discard_current <- function(x, year, position_letter = "c)",
                        Discards = as.numeric(Discards))
   df5 <- dplyr::select(df,-Discards)
   df5 <- dplyr::left_join(df5,df3, by = c("Year", "StockKeyLabel"))
-  # df5 <- dplyr::left_join(df5,df4, by = c("Year", "StockKeyLabel", "AssessmentYear"))
-  df5 <- dplyr::group_by(df5,Year, FisheriesGuild)
-  df5$Landings <- ifelse(!is.na(df5$Landings), df5$Landings, df5$Catches)
-  # df5 <- dplyr::summarize(df5,guildLandings = sum(Landings, na.rm = TRUE)/ 1000,
-  #                   guildDiscards = sum(Discards, na.rm = TRUE)/ 1000)
-
-  df5 <- dplyr::summarize(df5,guildLandings = sum(Landings, na.rm = TRUE),
-                          guildDiscards = sum(Discards, na.rm = TRUE))
   
+  df5$sum <- rowSums(df5[ , c(8:9,11)], na.rm = T)
+  df5 <- dplyr::group_by(df5,Year, StockKeyLabel)%>% top_n(1,sum)
+  
+  # df5 <- dplyr::left_join(df5,df4, by = c("Year", "StockKeyLabel", "AssessmentYear"))
+  
+         
+  df5$Landings <- as.numeric(df5$Landings)
+  df5$Catches <- as.numeric(df5$Catches)
+  df5$Discards <- as.numeric(df5$Discards)
+  
+  df5[is.na(df5)] <- 0
+  df5 <- unique(df5)
+  
+  df5 <- df5 %>% group_by(Year, FisheriesGuild) %>% summarise(across(where(is.numeric),sum))
+  df5$Landings <- ifelse(!is.na(df5$Landings), df5$Landings, df5$Catches)
+  
+
+  # df7 <- dplyr::summarize(df5,guildLandings = sum(Landings, na.rm = TRUE),
+  #                        guildDiscards = sum(Discards, na.rm = TRUE))
+  # 
   # df5 <- dplyr::mutate(df5,guildRate = guildDiscards/ (guildLandings + guildDiscards))
+  names(df5)[names(df5) == "Landings"] <- "guildLandings"
+  names(df5)[names(df5) == "Discards"] <- "guildDiscards"
+  
+  
   df5 <- tidyr::gather(df5,variable, value, -Year, -FisheriesGuild)
-  df5 <- dplyr::filter(df5, FisheriesGuild %in% c("demersal", "pelagic", "benthic", "crustacean"))
+  df5 <- dplyr::filter(df5, variable %in% c("guildLandings", "guildDiscards"))
   df5 <- dplyr::filter(df5,Year == year-1)
   df5$value <- df5$value/1000
 
@@ -121,6 +137,7 @@ plot_discard_current <- function(x, year, position_letter = "c)",
   }
 
   if(return_data == T){
+          df5$value <- df5$value*1000
           df5
   }else{
           plot
