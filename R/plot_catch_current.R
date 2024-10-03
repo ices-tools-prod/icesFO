@@ -44,7 +44,8 @@ plot_CLD_bar <- function(x, guild, caption = TRUE, cap_year, cap_month, return_d
                                       NA,
                                       max(Catches, Landings, na.rm = TRUE))) 
         df <- dplyr::ungroup (df)
-        df <- dplyr::mutate(df,StockKeyLabel = forcats::fct_reorder(StockKeyLabel, total))
+        df <- df[order(-df$total), ] 
+        df$StockKeyLabel <- factor(df$StockKeyLabel, levels = rev(df$StockKeyLabel))
         
         plot <- ggplot2::ggplot(df, ggplot2::aes(x =StockKeyLabel, y = Catches/1000)) +
                ggplot2::geom_segment(ggplot2::aes(x = StockKeyLabel, y = Catches/1000,

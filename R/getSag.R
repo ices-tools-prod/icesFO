@@ -85,7 +85,8 @@ getSAG_ecoregion <- function(year, ecoregion){
         }
         out <- dplyr::filter(out, Purpose == "Advice")
         out <- data.table::as.data.table(out) 
-        out <- out[out[, .I[AssessmentKey == max(AssessmentKey)], by=FishStock]$V1]
+        # out <- out[out[, .I[AssessmentKey == max(AssessmentKey)], by=FishStock]$V1]
+        out <- out[out[, .I[AssessmentYear == max(AssessmentYear)], by=FishStock]$V1]
         out <- as.data.frame(out)
         out <- dplyr::filter(out,out$FishStock %in% sid$StockKeyLabel)
 }

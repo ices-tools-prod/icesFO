@@ -36,7 +36,7 @@
 #find a way to set caption(cap_year, cap_month) being conditional
 
 plot_discard_trends <- function(x, year, caption = FALSE, cap_year, cap_month, return_data = FALSE){
-        df <- dplyr::filter(x,Year %in% seq(2015, year -1))
+        df <- dplyr::filter(x,Year %in% seq(2011, year -1))
         df2 <- tidyr::expand(df,Year, tidyr::nesting(StockKeyLabel,FisheriesGuild))
         df <- dplyr::left_join(df,df2,
                           by = c("Year", "StockKeyLabel", "FisheriesGuild"))
