@@ -46,6 +46,7 @@ format_catches_noecoregion <- function(hist, official, species_list, sid) {
   fish_category <- dplyr::select(fish_category, Alpha3_Code, FisheriesGuild)
   fish_category$Alpha3_Code <- toupper(fish_category$Alpha3_Code)
   fish_category <- unique(fish_category)
+  fish_category$FisheriesGuild[which(fish_category$Alpha3_Code == "POK")] <- "Demersal"
 
   catch_dat_1950 <- tidyr::gather(hist, YEAR, VALUE, -Country, -Species, -Division) 
   catch_dat_1950 <- 
@@ -59,7 +60,7 @@ format_catches_noecoregion <- function(hist, official, species_list, sid) {
                  Country = dplyr::case_when(
                          # grepl(historic_uk, Country) ~ "United Kingdom",
                          grepl("^Germany", Country) ~ "Germany",
-                         Country %in% c("Un. Sov. Soc. Rep.") ~ "Russian Federation",
+                         Country %in% c("Un. Sov. Soc. Rep.") ~ "Russia",
                          grepl("Faeroe Islands", Country) ~ "Faroe Islands",
                          grepl("Other nei", Country) ~ "OTHER",
                          TRUE ~ Country
@@ -131,6 +132,7 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
         fish_category <- dplyr::select(fish_category, Alpha3_Code, FisheriesGuild)
         fish_category$Alpha3_Code <- toupper(fish_category$Alpha3_Code)
         fish_category <- unique(fish_category)
+        fish_category$FisheriesGuild[which(fish_category$Alpha3_Code == "POK")] <- "Demersal"
         
         # fish_category<- fish_category[complete.cases(fish_category),]
         
@@ -213,7 +215,7 @@ format_catches <- function(year, ecoregion, historical, official, preliminary = 
                               Country = dplyr::case_when(
                                       grepl(historic_uk, Country) ~ "United Kingdom",
                                       grepl("^Germany", Country) ~ "Germany",
-                                      Country %in% c("Un. Sov. Soc. Rep.") ~ "Russian Federation",
+                                      Country %in% c("Un. Sov. Soc. Rep.", "Russian Federation") ~ "Russia",
                                       grepl("Faeroe Islands", Country) ~ "Faroe Islands",
                                       grepl("Other nei", Country) ~ "OTHER",
                                       TRUE ~ Country

@@ -103,7 +103,7 @@ format_sag_status <- function(x,year, ecoregion) {
         df
 }
 
-format_sag_status_new <- function(x) {
+format_sag_status_new <- function(x, y) {
         df <- x
         # df <- dplyr::filter(df,(grepl(pattern = ecoregion, Ecoregion)))
         df <- dplyr::mutate(df,status = case_when(status == 0 ~ "UNDEFINED",
@@ -166,8 +166,7 @@ format_sag_status_new <- function(x) {
         df$lineDescription <- gsub("Maximum Sustainable Yield", "Maximum sustainable yield", df$lineDescription)
         df$lineDescription <- gsub("Precautionary Approach", "Precautionary approach", df$lineDescription)
         # colnames(df) <- c("StockKeyLabel","AssessmentYear","AdviceCategory","lineDescription","FishingPressure","StockSize", "SBL" )
-        sid <- load_sid(year)
-        sid <- dplyr::select(sid,StockKeyLabel,
+        sid <- dplyr::select(y,StockKeyLabel,
                              FisheriesGuild)
         sid$FisheriesGuild <- tolower(sid$FisheriesGuild)
         # colnames(sid) <- c("StockKeyLabel", "AssessmentYear", "Ecoregion", "FisheriesGuild")

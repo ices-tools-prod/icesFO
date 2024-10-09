@@ -31,11 +31,11 @@ format_annex_table <- function(df, year) {
                        StockKeyDescription,
                        SpeciesScientificName,
                        SpeciesCommonName,
-                       FisheriesGuild,
+                       # FisheriesGuild,
                        DataCategory)
   sid <- sid %>% filter(StockKeyLabel %in% df$StockKeyLabel)
   df <- dplyr::left_join(df, sid, by = "StockKeyLabel")
-  df <- df[c(1,10,11,12,13,14,2,3,4,5,8,6,7)]
+  # df <- df[c(1,10,11,12,13,14,2,3,4,5,8,6,7)]
   df <- dplyr::mutate(df,
                       D3C1 = FishingPressure,
                       D3C2 = StockSize,
