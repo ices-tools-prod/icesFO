@@ -73,8 +73,7 @@ plot_CLD_bar <- function(x, guild, caption = TRUE, cap_year, cap_month, return_d
                       panel.grid.minor = ggplot2::element_blank(),
                       panel.grid.major.y = ggplot2::element_blank(),
                       panel.grid.major.x = ggplot2::element_line( size = 0.1, color = "grey80"))
-        
-        
+
         if(caption == T){
                 cap_lab <- ggplot2::labs(caption = sprintf("ICES Stock Assessment Database, %s/%s. ICES, Copenhagen",
                                                            cap_month,
@@ -107,8 +106,7 @@ plot_CLD_bar <- function(x, guild, caption = TRUE, cap_year, cap_month, return_d
                                        panel.grid.major.x = ggplot2::element_line( size = 0.1, color = "grey80"))+
                         cap_lab
         }
-        
-        
+
         if(return_data == T){
                 df
         }else{
