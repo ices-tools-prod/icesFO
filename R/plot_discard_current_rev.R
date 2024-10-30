@@ -43,7 +43,7 @@ plot_discard_current <- function(x, year, position_letter = "c)",
   df2 <- tidyr::expand(df,Year, tidyr::nesting(StockKeyLabel,FisheriesGuild))
   df <- dplyr::left_join(df,df2,
                          by = c("Year", "StockKeyLabel", "FisheriesGuild"))
-  df <- df[, -11]
+  # df <- df[, -11]
   df3 <- dplyr::select(df, StockKeyLabel, Year, Discards)
   df3 <- unique(df3)
   df3 <- tibble::rowid_to_column(df3)
@@ -113,7 +113,7 @@ plot_discard_current <- function(x, year, position_letter = "c)",
                 plot.caption = ggplot2::element_text(size = 6),
                 panel.grid = ggplot2::element_blank(),
                 legend.key = ggplot2::element_rect(colour = NA)) +
-          ggplot2::labs(x = "", y = "Discards and Landings( thousand tonnes)",title = position_letter)
+          ggplot2::labs(x = "", y = "Discards and Landings(thousand tonnes)",title = position_letter)
 
   if(caption == TRUE) {
     cap_lab <- ggplot2::labs(caption = sprintf("ICES Stock Assessment Database, %s/%s. ICES, Copenhagen",

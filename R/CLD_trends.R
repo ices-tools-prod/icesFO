@@ -43,57 +43,57 @@ CLD_trends <- function(x){
         df["Discards"][df["Discards"] == 0] <- NA
         df["Catches"][df["Catches"] == 0] <- NA
         df["Landings"][df["Landings"] == 0] <- NA
-        df <- dplyr::bind_rows(
-                        # all present and accounted for
-                       dplyr::filter(df,!is.na(Catches),
-                                       !is.na(Landings),
-                                       !is.na(Discards)), 
-                         # Missing discards, but catches == landings
-                       dplyr::filter(df, is.na(Discards),
-                                       Catches == Landings),
-                         dplyr::mutate(df, Discards = 0), 
-                       # Missing catches, but have landings and discards
-                       dplyr::filter(df,is.na(Catches),
-                                       !is.na(Landings),
-                                       !is.na(Discards)), 
-                       dplyr::mutate(df,Catches = Landings + Discards), 
-                        # missing catches, but have landings
-                       dplyr::filter(df, is.na(Catches),
-                                       !is.na(Landings),
-                                       is.na(Discards)),
-                       dplyr::mutate(df,Catches = NA,
-                                       Discards = NA),
-                        # missing everything
-                       dplyr::filter(df, is.na(Catches),
-                                       is.na(Landings),
-                                       is.na(Discards)), 
-                       dplyr::mutate(df,Catches = NA,
-                                       Discards = NA,
-                                       Landings = NA),
-                        # missing landings and discards
-                       dplyr::filter(df, !is.na(Catches),
-                                       is.na(Landings),
-                                       is.na(Discards)),
-                       dplyr::mutate(df,Landings = NA,
-                                       Discards = NA),
-                        # landings and catches
-                       dplyr::filter(df, is.na(Catches),
-                                       is.na(Landings),
-                                       !is.na(Discards)),
-                       dplyr::mutate(df,Catches = NA,
-                                       Landings = NA),
-                        # Missing discards, but have landings and catches
-                       dplyr::filter(df, !is.na(Catches),
-                                       !is.na(Landings),
-                                       is.na(Discards),
-                                       Landings != Catches),
-                       dplyr::mutate(df,Discards = Catches - Landings),
-                        # Missing landings, but have catches and discards
-                       dplyr::filter(df, !is.na(Catches),
-                                       is.na(Landings),
-                                       !is.na(Discards)),
-                       dplyr::mutate(df,Landings = Catches - Discards)
-                )
+        # df <- dplyr::bind_rows(
+        #                 # all present and accounted for
+        #                dplyr::filter(df,!is.na(Catches),
+        #                                !is.na(Landings),
+        #                                !is.na(Discards)), 
+        #                  # Missing discards, but catches == landings
+        #                dplyr::filter(df, is.na(Discards),
+        #                                Catches == Landings),
+        #                  dplyr::mutate(df, Discards = 0), 
+        #                # Missing catches, but have landings and discards
+        #                dplyr::filter(df,is.na(Catches),
+        #                                !is.na(Landings),
+        #                                !is.na(Discards)), 
+        #                dplyr::mutate(df,Catches = Landings + Discards), 
+        #                 # missing catches, but have landings
+        #                dplyr::filter(df, is.na(Catches),
+        #                                !is.na(Landings),
+        #                                is.na(Discards)),
+        #                dplyr::mutate(df,Catches = NA,
+        #                                Discards = NA),
+        #                 # missing everything
+        #                dplyr::filter(df, is.na(Catches),
+        #                                is.na(Landings),
+        #                                is.na(Discards)), 
+        #                dplyr::mutate(df,Catches = NA,
+        #                                Discards = NA,
+        #                                Landings = NA),
+        #                 # missing landings and discards
+        #                dplyr::filter(df, !is.na(Catches),
+        #                                is.na(Landings),
+        #                                is.na(Discards)),
+        #                dplyr::mutate(df,Landings = NA,
+        #                                Discards = NA),
+        #                 # landings and catches
+        #                dplyr::filter(df, is.na(Catches),
+        #                                is.na(Landings),
+        #                                !is.na(Discards)),
+        #                dplyr::mutate(df,Catches = NA,
+        #                                Landings = NA),
+        #                 # Missing discards, but have landings and catches
+        #                dplyr::filter(df, !is.na(Catches),
+        #                                !is.na(Landings),
+        #                                is.na(Discards),
+        #                                Landings != Catches),
+        #                dplyr::mutate(df,Discards = Catches - Landings),
+        #                 # Missing landings, but have catches and discards
+        #                dplyr::filter(df, !is.na(Catches),
+        #                                is.na(Landings),
+        #                                !is.na(Discards)),
+        #                dplyr::mutate(df,Landings = Catches - Discards)
+        #         )
         return(df)
 }
 

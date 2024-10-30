@@ -98,7 +98,7 @@ plot_discard_trends <- function(x, year, caption = FALSE, cap_year, cap_month, r
                                           segment.color = 'grey60') +
                 ggplot2::scale_y_continuous(labels = scales::percent) +
                 ggplot2::scale_x_continuous(breaks = seq(min(df5$Year, na.rm = TRUE),
-                                                max(df5$Year, na.rm = TRUE), by = 1)) +
+                                                max(df5$Year, na.rm = TRUE), by = 2)) +
                 ggplot2::geom_segment(ggplot2::aes(x = -Inf, xend = max(df5$Year, na.rm = TRUE),
                                  y = -Inf, yend = -Inf), color = "grey50") +
                 ggplot2::geom_segment(ggplot2::aes(y = -Inf, yend = Inf,

@@ -65,12 +65,12 @@ getSAG_complete <- function(year){
 
 
 getSAG_ecoregion <- function(year, ecoregion){
-        years <- ((year-3):year)
+        years <- ((year-4):year)
         ecoreg <- gsub(" ", "%20", ecoregion, fixed = TRUE)
         sid <- icesSD::getSD(NULL,year)
         out <- data.frame()
         res <- data.frame()
-        for(n in 1:4){
+        for(n in 1:5){
                 x <- years[n]
                 url <- paste0("https://sag.ices.dk/SAG_API/api/SAGDownload?year=", x, "&EcoRegion=", ecoreg)
                 tmpSAG <- tempfile(fileext = ".zip")
