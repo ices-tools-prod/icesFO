@@ -113,7 +113,7 @@ plot_discard_current <- function(x, year, position_letter = "c)",
                 plot.caption = ggplot2::element_text(size = 6),
                 panel.grid = ggplot2::element_blank(),
                 legend.key = ggplot2::element_rect(colour = NA)) +
-          ggplot2::labs(x = "", y = "Discards and Landings(thousand tonnes)",title = position_letter)
+          ggplot2::labs(x = "", y = "Landings and Discards(thousand tonnes)",title = position_letter)
 
   if(caption == TRUE) {
     cap_lab <- ggplot2::labs(caption = sprintf("ICES Stock Assessment Database, %s/%s. ICES, Copenhagen",
@@ -132,7 +132,7 @@ plot_discard_current <- function(x, year, position_letter = "c)",
                            plot.caption = ggplot2::element_text(size = 6),
                            panel.grid = ggplot2::element_blank(),
                            legend.key = ggplot2::element_rect(colour = NA)) +
-            ggplot2::labs(x = "", y = "Discards and Landings(thousand tonnes)",title = position_letter)+
+            ggplot2::labs(x = "", y = "Landings and Discards(thousand tonnes)",title = position_letter)+
             cap_lab
   }
 
@@ -143,4 +143,114 @@ plot_discard_current <- function(x, year, position_letter = "c)",
           plot
   }
 
+}
+
+
+plot_discard_current_order <- function(x, year, order_df,position_letter = "c)",
+                                 caption = TRUE, cap_year, cap_month,
+                                 return_data = FALSE){
+        df <- dplyr::filter(x,Year %in% seq(year-5, year -1))
+        df2 <- tidyr::expand(df,Year, tidyr::nesting(StockKeyLabel,FisheriesGuild))
+        df <- dplyr::left_join(df,df2,
+                               by = c("Year", "StockKeyLabel", "FisheriesGuild"))
+        # df <- df[, -11]
+        df3 <- dplyr::select(df, StockKeyLabel, Year, Discards)
+        df3 <- unique(df3)
+        df3 <- tibble::rowid_to_column(df3)
+        df3 <- dplyr::group_by(df3,StockKeyLabel)
+        df3 <- tidyr::spread(df3,Year, Discards)
+        # df3<- dplyr::mutate(df3,`2017` = ifelse(AssessmentYear == 2017 &
+        #                                                 is.na(`2017`) &
+        #                                                 !is.na(`2016`),
+        #                                         `2016`,
+        #                                         `2017`))
+        df3 <- tidyr::gather(df3,Year, Discards, 3:ncol(df3))
+        df3 <- dplyr::mutate(df3,Year = as.numeric(Year),
+                             Discards = as.numeric(Discards))
+        df5 <- dplyr::select(df,-Discards)
+        df5 <- dplyr::left_join(df5,df3, by = c("Year", "StockKeyLabel"))
+        
+        df5$sum <- rowSums(df5[ , c(8:9,11)], na.rm = T)
+        df5 <- dplyr::group_by(df5,Year, StockKeyLabel)%>% top_n(1,sum)
+        
+        # df5 <- dplyr::left_join(df5,df4, by = c("Year", "StockKeyLabel", "AssessmentYear"))
+        
+        
+        df5$Landings <- as.numeric(df5$Landings)
+        df5$Catches <- as.numeric(df5$Catches)
+        df5$Discards <- as.numeric(df5$Discards)
+        
+        df5[is.na(df5)] <- 0
+        df5 <- unique(df5)
+        
+        df5 <- df5 %>% group_by(Year, FisheriesGuild) %>% summarise(across(where(is.numeric),sum))
+        df5$Landings <- ifelse(!is.na(df5$Landings), df5$Landings, df5$Catches)
+        
+        
+        # df7 <- dplyr::summarize(df5,guildLandings = sum(Landings, na.rm = TRUE),
+        #                        guildDiscards = sum(Discards, na.rm = TRUE))
+        # 
+        # df5 <- dplyr::mutate(df5,guildRate = guildDiscards/ (guildLandings + guildDiscards))
+        names(df5)[names(df5) == "Landings"] <- "guildLandings"
+        names(df5)[names(df5) == "Discards"] <- "guildDiscards"
+        
+        
+        df5 <- tidyr::gather(df5,variable, value, -Year, -FisheriesGuild)
+        df5 <- dplyr::filter(df5, variable %in% c("guildLandings", "guildDiscards"))
+        df5 <- dplyr::filter(df5,Year == year-1)
+        df5$value <- df5$value/1000
+        
+        # df5 <- dplyr::filter(df5,!variable %in% c("guildDiscards", "guildLandings"))
+        #out?
+        # df5 <- dplyr::filter(df5,Year == year - 1)
+        
+        # df5_order <- dplyr::group_by(df5,FisheriesGuild) %>%
+        #         summarize(total = sum(value, na.rm = TRUE)) %>%
+        #         arrange(-total) %>%
+        #         ungroup()
+        # df5_order <- dplyr::mutate(df5_order,FisheriesGuild = factor(FisheriesGuild, FisheriesGuild))
+        
+        # df5$FisheriesGuild <- factor(df5$FisheriesGuild,
+        #                                 levels = df5_order$FisheriesGuild[order(df5_order$total)])
+        plot <- ggplot2::ggplot(dplyr::ungroup(df5),
+                                ggplot2::aes(x = reorder(order_df$FisheriesGuild, order_df$value, sum), y = value, fill = variable)) +
+                ggplot2::geom_bar(stat = "identity") +
+                ggplot2::scale_color_brewer(type = "qual", palette = "Dark2", direction = -1) +
+                ggplot2::scale_fill_brewer(type = "qual", palette = "Dark2", direction = -1) +
+                ggplot2::coord_flip() +
+                ggplot2::theme_bw(base_size = 8) +
+                ggplot2::theme(legend.position = "none",
+                               plot.caption = ggplot2::element_text(size = 6),
+                               panel.grid = ggplot2::element_blank(),
+                               legend.key = ggplot2::element_rect(colour = NA)) +
+                ggplot2::labs(x = "", y = "Landings and Discards(thousand tonnes)",title = position_letter)
+        
+        if(caption == TRUE) {
+                cap_lab <- ggplot2::labs(caption = sprintf("ICES Stock Assessment Database, %s/%s. ICES, Copenhagen",
+                                                           cap_month,
+                                                           cap_year))
+                # df5$value <- df5$value/100
+                
+                plot <- ggplot2::ggplot(dplyr::ungroup(df5),
+                                        ggplot2::aes(x = reorder(order_df$FisheriesGuild, order_df$value, sum), y = value, fill = variable)) +
+                        ggplot2::geom_bar(stat = "identity") +
+                        ggplot2::scale_color_brewer(type = "qual", palette = "Dark2", direction = -1) +
+                        ggplot2::scale_fill_brewer(type = "qual", palette = "Dark2", direction = -1) +
+                        ggplot2::coord_flip() +
+                        ggplot2::theme_bw(base_size = 8) +
+                        ggplot2::theme(legend.position = "none",
+                                       plot.caption = ggplot2::element_text(size = 6),
+                                       panel.grid = ggplot2::element_blank(),
+                                       legend.key = ggplot2::element_rect(colour = NA)) +
+                        ggplot2::labs(x = "", y = "Landings and Discards(thousand tonnes)",title = position_letter)+
+                        cap_lab
+        }
+        
+        if(return_data == T){
+                df5$value <- df5$value*1000
+                df5
+        }else{
+                plot
+        }
+        
 }

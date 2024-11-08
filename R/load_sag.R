@@ -149,9 +149,9 @@ load_sag <- function(year, ecoregion){
 load_sag_status_new <- function(sag) {
         stocks <- unique(sag[c("AssessmentKey","FishStock")])
         status <- icesSAG::getStockStatusValues(stocks$AssessmentKey)
-        status <- do.call(rbind.data.frame, status)
-        stocks$AssessmentKey <- as.character(stocks$AssessmentKey)
-        status <- left_join(status, stocks)
+        # status <- do.call(rbind.data.frame, status)
+        # stocks$AssessmentKey <- as.character(stocks$AssessmentKey)
+        status <- dplyr::left_join(status, stocks)
         status <- dplyr::mutate(status, StockKeyLabel= FishStock)
         status <- subset(status, select = -c(FishStock))
         status <- dplyr::relocate(status, StockKeyLabel, .before = lineNumber)
